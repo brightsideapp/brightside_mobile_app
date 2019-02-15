@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, Image, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
 export default class HomeComponent extends Component {
 
@@ -13,12 +13,14 @@ export default class HomeComponent extends Component {
 
     render() {
         return (
+          <TouchableHighlight onPress={() => this.props.navigation.navigate('ResList')}>
             <View style={homeStyles.container}>
                 <Image source={require('../assets/logo.png')} style={homeStyles.logo} />
                 <Text style={[homeStyles.text, {fontSize: 28}]}>Brightside Community Homes</Text>
                 <Text style={[homeStyles.text, {fontSize: 20}]}>Mobile App</Text>
                 <Text style={[homeStyles.text, {fontSize: 16, marginTop: 20}]}>Tap to Start</Text>
             </View>
+          </TouchableHighlight>
         )
     }
 }

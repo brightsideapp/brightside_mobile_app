@@ -30,12 +30,14 @@ export default class ResultComponent extends Component {
 
 const resultStyles = StyleSheet.create({
   container: {
+    flex:1,
     backgroundColor: '#c4c4c4',
-    width: '90%',
+    width: '80%',
     borderRadius: 10,
     paddingLeft: 15,
     paddingBottom: 10,
     paddingTop: 10,
+    marginBottom:20
   },
   line: {
     flexDirection: 'row'
