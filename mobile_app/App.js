@@ -1,12 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ResList from './ResList.js';
+import { createStackNavigator } from 'react-navigation';
+
+// import screens from views folder
+import ResList from './components/ResList.js';
+
+// create a navigation stack
+const RootStack = createStackNavigator(
+  {
+    Home: ResList,
+  }
+)
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ResList />
+        <RootStack />
       </View>
     );
   }

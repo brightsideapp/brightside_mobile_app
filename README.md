@@ -3,4 +3,5 @@ Brightside Community Homes Foundation Mobile App
 
 Authors:
 Carson
+John
 Theo
