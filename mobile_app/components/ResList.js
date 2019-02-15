@@ -35,7 +35,7 @@ class ResCard extends React.Component {
 		return(
 			<TouchableHighlight style={style.card}>
 				<View>
-					<Image style={style.icon} source={require('./assets/taxi.png')}/>
+					<Image style={style.icon} source={require('../assets/taxi.png')}/>
 					<Text style={style.cardText}>OMEGALUL</Text>			
 				</View>
 			</TouchableHighlight>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // import screens from views folder
 import ResList from './components/ResList.js';
@@ -12,11 +12,14 @@ const RootStack = createStackNavigator(
   }
 )
 
+//  create app container for RootStack
+const AppContainer = createAppContainer(RootStack);
+
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <RootStack />
+        <AppContainer />
       </View>
     );
   }
