@@ -11,7 +11,7 @@ var pool = mysql.createPool({
 
 
 // Methods of getting data from database
-var getData = () => {
+const getData = () => {
     return new Promise((resolve, reject) => {
         pool.query('select * from resource;', (error, response, fields) => {
             if (error) reject(error);
@@ -20,6 +20,34 @@ var getData = () => {
     })
 }
 
+// search for keyword ie. advocacy, legal, money, etc
+const searchData = keyword => {
+    return new Promise((resolve, reject) => {
+        pool.query(`select * from resource where keywords like '%${keyword}%';`, (error, response, fields) => {
+            if (error) reject(error);
+            else resolve(response);
+        })
+    })
+}
+
+// get resource by categories
+const getByCategory = key => {
+    let categs = {
+        legal: 'Legal and Advocacy',
+        health: 'Health, Counselling',
+        hub: 'Community Hub',
+    }
+
+    return new Promise((resolve, reject) => {
+        pool.query(`select * from resource where res_type='${categs[key]}';`, (error, response, fields) => {
+            if (error) reject(error);
+            else resolve(response);
+        })
+    })
+}
+
 module.exports = {
-    getData
+    getData,
+    searchData,
+    getByCategory,
 }
