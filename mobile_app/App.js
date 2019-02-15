@@ -20,6 +20,9 @@ const RootStack = createStackNavigator(
 )
 const AppContainer = createAppContainer(RootStack)
 
+//  create app container for RootStack
+const AppContainer = createAppContainer(RootStack);
+
 export default class App extends React.Component {
   render() {
     return <AppContainer />;
