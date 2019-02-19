@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 
-/** server.js  */
+/** api.js  */
 const express = require('express');
 const db = require('./db/mysql_db');
 const config = require('./cred/secret.json');
@@ -11,8 +11,9 @@ const hbs = require('hbs');
 const app = express();
 
 // set hbs views
-app.set('views', './views');
+app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
+app.use(express.static(__dirname + '/assets'));
 
 // If someone visits the homepage, tell them they are lost
 app.get('/', (request, response) => {
