@@ -74,6 +74,15 @@
     /* background-color: green; */
 }
 
+/* div inside #infopanel containing the table */
+#tablecontainer {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/*------------------- scrollbar options ---------------------*/
+/* hiding and styling */
 ::-webkit-scrollbar {
     width: 0.18vw;
     /* remove scrollbar space */
@@ -81,17 +90,28 @@
     /* optional: just make scrollbar invisible */
 }
 
-/* optional: show position indicator in red */
+/* optional: show position indicator in grey */
 ::-webkit-scrollbar-thumb {
     background: #8C8786;
 }
+/* end of scrollbar options */
 
-#tablecontainer {
-    text-align: center;
-    vertical-align: middle;
-}
 
+/*--------------------- table options ------------------------*/
+/* for single line borders */
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
+
+/* dynamic font sizing for table entries */
+td {
+    font-size: 0.8vw;
+}
+
+/* padding for table headers */
+th {
+    font-size: 1vw;
+    padding: 2px;
+}
+/* end of table options */
