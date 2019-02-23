@@ -13,7 +13,9 @@ var pool = mysql.createPool({
 // Methods of getting data from database
 const getData = () => {
     return new Promise((resolve, reject) => {
-        pool.query('select * from resource;', (error, response, fields) => {
+        pool.query('select a.*, b.perks, c.resource_type from resource a \
+        join perks b on a.perk_id = b.perk_id \
+        join resource_type c on a.res_type_id = c.type_id;', (error, response, fields) => {
             if (error) reject(error);
             else resolve(response);
         })
@@ -23,7 +25,9 @@ const getData = () => {
 // search for keyword ie. advocacy, legal, money, etc
 const searchData = keyword => {
     return new Promise((resolve, reject) => {
-        pool.query(`select * from resource where keywords like '%${keyword}%';`, (error, response, fields) => {
+        pool.query(`select a.*, b.perks, c.resource_type from resource a \
+        join perks b on a.perk_id = b.perk_id \
+        join resource_type c on a.res_type_id = c.type_id where a.keywords like '%${keyword}%';`, (error, response, fields) => {
             if (error) reject(error);
             else resolve(response);
         })
@@ -39,7 +43,20 @@ const getByCategory = key => {
     }
 
     return new Promise((resolve, reject) => {
-        pool.query(`select * from resource where res_type='${categs[key]}';`, (error, response, fields) => {
+        pool.query(`select a.*, b.perks, c.resource_type from resource a \
+        join perks b on a.perk_id = b.perk_id \
+        join resource_type c on a.res_type_id = c.type_id where c.resource_type='${categs[key]}';`, (error, response) => {
+            if (error) reject(error);
+            else resolve(response);
+        })
+    })
+}
+
+// get all categories
+const getAllCategory = () => {
+
+    return new Promise((resolve, reject) => {
+        pool.query(`select * from resource_type;`, (error, response) => {
             if (error) reject(error);
             else resolve(response);
         })
@@ -50,4 +67,5 @@ module.exports = {
     getData,
     searchData,
     getByCategory,
+    getAllCategory,
 }
