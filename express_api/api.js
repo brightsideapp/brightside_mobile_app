@@ -39,12 +39,21 @@ app.get(`/${config.token}/search`, (request, response) => {
 })
 
 // request data based on category /category?key=legal
+// if no key is provided. (ie /category) it returns a list of all the categories
 app.get(`/${config.token}/category`, (request, response) => {
-    db.getByCategory(request.query.key).then((resource) => {
-        response.json(resource);
-    }).catch((error) => {
-        response.send(error);
-    })
+    if (request.query.key == undefined) {
+        db.getAllCategory().then((category) => {
+            response.json(category);
+        }).catch((error) => {
+            response.send(error);
+        })
+    } else {
+        db.getByCategory(request.query.key).then((resource) => {
+            response.json(resource);
+        }).catch((error) => {
+            response.send(error);
+        })
+    }
 })
 
 // admin login for adding more database entries
