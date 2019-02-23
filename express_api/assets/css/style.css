@@ -1,0 +1,97 @@
+/* admin page */
+.fullcontainer {
+    width: 100vw;;
+    height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* header */
+#solidline {
+    width:'100%';
+    border-bottom: 2px solid;
+    /* background-color: pink; */
+}
+
+#bslogo {
+    top: 0;
+    left: 0;
+    background-image: url("/img/brightside_logo.png");
+    height: 10vh;
+    width: 20vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    display: inline-block;
+    /* background-color: yellow; */
+    vertical-align: middle;
+}
+
+#title {
+    display: inline-block;
+    height: 10vh;
+    width: 70vw;
+    text-align: center;
+    /* background-color: green; */
+    font-size: 160%;
+    vertical-align: middle;
+}
+
+#title p {
+    margin: 0.5vh;
+    font-size: 3.8vh;
+}
+
+
+/* body */
+/* left cpanel */
+#cpanel {
+    display: inline-block;
+    width: 10vw;
+    height: 100vh;
+    background-color: purple;
+    text-align: center;
+    vertical-align: top;
+    font-size: 2vw;
+}
+
+#cpanel b {
+    border-bottom: 1px dashed;
+}
+
+
+/* right info panel */
+#infopanel {
+    display: inline-block;
+    width: 88.2vw;
+    height: 89vh;
+    padding: 0.7%;
+    overflow: scroll;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
+    /* background-color: green; */
+}
+
+::-webkit-scrollbar {
+    width: 0.18vw;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #8C8786;
+}
+
+#tablecontainer {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
