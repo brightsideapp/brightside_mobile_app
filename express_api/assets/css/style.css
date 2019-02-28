@@ -11,8 +11,14 @@
 /* header */
 #solidline {
     width:'100%';
-    border-bottom: 2px solid;
-    /* background-color: pink; */
+    /* border-bottom: 2px solid; */
+    background-color: white;
+}
+
+#solidlinecontainer {
+    width: '100%';
+    padding-bottom: 2px;
+    background-image: linear-gradient(to right, #ee2b52, #fcb22b);
 }
 
 #bslogo {
@@ -42,6 +48,7 @@
 #title p {
     margin: 0.5vh;
     font-size: 3.8vh;
+    color: #401e6c;
 }
 
 
@@ -51,21 +58,39 @@
     display: inline-block;
     width: 10vw;
     height: 100vh;
-    background-color: purple;
+    /* background-color: #401e6c; */
+    background-image: linear-gradient(#ee2b52, #fcb22b);
     text-align: center;
     vertical-align: top;
-    font-size: 2vw;
+    font-size: 1.5vw;
+    color: white;
+    font-style: italic;
+    padding-right: 2px;
+}
+
+#cpanelin {
+    height: 100vh;
+    padding-top: 1vh;
+    background-color: #401e6c;
 }
 
 #cpanel b {
     border-bottom: 1px dashed;
 }
 
+#summary b {
+    font-size: 1.8vw;
+    background: -webkit-linear-gradient(#ee2b52, #fcb22b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid;
+}
+
 
 /* right info panel */
 #infopanel {
     display: inline-block;
-    width: 88.2vw;
+    width: 88vw;
     height: 89vh;
     padding: 0.7%;
     overflow: scroll;
