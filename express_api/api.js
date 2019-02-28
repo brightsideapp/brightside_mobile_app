@@ -59,7 +59,11 @@ app.get(`/${config.token}/category`, (request, response) => {
 // admin login for adding more database entries
 app.get(`/${config.token}/manage/:admin`, (request, response) => {
     if (request.params.admin == 'brightside_admin') {
-        response.render('admin.hbs');
+        db.getData().then(data => {
+            response.render('admin.hbs', {
+                data: data
+            });
+        })
     } else {
         response.status(404).send('Not Found');
     }

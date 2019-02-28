@@ -8,20 +8,24 @@
 
 <body>
     <div class="fullcontainer">
-        <div id="solidline">
-            <div id="bslogo"></div>
-            <div id="title">
-                <b>
-                <p>Brightside Community Homes Foundation</p>
-                <p>Management Console</p>
-                </b>
+        <div id="solidlinecontainer">
+            <div id="solidline">
+                <div id="bslogo"></div>
+                <div id="title">
+                    <b>
+                    <p>Brightside Community Homes Foundation</p>
+                    <p>Database Management Console</p>
+                    </b>
+                </div>
             </div>
         </div>
         <div>
             <div id="cpanel">
-                <p><b>Summary</b></p>
-                <p><b>Add Entry</b></p>
-                <p><b>Modify Entry</b></p>
+                <div id="cpanelin">
+                    <p id="summary"><b>Summary</b></pid>
+                    <p id="add"><b>Add Entry</b></p>
+                    <p id="modify"><b>Modify Entry</b></p>
+                </div>
             </div>
             <div id="infopanel">
                 <div id="tablecontainer">
@@ -38,6 +42,20 @@
                             <th>Perks</th>
                             <th>Type</th>
                         </tr>
+                        {{#each data}}
+                            <tr>
+                                <td>{{res_id}}</td>
+                                <td>{{location}}</td>
+                                <td>{{organization}}</td>
+                                <td>{{description}}</td>
+                                <td>{{keywords}}</td>
+                                <td>{{contact}}</td>
+                                <td>{{website}}</td>
+                                <td>{{hours}}</td>
+                                <td>{{perks}}</td>
+                                <td>{{resource_type}}</td>
+                            </tr>
+                        {{/each}}
                         <tr>
                             <td>1</td>
                             <td>Phone Only</td>
