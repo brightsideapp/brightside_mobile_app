@@ -19,14 +19,24 @@ export default class HomeComponent extends Component {
         this.setState({fontLoaded:true})
     }
 
+    static navigationOptions = {
+      header: null
+    }
+
     render() {
+        let iconSize = 0.35*SCREEN_HEIGHT
+        let iconMargin = 0.025*SCREEN_HEIGHT
+        let titleSize = 0.05*SCREEN_HEIGHT
+        let subtitleSize = 0.04*SCREEN_HEIGHT
+        let textSize = 0.035*SCREEN_HEIGHT
+        let textMargin = 0.02*SCREEN_HEIGHT
         return (
           <TouchableHighlight onPress={() => this.props.navigation.navigate('CatList')}>
             <View style={homeStyles.container}>
-                <Image source={require('../assets/logo.png')} style={homeStyles.logo} />
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: 28}]}>Brightside Community Homes</Text>}
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: 20}]}>Mobile App</Text>}
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: 16, marginTop: 20}]}>Tap to Start</Text>}
+                <Image source={require('../assets/logo.png')} style={{height: iconSize, width: iconSize, marginBottom: iconMargin}} />
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Community Homes</Text>}
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: subtitleSize}]}>Mobile App</Text>}
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: textSize, marginTop: textMargin}]}>Tap to Start</Text>}
             </View>
           </TouchableHighlight>
         )
@@ -40,11 +50,6 @@ const homeStyles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  logo: {
-    width: 300,
-    height: 300,
-    marginBottom: 30,
   },
   text: {
     color: '#eee',

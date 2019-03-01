@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
-import ResultBigComponent from './ResultBigComponent.js';
 
 export default class ResultListScreen extends React.Component {
 	constructor(props){
@@ -12,6 +11,7 @@ export default class ResultListScreen extends React.Component {
 			fontLoaded:false,
 			data: [],
 		}
+		this.getResults.bind(this)
 	}
 
 	fetchData(){
@@ -21,7 +21,7 @@ export default class ResultListScreen extends React.Component {
 		.then((response) => response.json())
 		.then((response) => {
 			console.log(response)
-			this.setState({data:response})
+			this.setState({data: response})
 		})
 	}
 
@@ -33,12 +33,15 @@ export default class ResultListScreen extends React.Component {
 	    this.setState({fontLoaded:true})
 	    this.getResults()
 	}
+	
 	_pressBut(){
 		this.props.navigation.navigate('Home');
 	}
 
 	getResults() {
-		fetch(`http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=legal`)
+		let category = this.props.navigation.getParam('cat','')
+		let url = `${api.endpoint}${category}`
+		fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {
 			console.log(responseJson);
@@ -52,6 +55,7 @@ export default class ResultListScreen extends React.Component {
 	render(){
 		return(
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
+				<Text style={styles.catText}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
 				<FlatList
 				style={styles.listContainer}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
@@ -70,6 +74,15 @@ const styles = StyleSheet.create({
 	    height:'100%',
 	    alignItems: 'center',
 	    justifyContent: 'center',
+	},
+	catText: {
+		paddingTop:'5%',
+		left:'10%',
+		alignSelf:'flex-start',
+		color:'#4B306A',
+		fontSize: 20,
+		marginBottom:20,
+		fontFamily:'work-sans-bold',
 	},
 	listContainer: {
 		width: '100%',
@@ -100,6 +113,11 @@ const styles = StyleSheet.create({
 		resizeMode:'contain'
 	}
 })
+
+const {
+  width: SCREEN_WIDTH,
+  height: SCREEN_HEIGHT,
+} = Dimensions.get('window');
 
 const api = {
 	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key="

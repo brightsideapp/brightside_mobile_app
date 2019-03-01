@@ -19,12 +19,22 @@ class CatCard extends React.Component {
 	}
 
 	render(){
+		let cardWidth = 0.375*SCREEN_WIDTH
+		let cardHeight = 0.375*SCREEN_HEIGHT
+		let cardMargin = 0.05*SCREEN_WIDTH
+		let textSize = 0.04*SCREEN_HEIGHT
+		let iconSize = 0.2*SCREEN_HEIGHT
 		return(
-			<TouchableHighlight style={style.card} 
+			<TouchableHighlight 
+			style={[styles.card, {
+				width: cardWidth, 
+				height: cardHeight, 
+				marginRight: cardMargin,
+			}]} 
 			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat})}>
-				<View>
-					<Image style={style.icon} source={require('../assets/taxi.png')}/>
-					{this.state.fontLoaded ? (<Text style={style.cardText}>{this.props.cat}</Text>) : null}
+				<View style={styles.buttContainer}>
+					<Image style={{height: iconSize, width: iconSize}} source={require('../assets/taxi.png')}/>
+					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
 				</View>
 			</TouchableHighlight>
 		)
@@ -33,27 +43,25 @@ class CatCard extends React.Component {
 
 export default withNavigation(CatCard);
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	card:{
-		height:150,
-		marginLeft:15,
-		marginRight:15,
-		flexDirection:'column',
 		justifyContent:'center',
 		alignItems: 'center',
 		backgroundColor:'#4B306A',
 		borderRadius:10
 	},
+	buttContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	cardText: {
-		flex:1,
 		textAlign:'center',
 		color:'#DDDDDD',
 		fontFamily:'work-sans-medium'
-	},
-	icon: {
-		height:'55%',
-		marginTop:'15%',
-		marginBottom:'10%',
-		resizeMode:'contain'
 	}
 })
+
+const {
+  width: SCREEN_WIDTH,
+  height: SCREEN_HEIGHT,
+} = Dimensions.get('window');
