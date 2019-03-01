@@ -6,13 +6,15 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import CatList from './components/CatList.js';
 import HomeComponent from './components/HomeComponent.js';
 import ResultListScreen from './components/ResultListScreen.js';
+import GeoComponent from './components/GeoComponent.js';
 
 // create a navigation stack
 const RootStack = createStackNavigator(
   {
     Home: HomeComponent,
     CatList: CatList,
-    ResultList: ResultListScreen
+    ResultList: ResultListScreen,
+    MapScreen: GeoComponent
   },
   {
     initialRouteName: "Home"
