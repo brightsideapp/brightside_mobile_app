@@ -13,10 +13,23 @@ export default class ResultListScreen extends React.Component {
 			data: [],
 		}
 	}
+
+	fetchData(){
+		let category = this.props.navigation.getParam('cat','')
+		let url = `${api.endpoint}${category}`
+		fetch(url)
+		.then((response) => response.json())
+		.then((response) => {
+			console.log(response)
+			this.setState({data:response})
+		})
+	}
+
 	async componentDidMount() {
 	    await Font.loadAsync({
 	      'work-sans-bold': require('../assets/WorkSans/WorkSans-Bold.ttf'),
-	    });
+	    })
+	    .then(() => this.fetchData())
 	    this.setState({fontLoaded:true})
 	    this.getResults()
 	}
@@ -87,3 +100,7 @@ const styles = StyleSheet.create({
 		resizeMode:'contain'
 	}
 })
+
+const api = {
+	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key="
+}

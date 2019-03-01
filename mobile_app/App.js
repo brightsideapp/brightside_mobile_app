@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // import screens from views folder
-import ResList from './components/ResList.js';
+import CatList from './components/CatList.js';
 import HomeComponent from './components/HomeComponent.js';
 import ResultListScreen from './components/ResultListScreen.js';
 
@@ -11,7 +11,7 @@ import ResultListScreen from './components/ResultListScreen.js';
 const RootStack = createStackNavigator(
   {
     Home: HomeComponent,
-    ResList: ResList,
+    CatList: CatList,
     ResultList: ResultListScreen
   },
   {
