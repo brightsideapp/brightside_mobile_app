@@ -32,7 +32,7 @@ export default class CatList extends React.Component {
 	render(){
 		let textSize = 0.04*SCREEN_HEIGHT
 		return(
-			<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container} />
+			<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 				{this.state.fontLoaded ? (<Text style={[styles.catText, {fontSize: textSize}]}>RESOURCES</Text>) : null}
 				<FlatList
 					style={{paddingLeft: '10%', width: '100%'}}
@@ -45,9 +45,8 @@ export default class CatList extends React.Component {
 					keyExtractor={item => item.type}
 					numColumns={2}
 					ItemSeparatorComponent={separator}
-					ListFooterComponent={footer}
-					columnWrapperStyle={style.wrapper}
 			/>
+			</LinearGradient>
 	)
 }}
 
