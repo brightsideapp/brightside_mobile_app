@@ -29,10 +29,13 @@ export default class CatList extends React.Component {
 	    this.setState({fontLoaded:true})
 	}
 	render(){
+		let textSize = 0.04*SCREEN_HEIGHT
 		return(
-			<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={style.container}>
-				{this.state.fontLoaded ? (<Text style={style.resText}>RESOURCES</Text>) : null}
-				<FlatList 
+			<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
+				{this.state.fontLoaded ? (<Text style={[styles.catText, {fontSize: textSize}]}>RESOURCES</Text>) : null}
+				<FlatList
+					style={{paddingLeft: '10%', width: '100%'}}
+					contentContainerStyle={{alignItems: 'flex-start'}}
 					data = {this.state.data}
 					renderItem={({item}) => {
 						return (
@@ -50,27 +53,24 @@ export default class CatList extends React.Component {
 
 class separator extends React.Component {
 	render() {
+		let seperatorHeight = 0.05*SCREEN_HEIGHT
 		return (
-			<View style={style.separator}></View>
+			<View style={{height: seperatorHeight}}></View>
 		)
 	}
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 	    height:'100%',
 	    alignItems: 'center'
 	},
-	separator:{
-		height:50
-	},
-	resText: {
+	catText: {
 		paddingTop:'5%',
-		left:'15%',
+		left:'10%',
 		alignSelf:'flex-start',
 		color:'#4B306A',
-		fontSize: 20,
-		marginBottom:20,
+		marginBottom: '2%',
 		fontFamily:'work-sans-bold',
 	}
 })
