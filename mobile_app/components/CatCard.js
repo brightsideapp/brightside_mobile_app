@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Font } from 'expo';
 import { withNavigation } from 'react-navigation';
 
@@ -8,7 +8,8 @@ class CatCard extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
-			fontLoaded:false
+			fontLoaded:false,
+			uri: `${endpoint}${this.props.img}`
 		}
 	}
 	async componentDidMount() {
@@ -25,7 +26,7 @@ class CatCard extends React.Component {
 		let textSize = 0.04*SCREEN_HEIGHT
 		let iconSize = 0.2*SCREEN_HEIGHT
 		return(
-			<TouchableHighlight 
+			<TouchableOpacity 
 			style={[styles.card, {
 				width: cardWidth, 
 				height: cardHeight, 
@@ -33,10 +34,10 @@ class CatCard extends React.Component {
 			}]} 
 			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat})}>
 				<View style={styles.buttContainer}>
-					<Image style={{height: iconSize, width: iconSize}} source={require('../assets/taxi.png')}/>
+					<Image style={{height: iconSize, width: iconSize}} source={{uri:this.state.uri}}/>
 					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
 				</View>
-			</TouchableHighlight>
+			</TouchableOpacity>
 		)
 	}
 }
@@ -65,3 +66,5 @@ const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
+
+const endpoint = 'http://35.166.255.157/'

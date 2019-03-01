@@ -40,7 +40,8 @@ export default class ResultListScreen extends React.Component {
 
 	getResults() {
 		let category = this.props.navigation.getParam('cat','')
-		let url = `${api.endpoint}${category}`
+		let encodedCat = encodeURIComponent(category)
+		let url = `${api.endpoint}${encodedCat}`
 		fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {

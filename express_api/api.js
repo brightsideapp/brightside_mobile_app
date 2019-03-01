@@ -38,6 +38,14 @@ app.get(`/${config.token}/search`, (request, response) => {
     })
 })
 
+app.get(`/${config.token}/test`, (request, response) => {
+    db.getSchedule(63).then((resource) => {
+        response.json(resource);
+    }).catch((error) => {
+        response.send(error);
+    })
+})
+
 // request data based on category /category?key=legal
 // if no key is provided. (ie /category) it returns a list of all the categories
 app.get(`/${config.token}/category`, (request, response) => {
@@ -48,10 +56,21 @@ app.get(`/${config.token}/category`, (request, response) => {
             response.send(error);
         })
     } else {
-        db.getByCategory(request.query.key).then((resource) => {
-            response.json(resource);
-        }).catch((error) => {
-            response.send(error);
+        let result = []
+        db.getByCategory(decodeURIComponent(request.query.key))
+        .then(async (resource) => {
+            result = _groupPerk(resource)   
+            for (let i = 0; i < result.length; i++) {
+                let schedule = {}
+                await db.getSchedule(result[i].resourceId)
+                .then((respond)=>{
+		    console.log(`0:${Date.now()}`)
+		    schedule = respond
+		    result[i].schedule = _groupSchedule(schedule)
+            delete result[i].resourceId
+		})
+            }
+	        response.json(result)
         })
     }
 })
@@ -74,7 +93,47 @@ app.get('/*', (request, response) => {
     response.status(404).send('Nothing here');
 });
 
+// format the respond
+function _groupPerk(allData) {
+  let prevId = undefined
+  let curId = undefined
+  let orgs = [];
+  let perks = [];
+    if (allData.length > 0) {
+      prevId = allData[0].resourceId
+    } else return allData;
+    for (let i = 0; i < allData.length; i++){
+        curId = allData[i].resourceId
+        if (curId == prevId) {
+            perks.push(allData[i].perk)
+        } else {
+            let org = allData[i-1]
+            org.perk = perks
+            orgs.push(org)
+            prevId = allData[i].resourceId
+            perks = [allData[i].perk]
+        }
+    }
+    return orgs
+}
 
+function _groupSchedule(data){
+    let schedule = {}
+    for (let i = 0; i < data.length; i++) {
+        let hours = ''
+        if (!data[i].start && !data[i].end){
+            hours = 'Not Available'
+        } else if (data[i].start == data[i].end) {
+            hours = 'Closed'
+        } else if (data[i].start == '00:00:00' && data[i].end == '23:59:00') {
+            hours = 'Open 24 Hours'
+        } else {
+            hours = `${data[i].start.substring(0,5)} - ${data[i].end.substring(0,5)}`
+        }
+        schedule[data[i].weekday] = hours
+    }
+    return schedule
+}
 
 
 
