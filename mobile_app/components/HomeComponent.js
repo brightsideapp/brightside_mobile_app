@@ -13,7 +13,7 @@ export default class HomeComponent extends Component {
 
     render() {
         return (
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('ResList')}>
+          <TouchableHighlight onPress={() => this.props.navigation.navigate('CatList')}>
             <View style={homeStyles.container}>
                 <Image source={require('../assets/logo.png')} style={homeStyles.logo} />
                 <Text style={[homeStyles.text, {fontSize: 28}]}>Brightside Community Homes</Text>

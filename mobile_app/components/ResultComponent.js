@@ -4,24 +4,28 @@ import { Text, View, Image, StyleSheet, Dimensions } from 'react-native';
 
 export default class ResultComponent extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        let data = this.props.data
+        console.log(data);
         this.state = {
-
+          name: data.organization,
+          addr: data.addr,
+          phone: data.contact
         }
     }
 
     render() {
         return (
             <View style={resultStyles.container}>
-                <Text style={resultStyles.titleText}>Gordon Neighboorhood House</Text>
+                <Text style={resultStyles.titleText}>{this.state.name}</Text>
                 <View style={resultStyles.line}>
                   <Text style={resultStyles.infoText}>Address:</Text>
                   <Text style={resultStyles.infoText}>Phone:</Text>
                 </View>
                 <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>123 Haha St.</Text>
-                  <Text style={resultStyles.text}>604-604-6040</Text>
+                  <Text style={resultStyles.text}>{this.state.addr}</Text>
+                  <Text style={resultStyles.text}>{this.state.phone}</Text>
                 </View>
             </View>
         )

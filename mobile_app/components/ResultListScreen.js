@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
 import ResultBigComponent from './ResultBigComponent.js';
@@ -9,13 +9,27 @@ export default class ResultListScreen extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
-			fontLoaded:false
+			fontLoaded:false,
+			data: undefined
 		}
 	}
+
+	fetchData(){
+		let category = this.props.navigation.getParam('cat','')
+		let url = `${api.endpoint}${category}`
+		fetch(url)
+		.then((response) => response.json())
+		.then((response) => {
+			console.log(response)
+			this.setState({data:response})
+		})
+	}
+
 	async componentDidMount() {
 	    await Font.loadAsync({
 	      'work-sans-bold': require('../assets/WorkSans/WorkSans-Bold.ttf'),
-	    });
+	    })
+	    .then(() => this.fetchData())
 	    this.setState({fontLoaded:true})
 	}
 	_pressBut(){
@@ -24,18 +38,12 @@ export default class ResultListScreen extends React.Component {
 	render(){
 		return(
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={style.container}>
-				<ScrollView contentContainerStyle={{flexDirection:'column',alignItems: 'center'}} style={style.list}>
-					{this.state.fontLoaded ? (
-						<View style={style.header}>
-							<Text style={style.headerText}>RECREATION</Text>
-							<Image style={style.icon} source={require('../assets/biker.png')} />
-						</View>) : null}
-					<ResultComponent />
-					<ResultComponent />
-					<ResultComponent />
-					<ResultComponent />
-					<ResultComponent />
-				</ScrollView>
+				<FlatList  
+					data={this.state.data}
+					renderItem={({item}) => (
+							<ResultComponent data={item} />
+						)}
+				/>
 			</LinearGradient>
 		)
 	}
@@ -74,3 +82,7 @@ const style = StyleSheet.create({
 		resizeMode:'contain'
 	}
 })
+
+const api = {
+	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key="
+}
