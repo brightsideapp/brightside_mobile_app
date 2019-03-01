@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import CatCard from './CatCard.js';
 
@@ -9,7 +9,7 @@ export default class CatList extends React.Component {
 		super(props);
 		this.state={
 			fontLoaded:false,
-			data: ['Transportation','legal','Health', 'black', 'white', 'green', 'yellow']
+			data: undefined
 		}
 	}
 
@@ -25,8 +25,9 @@ export default class CatList extends React.Component {
 	async componentDidMount() {
 	    await Font.loadAsync({
 	      'work-sans-bold': require('../assets/WorkSans/WorkSans-Bold.ttf'),
-	    });
-	    this.setState({fontLoaded:true})
+	    })
+	    .then(()=>{this.setState({fontLoaded:true})})
+	    await this.fetchData()
 	}
 	render(){
 		let textSize = 0.04*SCREEN_HEIGHT
@@ -39,17 +40,15 @@ export default class CatList extends React.Component {
 					data = {this.state.data}
 					renderItem={({item}) => {
 						return (
-							<CatCard cat={item} />
+							<CatCard cat={item.type} img={item.imageFile} />
 						)}}
-					keyExtractor={item => item}
+					keyExtractor={item => item.type}
 					numColumns={2}
 					ItemSeparatorComponent={separator}
-					ListFooterComponent={separator}
-				/>
+			/>
 			</LinearGradient>
-		)
-	}
-}
+	)
+}}
 
 class separator extends React.Component {
 	render() {
@@ -62,7 +61,7 @@ class separator extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-	    height:'100%',
+		width:'100%',
 	    alignItems: 'center'
 	},
 	catText: {
@@ -81,5 +80,5 @@ const {
 } = Dimensions.get('window');
 
 const api = {
-	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/"
+	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category"
 }
