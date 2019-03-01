@@ -4,6 +4,10 @@
   "packagerNgrokUrl": null,
   "ngrokPid": null,
   "devToolsPort": 19002,
-  "packagerPort": null,
-  "packagerPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 2804,
+  "expoServerNgrokUrl": "https://br-2hy.anonymous.mobile-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.br-2hy.anonymous.mobile-app.exp.direct",
+  "ngrokPid": 10116
 }
