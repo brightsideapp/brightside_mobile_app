@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { LinearGradient, Font } from 'expo';
 import { Text, View, Image, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
 export default class HomeComponent extends Component {
@@ -7,8 +8,15 @@ export default class HomeComponent extends Component {
     constructor() {
         super();
         this.state = {
-
+          fontLoaded:false,
         }
+    }
+
+    async componentDidMount() {
+        await Font.loadAsync({
+          'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
+        });
+        this.setState({fontLoaded:true})
     }
 
     render() {
@@ -16,9 +24,9 @@ export default class HomeComponent extends Component {
           <TouchableHighlight onPress={() => this.props.navigation.navigate('CatList')}>
             <View style={homeStyles.container}>
                 <Image source={require('../assets/logo.png')} style={homeStyles.logo} />
-                <Text style={[homeStyles.text, {fontSize: 28}]}>Brightside Community Homes</Text>
-                <Text style={[homeStyles.text, {fontSize: 20}]}>Mobile App</Text>
-                <Text style={[homeStyles.text, {fontSize: 16, marginTop: 20}]}>Tap to Start</Text>
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: 28}]}>Brightside Community Homes</Text>}
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: 20}]}>Mobile App</Text>}
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: 16, marginTop: 20}]}>Tap to Start</Text>}
             </View>
           </TouchableHighlight>
         )
@@ -39,7 +47,8 @@ const homeStyles = StyleSheet.create({
     marginBottom: 30,
   },
   text: {
-    color: '#eee'
+    color: '#eee',
+    fontFamily: 'work-sans-reg',
   }
 });
 

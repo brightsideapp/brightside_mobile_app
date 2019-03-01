@@ -10,7 +10,7 @@ export default class ResultListScreen extends React.Component {
 		super(props);
 		this.state={
 			fontLoaded:false,
-			data: undefined
+			data: [],
 		}
 	}
 
@@ -31,30 +31,48 @@ export default class ResultListScreen extends React.Component {
 	    })
 	    .then(() => this.fetchData())
 	    this.setState({fontLoaded:true})
+	    this.getResults()
 	}
 	_pressBut(){
 		this.props.navigation.navigate('Home');
 	}
+
+	getResults() {
+		fetch(`http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=legal`)
+		.then((response) => response.json())
+		.then((responseJson) => {
+			console.log(responseJson);
+			this.setState({
+				data: responseJson
+			})
+		})
+		.catch((error) => console.log(error))
+	}
+
 	render(){
 		return(
-			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={style.container}>
-				<FlatList  
-					data={this.state.data}
-					renderItem={({item}) => (
-							<ResultComponent data={item} />
-						)}
+			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
+				<FlatList
+				style={styles.listContainer}
+				contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
+				data={this.state.data}
+				numColumns={1}
+				renderItem={({item}) => {return(<ResultComponent data={item}/>)}}
+				keyExtractor={item => item.description}
 				/>
 			</LinearGradient>
 		)
 	}
 }
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flexDirection:'column',
-	    width:'100%',
 	    height:'100%',
 	    alignItems: 'center',
 	    justifyContent: 'center',
+	},
+	listContainer: {
+		width: '100%',
 	},
 	header: {
 		flexDirection:'row',

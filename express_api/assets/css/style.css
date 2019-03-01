@@ -1,0 +1,142 @@
+/* admin page */
+.fullcontainer {
+    width: 100vw;;
+    height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* header */
+#solidline {
+    width:'100%';
+    /* border-bottom: 2px solid; */
+    background-color: white;
+}
+
+#solidlinecontainer {
+    width: '100%';
+    padding-bottom: 2px;
+    background-image: linear-gradient(to right, #ee2b52, #fcb22b);
+}
+
+#bslogo {
+    top: 0;
+    left: 0;
+    background-image: url("/img/brightside_logo.png");
+    height: 10vh;
+    width: 20vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    display: inline-block;
+    /* background-color: yellow; */
+    vertical-align: middle;
+}
+
+#title {
+    display: inline-block;
+    height: 10vh;
+    width: 70vw;
+    text-align: center;
+    /* background-color: green; */
+    font-size: 160%;
+    vertical-align: middle;
+}
+
+#title p {
+    margin: 0.5vh;
+    font-size: 3.8vh;
+    color: #401e6c;
+}
+
+
+/* body */
+/* left cpanel */
+#cpanel {
+    display: inline-block;
+    width: 10vw;
+    height: 100vh;
+    /* background-color: #401e6c; */
+    background-image: linear-gradient(#ee2b52, #fcb22b);
+    text-align: center;
+    vertical-align: top;
+    font-size: 1.5vw;
+    color: white;
+    font-style: italic;
+    padding-right: 2px;
+}
+
+#cpanelin {
+    height: 100vh;
+    padding-top: 1vh;
+    background-color: #401e6c;
+}
+
+#cpanel b {
+    border-bottom: 1px dashed;
+}
+
+#summary b {
+    font-size: 1.8vw;
+    background: -webkit-linear-gradient(#ee2b52, #fcb22b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid;
+}
+
+
+/* right info panel */
+#infopanel {
+    display: inline-block;
+    width: 88vw;
+    height: 89vh;
+    padding: 0.7%;
+    overflow: scroll;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
+    /* background-color: green; */
+}
+
+/* div inside #infopanel containing the table */
+#tablecontainer {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/*------------------- scrollbar options ---------------------*/
+/* hiding and styling */
+::-webkit-scrollbar {
+    width: 0.18vw;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in grey */
+::-webkit-scrollbar-thumb {
+    background: #8C8786;
+}
+/* end of scrollbar options */
+
+
+/*--------------------- table options ------------------------*/
+/* for single line borders */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+/* dynamic font sizing for table entries */
+td {
+    font-size: 0.8vw;
+}
+
+/* padding for table headers */
+th {
+    font-size: 1vw;
+    padding: 2px;
+}
+/* end of table options */

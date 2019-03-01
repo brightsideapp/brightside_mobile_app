@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 
-/** server.js  */
+/** api.js  */
 const express = require('express');
 const db = require('./db/mysql_db');
 const config = require('./cred/secret.json');
@@ -11,8 +11,9 @@ const hbs = require('hbs');
 const app = express();
 
 // set hbs views
-app.set('views', './views');
+app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
+app.use(express.static(__dirname + '/assets'));
 
 // If someone visits the homepage, tell them they are lost
 app.get('/', (request, response) => {
@@ -38,18 +39,31 @@ app.get(`/${config.token}/search`, (request, response) => {
 })
 
 // request data based on category /category?key=legal
+// if no key is provided. (ie /category) it returns a list of all the categories
 app.get(`/${config.token}/category`, (request, response) => {
-    db.getByCategory(request.query.key).then((resource) => {
-        response.json(resource);
-    }).catch((error) => {
-        response.send(error);
-    })
+    if (request.query.key == undefined) {
+        db.getAllCategory().then((category) => {
+            response.json(category);
+        }).catch((error) => {
+            response.send(error);
+        })
+    } else {
+        db.getByCategory(request.query.key).then((resource) => {
+            response.json(resource);
+        }).catch((error) => {
+            response.send(error);
+        })
+    }
 })
 
 // admin login for adding more database entries
 app.get(`/${config.token}/manage/:admin`, (request, response) => {
     if (request.params.admin == 'brightside_admin') {
-        response.render('admin.hbs');
+        db.getData().then(data => {
+            response.render('admin.hbs', {
+                data: data
+            });
+        })
     } else {
         response.status(404).send('Not Found');
     }
