@@ -28,6 +28,15 @@ class ResultComponent extends Component {
 
     render() {
         let contWidth = 0.8*SCREEN_WIDTH
+        let schedule = []
+        weekday.forEach((day)=>{
+          schedule.push(
+            <View style={resultStyles.line} key={day}>
+              <Text style={resultStyles.text}>{`${day}: `}</Text>
+              <Text style={resultStyles.text}>{`${this.props.data.schedule[day]}`}</Text>
+            </View>
+          )
+        })
         return (
             <TouchableOpacity style={[resultStyles.container, {width: contWidth}]} onPress={this.expand}>
                 <View>
@@ -51,34 +60,7 @@ class ResultComponent extends Component {
                 </View>
                 {this.state.loadExtra && <View>
                 <Text style={[resultStyles.titleText, {fontSize: 20}]}>Hours:</Text>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>Sunday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>Monday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>Tuesday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>Wednesday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>Thursday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>Friday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>saturday: </Text>
-                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
-                </View>
+                  {schedule}
                 </View> }
                 </View>
             </TouchableOpacity>
@@ -128,3 +110,5 @@ const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
+
+const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
