@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
-import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-export default class ResultComponent extends Component {
+class ResultComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -30,19 +31,53 @@ export default class ResultComponent extends Component {
         return (
             <TouchableOpacity style={[resultStyles.container, {width: contWidth}]} onPress={this.expand}>
                 <View>
-                <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
+                <View style={[resultStyles.line]}>
+                  <View style={resultStyles.buttonStyle}>
+                  <Button
+                  onPress={()=>this.props.navigation.navigate('MapScreen', {data: this.props.data})}
+                  color='#4B306A'
+                  title='MAP'
+                  />
+                  </View>
+                  <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
+                </View>
                 <View style={resultStyles.line}>
                   <Text style={resultStyles.infoText}>Address:</Text>
                   <Text style={resultStyles.infoText}>Phone:</Text>
                 </View>
                 <View style={resultStyles.line}>
                   <Text style={resultStyles.text}>{this.props.data.location}</Text>
-                  <Text style={resultStyles.text}>{this.props.data.contact}</Text>
+                  <Text style={resultStyles.text}>{this.props.data.phoneNumber}</Text>
                 </View>
                 {this.state.loadExtra && <View>
                 <Text style={[resultStyles.titleText, {fontSize: 20}]}>Hours:</Text>
                 <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>{this.props.data.hours}</Text>
+                  <Text style={resultStyles.text}>Sunday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
+                </View>
+                <View style={resultStyles.line}>
+                  <Text style={resultStyles.text}>Monday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
+                </View>
+                <View style={resultStyles.line}>
+                  <Text style={resultStyles.text}>Tuesday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
+                </View>
+                <View style={resultStyles.line}>
+                  <Text style={resultStyles.text}>Wednesday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
+                </View>
+                <View style={resultStyles.line}>
+                  <Text style={resultStyles.text}>Thursday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
+                </View>
+                <View style={resultStyles.line}>
+                  <Text style={resultStyles.text}>Friday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
+                </View>
+                <View style={resultStyles.line}>
+                  <Text style={resultStyles.text}>saturday: </Text>
+                  <Text style={resultStyles.text}>9:00AM - 5:00PM</Text>
                 </View>
                 </View> }
                 </View>
@@ -50,6 +85,8 @@ export default class ResultComponent extends Component {
         )
     }
 }
+
+export default withNavigation(ResultComponent)
 
 const resultStyles = StyleSheet.create({
   container: {
@@ -68,6 +105,9 @@ const resultStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'work-sans-reg',
+  },
+  buttonStyle: {
+    marginRight: 20
   },
   infoText: {
     color: '#4B306A',

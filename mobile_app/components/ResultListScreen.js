@@ -62,7 +62,7 @@ export default class ResultListScreen extends React.Component {
 				data={this.state.data}
 				numColumns={1}
 				renderItem={({item}) => {return(<ResultComponent data={item}/>)}}
-				keyExtractor={item => item.description}
+				keyExtractor={item => item.organization}
 				/>
 			</LinearGradient>
 		)
