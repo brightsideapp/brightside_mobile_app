@@ -18,7 +18,6 @@ const RootStack = createStackNavigator(
     initialRouteName: "Home"
   }
 )
-const AppContainer = createAppContainer(RootStack)
 
 //  create app container for RootStack
 const AppContainer = createAppContainer(RootStack);
