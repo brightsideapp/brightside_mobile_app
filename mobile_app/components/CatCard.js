@@ -20,13 +20,22 @@ class CatCard extends React.Component {
 	}
 
 	render(){
-		console.log(this.state.uri);
+		let cardWidth = 0.375*SCREEN_WIDTH
+		let cardHeight = 0.375*SCREEN_HEIGHT
+		let cardMargin = 0.05*SCREEN_WIDTH
+		let textSize = 0.04*SCREEN_HEIGHT
+		let iconSize = 0.2*SCREEN_HEIGHT
 		return(
-			<TouchableOpacity style={style.card} 
+			<TouchableOpacity 
+			style={[styles.card, {
+				width: cardWidth, 
+				height: cardHeight, 
+				marginRight: cardMargin,
+			}]} 
 			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat})}>
-				<View>
-					<Image style={style.icon} source={{uri:'https://www.w3schools.com/w3css/img_lights.jpg'}}/>
-					{this.state.fontLoaded ? (<Text style={style.cardText}>{this.props.cat}</Text>) : null}
+				<View style={styles.buttContainer}>
+					<Image style={{height: iconSize, width: iconSize}} source={{this.state.uri}}/>
+					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
 				</View>
 			</TouchableOpacity>
 		)
@@ -35,33 +44,21 @@ class CatCard extends React.Component {
 
 export default withNavigation(CatCard);
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	card:{
-		height:200,
-		width:300,
-		marginLeft:70,
-		marginRight:70,
-		flexDirection:'column',
 		justifyContent:'center',
 		alignItems: 'center',
 		backgroundColor:'#4B306A',
 		borderRadius:10
 	},
+	buttContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	cardText: {
-		flex:2,
 		textAlign:'center',
 		color:'#DDDDDD',
-		fontFamily:'work-sans-medium',
-		fontSize:28,
-		backgroundColor:'yellow'
-	},
-	icon: {
-		flex:5,
-		marginTop:'5%',
-		alignSelf:'center',
-		marginBottom:'6%',
-		resizeMode:'contain',
-		backgroundColor:'black'
+		fontFamily:'work-sans-medium'
 	}
 })
 

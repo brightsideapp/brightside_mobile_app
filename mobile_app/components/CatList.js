@@ -30,11 +30,13 @@ export default class CatList extends React.Component {
 	    await this.fetchData()
 	}
 	render(){
+		let textSize = 0.04*SCREEN_HEIGHT
 		return(
-			<View style={style.container}>
-				{this.state.fontLoaded ? (<Text style={style.resText}>RESOURCES</Text>) : null}
-				{this.state.data && <FlatList 
-					style={{width:'100%'}}
+			<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container} />
+				{this.state.fontLoaded ? (<Text style={[styles.catText, {fontSize: textSize}]}>RESOURCES</Text>) : null}
+				<FlatList
+					style={{paddingLeft: '10%', width: '100%'}}
+					contentContainerStyle={{alignItems: 'flex-start'}}
 					data = {this.state.data}
 					renderItem={({item}) => {
 						return (
@@ -45,50 +47,30 @@ export default class CatList extends React.Component {
 					ItemSeparatorComponent={separator}
 					ListFooterComponent={footer}
 					columnWrapperStyle={style.wrapper}
-				/>}
-			</View>
-		)
-	}
-}
+			/>
+	)
+}}
 
 class separator extends React.Component {
 	render() {
+		let seperatorHeight = 0.05*SCREEN_HEIGHT
 		return (
-			<View style={style.separator}></View>
+			<View style={{height: seperatorHeight}}></View>
 		)
 	}
 }
 
-class footer extends React.Component {
-	render() {
-		return (
-			<View style={style.footer}></View>
-		)
-	}
-}
-
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		width:'100%',
 	    alignItems: 'center'
 	},
-	separator:{
-		height:100
-	},
-	footer:{
-		height:200
-	},
-	wrapper: {
-		marginLeft:80,
-		marginRight:80
-	},
-	resText: {
-		paddingTop:'2%',
-		left:'15%',
+	catText: {
+		paddingTop:'5%',
+		left:'10%',
 		alignSelf:'flex-start',
 		color:'#4B306A',
-		fontSize: 32,
-		marginBottom:20,
+		marginBottom: '2%',
 		fontFamily:'work-sans-bold',
 	}
 })
