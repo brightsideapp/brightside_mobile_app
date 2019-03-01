@@ -48,8 +48,8 @@ app.get(`/${config.token}/category`, (request, response) => {
             response.send(error);
         })
     } else {
-        db.getByCategory(request.query.key).then((resource) => {
-            response.json(resource);
+        db.getByCategory(decodeURIComponent(request.query.key)).then((resource) => {
+            response.json(_groupPerk(resource));
         }).catch((error) => {
             response.send(error);
         })
@@ -74,7 +74,31 @@ app.get('/*', (request, response) => {
     response.status(404).send('Nothing here');
 });
 
-
+// format the respond
+function _groupPerk(allData) {
+  let prevId = undefined
+  let curId = undefined
+  let orgs = [];
+  let perks = [];
+    if (allData.length > 0) {
+      console.log('hello')
+      prevId = allData[0].resourceId
+    } else return allData;
+    for (let i = 0; i < allData.length; i++){
+        curId = allData[i].resourceId
+        if (curId == prevId) {
+            perks.push(allData[i].perk)
+        } else {
+            let org = allData[i-1]
+            org.perk = perks
+            delete org.resourceId
+            orgs.push(org)
+            prevId = allData[i].resourceId
+            perks = [allData[i].perk]
+        }
+    }
+    return orgs
+}
 
 
 

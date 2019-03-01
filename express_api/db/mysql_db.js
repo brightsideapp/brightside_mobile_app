@@ -11,16 +11,16 @@ var pool = mysql.createPool({
 
 
 // Methods of getting data from database
-const getData = () => {
-    return new Promise((resolve, reject) => {
-        pool.query('select a.*, b.perks, c.resource_type from resource a \
-        join perks b on a.perk_id = b.perk_id \
-        join resource_type c on a.res_type_id = c.type_id;', (error, response, fields) => {
-            if (error) reject(error);
-            else resolve(response);
-        })
-    })
-}
+// const getData = () => {
+//     return new Promise((resolve, reject) => {
+//         pool.query('select a.*, b.perks, c.resource_type from resource a \
+//         join perks b on a.perk_id = b.perk_id \
+//         join resource_type c on a.res_type_id = c.type_id;', (error, response, fields) => {
+//             if (error) reject(error);
+//             else resolve(response);
+//         })
+//     })
+// }
 
 // search for keyword ie. advocacy, legal, money, etc
 const searchData = keyword => {
@@ -36,16 +36,14 @@ const searchData = keyword => {
 
 // get resource by categories
 const getByCategory = key => {
-    let categs = {
-        legal: 'Legal and Advocacy',
-        health: 'Health, Counselling',
-        hub: 'Community Hub',
-    }
-
     return new Promise((resolve, reject) => {
-        pool.query(`select a.*, b.perks, c.resource_type from resource a \
-        join perks b on a.perk_id = b.perk_id \
-        join resource_type c on a.res_type_id = c.type_id where c.resource_type='${categs[key]}';`, (error, response) => {
+        pool.query(`select a.resourceId,a.organization,a.location,a.description,\
+            a.website,a.phoneNumber,a.tollFree,e.perk from \
+            resource a inner join resourceType b on b.resourceId = a.resourceId \
+            inner join type c on b.typeId = c.typeId \
+            inner join resourcePerk d on d.resourceId = a.resourceId \
+            inner join perk e on e.perkId = d.perkId \
+            where c.type='${key}';`, (error, response) => {
             if (error) reject(error);
             else resolve(response);
         })
@@ -54,9 +52,8 @@ const getByCategory = key => {
 
 // get all categories
 const getAllCategory = () => {
-
     return new Promise((resolve, reject) => {
-        pool.query(`select * from resource_type;`, (error, response) => {
+        pool.query(`select type from type;`, (error, response) => {
             if (error) reject(error);
             else resolve(response);
         })
