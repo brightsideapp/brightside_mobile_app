@@ -36,13 +36,31 @@ app.get(`/${config.token}`, (request, response) => {
 
 // request data with search parameters /search?keyword=<keyword search>
 app.get(`/${config.token}/search`, (request, response) => {
-    db.searchData(request.query.keyword).then((resource) => {
-        response.json(resource);
-    }).catch((error) => {
+    db.searchData(decodeURIComponent(request.query.keyword))
+    .then(async (resource) => {
+            let orgIdList = []
+            for (let i = 0; i < resource.length; i++) {
+                orgIdList.push(resource[i].resourceId)
+            }
+            await db.getResourcesById(orgIdList)
+            .then(async (resource) => {
+                result = _groupPerk(resource)   
+                for (let i = 0; i < result.length; i++) {
+                    await db.getSchedule(result[i].resourceId)
+                    .then((respond)=>{
+                        result[i].schedule = _groupSchedule(respond)
+                        delete result[i].resourceId
+                    })
+                }
+                response.json(result)
+            })
+    })
+    .catch((error) => {
         response.send(error);
     })
 })
 
+// test the getSchedule function
 app.get(`/${config.token}/test`, (request, response) => {
     db.getSchedule(63).then((resource) => {
         response.json(resource);
@@ -66,14 +84,11 @@ app.get(`/${config.token}/category`, (request, response) => {
         .then(async (resource) => {
             result = _groupPerk(resource)   
             for (let i = 0; i < result.length; i++) {
-                let schedule = {}
                 await db.getSchedule(result[i].resourceId)
                 .then((respond)=>{
-		    console.log(`0:${Date.now()}`)
-		    schedule = respond
-		    result[i].schedule = _groupSchedule(schedule)
-            delete result[i].resourceId
-		})
+            	    result[i].schedule = _groupSchedule(respond)
+                    delete result[i].resourceId
+		        })
             }
 	        response.json(result)
         })
@@ -134,8 +149,13 @@ app.get('/*', (request, response) => {
     response.status(404).send('Nothing here');
 });
 
-// format the respond
+function _formatAnswer() {
+
+}
+
+// private function to format perks into a list in the response
 function _groupPerk(allData) {
+  allData.push({resourceId:-1,perk:''})
   let prevId = undefined
   let curId = undefined
   let orgs = [];
@@ -158,6 +178,7 @@ function _groupPerk(allData) {
     return orgs
 }
 
+// private function to format schdule into an object and hours as string in the response
 function _groupSchedule(data){
     let schedule = {}
     for (let i = 0; i < data.length; i++) {
