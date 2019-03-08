@@ -13,9 +13,16 @@ var pool = mysql.createPool({
 // Methods of getting data from database
 const getData = () => {
      return new Promise((resolve, reject) => {
-        pool.query('select a.*, b.perks, c.resource_type from resource a \
-        join perks b on a.perk_id = b.perk_id \
-        join resource_type c on a.res_type_id = c.type_id;', (error, response, fields) => {
+         pool.query('select * from resource a \
+         join (select resourceId, group_concat(concat(weekday, " ", start, "-", end)) as hours from hours group by resourceId) b \
+         on a.resourceId=b.resourceId \
+         join (select resourceId, group_concat(keywordType) as keywords from resourceKeyword a join keywordType b on a.keywordTypeId=b.keywordTypeId group by resourceId order by a.resourceId) c \
+         on a.resourceId=c.resourceId \
+         join (select a.resourceId, group_concat(perk) as perks from resourcePerk a join perk b on a.perkId=b.perkId group by a.resourceId order by a.resourceId) d\
+         on a.resourceId=d.resourceId \
+         join (select resourceId, group_concat(type) as type from resourceType a join type b on a.typeId=b.typeId group by resourceId order by resourceId) e \
+         on a.resourceId=e.resourceID \
+         order by a.resourceId;', (error, response, fields) => {
             if (error) reject(error);
             else resolve(response);
         })
@@ -72,10 +79,21 @@ const getAllCategory = () => {
     })
 }
 
+// check user in database
+const getUser = (user, pass) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`select * from users where user='${user}' and password='${pass}'`, (error, response) => {
+            if (error) reject(error);
+            else resolve(response);
+        })
+    })
+}
+
 module.exports = {
     getData,
     searchData,
     getByCategory,
     getAllCategory,
     getSchedule,
+    getUser,
 }
