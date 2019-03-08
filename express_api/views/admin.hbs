@@ -30,33 +30,35 @@
             <div id="infopanel">
                 <div id="tablecontainer">
                     <table style="width:100%">
-                        <tr>
-                            <th>ID</th>
-                            <th>Location</th>
-                            <th>Organization</th>
-                            <th>Description</th>
-                            <th>Contact</th>
-                            <th>Website</th>
-                            <th>Hours</th>
-                            <th>Keywords</th>
-                            <th>Perks</th>
-                            <th>Type</th>
-                        </tr>
-                        {{#each data}}
+                        <thead style="background-color: #401e6c; color: white;">
                             <tr>
-                                <td>{{res_id}}</td>
-                                <td>{{location}}</td>
-                                <td>{{organization}}</td>
-                                <td>{{description}}</td>
-                                <td>{{keywords}}</td>
-                                <td>{{contact}}</td>
-                                <td>{{website}}</td>
-                                <td>{{hours}}</td>
-                                <td>{{perks}}</td>
-                                <td>{{resource_type}}</td>
+                                <th>Location</th>
+                                <th>Organization</th>
+                                <th>Description</th>
+                                <th>Keywords</th>
+                                <th>Contact</th>
+                                <th>Website</th>
+                                <th>Hours</th>
+                                <th>Perks</th>
+                                <th>Type</th>
                             </tr>
-                        {{/each}}
-                        <tr>
+                        </thead>
+                        <tbody>
+                            {{#each data}}
+                                <tr id={{resourceId}}>
+                                    <td>{{location}}</td>
+                                    <td>{{organization}}</td>
+                                    <td>{{description}}</td>
+                                    <td>{{keywords}}</td>
+                                    <td>{{phoneNumber}}</td>
+                                    <td>{{website}}</td>
+                                    <td>{{hours}}</td>
+                                    <td>{{perks}}</td>
+                                    <td>{{type}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                        {{!-- <tr>
                             <td>1</td>
                             <td>Phone Only</td>
                             <td>Seniors First BC</td>
@@ -354,7 +356,7 @@
                             4:00PM,Friday: 9:00AM - 4:00PM,Saturday: 9:00AM - 4:00PM</td>
                             <td>Free, Multi-lingual</td>
                             <td>Legal and Advocacy</td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </div>
             </div>
