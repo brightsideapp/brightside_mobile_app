@@ -6,6 +6,10 @@ const express = require('express');
 const db = require('./db/mysql_db');
 const config = require('./cred/secret.json');
 const hbs = require('hbs');
+const bodyParser = require('body-parser');
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const cookieParser = require('cookie-parser');
+
 
 // Initialize express() as app.
 const app = express();
@@ -14,6 +18,7 @@ const app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/assets'));
+app.use(cookieParser());
 
 // If someone visits the homepage, tell them they are lost
 app.get('/', (request, response) => {
@@ -91,8 +96,44 @@ app.get(`/${config.token}/category`, (request, response) => {
 })
 
 // admin login for adding more database entries
-app.get(`/${config.token}/manage/:admin`, (request, response) => {
-    if (request.params.admin == 'brightside_admin') {
+// app.get(`/${config.token}/manage/:admin`, (request, response) => {
+//     if (request.params.admin == 'brightside_admin') {
+//         db.getData().then(data => {
+//             response.render('admin.hbs', {
+//                 data: data
+//             });
+//         })
+//     } else {
+//         response.status(404).send('Not Found');
+//     }
+// })
+
+// app.get(`/${config.token}/login`, (request, response) => {
+//     response.render('login.hbs');
+// })
+
+// POST request for login
+app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
+    console.log(request.body);
+    db.getUser(request.body.username, request.body.password).then(resp => {
+        console.log(resp);
+        console.log(resp.length);
+        if (resp.length == 1) {
+            response.cookie('isLoggedIn', `${request.body.username}`, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
+            response.redirect(`/${config.token}/manage`);
+        } else {
+            response.redirect(`/${config.token}/manage`);
+        }
+    })
+})
+
+// GET request to console management page
+app.get(`/${config.token}/manage`, (request, response) => {
+    console.log('Cookies', request.cookies.isLoggedIn);
+    // console.log('Request', request);
+    if (request.cookies.isLoggedIn == undefined) {
+        response.render('login.hbs');
+    } else if (request.cookies.isLoggedIn != undefined) {
         db.getData().then(data => {
             response.render('admin.hbs', {
                 data: data
