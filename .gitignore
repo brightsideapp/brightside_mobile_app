@@ -3,3 +3,4 @@ express_api/node_modules/
 express_api/cred/
 mobile_app/node_modules/
 mobile_app/cred/
+mobile_app/.expo/
