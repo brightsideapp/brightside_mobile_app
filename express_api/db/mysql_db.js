@@ -109,8 +109,8 @@ const getUser = (user, pass) => {
 }
 
 module.exports = {
+    getResourcesById,
     getData,
-    searchData,
     getByCategory,
     getAllCategory,
     getSchedule,

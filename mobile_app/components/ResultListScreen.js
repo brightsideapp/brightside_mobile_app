@@ -20,7 +20,6 @@ export default class ResultListScreen extends React.Component {
 		fetch(url)
 		.then((response) => response.json())
 		.then((response) => {
-			console.log(response)
 			this.setState({data: response})
 		})
 	}
@@ -45,7 +44,6 @@ export default class ResultListScreen extends React.Component {
 		fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {
-			console.log(responseJson);
 			this.setState({
 				data: responseJson
 			})
@@ -64,11 +62,22 @@ export default class ResultListScreen extends React.Component {
 				numColumns={1}
 				renderItem={({item}) => {return(<ResultComponent data={item}/>)}}
 				keyExtractor={item => item.organization}
+				ListFooterComponent={footer}
 				/>
 			</LinearGradient>
 		)
 	}
 }
+
+class footer extends React.Component {
+	render() {
+		let seperatorHeight = 0.1*SCREEN_HEIGHT
+		return (
+			<View style={{height: seperatorHeight}}></View>
+		)
+	}
+}
+
 const styles = StyleSheet.create({
 	container: {
 		flexDirection:'column',
