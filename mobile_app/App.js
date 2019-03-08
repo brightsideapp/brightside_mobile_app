@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // import screens from views folder
@@ -17,7 +17,25 @@ const RootStack = createStackNavigator(
     MapScreen: GeoComponent
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    defaultNavigationOptions: ({navigation}) => {
+      return {
+        headerStyle:{
+          backgroundColor: '#EEEEEE',
+          elevation: 0
+        },
+        headerRight: (
+        <TouchableOpacity
+          onPress={()=>navigation.navigate('Home')} 
+          style={styles.homeButton}
+        >
+          <Image
+          style={styles.homeImg}
+          source={require('./assets/home_icon.png')}
+          />
+        </TouchableOpacity>
+        )
+    }}
   }
 )
 
@@ -37,4 +55,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  homeButton: {
+    right: '30%'
+  },
+  homeImg: {
+    height:40,
+    width:40,
+    resizeMode: 'contain'
+  }
 });

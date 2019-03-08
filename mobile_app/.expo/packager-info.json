@@ -1,13 +1,9 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 13920,
   "expoServerNgrokUrl": "https://9u-mse.anonymous.mobile-app.exp.direct",
   "packagerNgrokUrl": "https://packager.9u-mse.anonymous.mobile-app.exp.direct",
-  "ngrokPid": 11156
+  "ngrokPid": 17260,
+  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 5824
 }

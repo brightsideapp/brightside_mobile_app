@@ -45,6 +45,7 @@ export default class CatList extends React.Component {
 					keyExtractor={item => item.type}
 					numColumns={2}
 					ItemSeparatorComponent={separator}
+					ListFooterComponent={footer}
 			/>
 			</LinearGradient>
 	)
@@ -53,6 +54,15 @@ export default class CatList extends React.Component {
 class separator extends React.Component {
 	render() {
 		let seperatorHeight = 0.05*SCREEN_HEIGHT
+		return (
+			<View style={{height: seperatorHeight}}></View>
+		)
+	}
+}
+
+class footer extends React.Component {
+	render() {
+		let seperatorHeight = 0.2*SCREEN_HEIGHT
 		return (
 			<View style={{height: seperatorHeight}}></View>
 		)

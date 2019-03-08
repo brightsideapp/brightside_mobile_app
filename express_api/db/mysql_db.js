@@ -92,6 +92,7 @@ const getAllCategory = () => {
 }
 
 module.exports = {
+    getResourcesById,
     searchData,
     getByCategory,
     getAllCategory,

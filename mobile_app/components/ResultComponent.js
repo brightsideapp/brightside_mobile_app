@@ -42,11 +42,14 @@ class ResultComponent extends Component {
                 <View>
                 <View style={[resultStyles.line]}>
                   <View style={resultStyles.buttonStyle}>
-                  <Button
-                  onPress={()=>this.props.navigation.navigate('MapScreen', {data: this.props.data})}
+                  {this.props.data.location != "Phone Only" && <Button
+                  onPress={()=>this.props.navigation.navigate('MapScreen', {
+                    address: this.props.data.location,
+                    organization: this.props.data.organization
+                  })}
                   color='#4B306A'
                   title='MAP'
-                  />
+                  />}
                   </View>
                   <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
                 </View>
@@ -89,7 +92,8 @@ const resultStyles = StyleSheet.create({
     fontFamily: 'work-sans-reg',
   },
   buttonStyle: {
-    marginRight: 20
+    marginRight: 20,
+    width: '7%'
   },
   infoText: {
     color: '#4B306A',

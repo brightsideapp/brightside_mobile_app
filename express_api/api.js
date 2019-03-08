@@ -13,7 +13,7 @@ const app = express();
 // set hbs views
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/assets'));
+app.use(express.static(__dirname + '/assets/icon'));
 
 // If someone visits the homepage, tell them they are lost
 app.get('/', (request, response) => {
@@ -79,6 +79,9 @@ app.get(`/${config.token}/category`, (request, response) => {
         .then(async (resource) => {
             result = _groupPerk(resource)   
             for (let i = 0; i < result.length; i++) {
+                if (!result[i].location) {
+                    result[i].location = 'Phone Only'
+                }
                 await db.getSchedule(result[i].resourceId)
                 .then((respond)=>{
             	    result[i].schedule = _groupSchedule(respond)
