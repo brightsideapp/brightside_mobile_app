@@ -98,12 +98,12 @@ export default class GeoComponent extends Component {
                         <View style={styles.marker}>
                             <Image source={{uri: 'http://www.clker.com/cliparts/T/Z/k/E/K/s/blue-pin-hi.png'}} 
                             style = {styles.pin}/>
-                            <Text style={styles.legendText}>Your Location</Text>
+                            <Text style={styles.legendText}>{this.state.resName}</Text>
                         </View>
                         <View style={styles.marker}>
                             <Image source={{uri: 'http://www.clker.com/cliparts/1/l/n/3/G/9/red-pin-hi.png'}}
                             style = {styles.pin}/>
-                            <Text style={styles.legendText}>{this.state.resName}</Text>
+                            <Text style={styles.legendText}>Your Location</Text>
                         </View>
                     </View>
                 }
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     left:'15%',
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: 'work-sans-reg'
+    fontFamily: 'work-sans-reg',
+    color: '#4B306A'
   }
 });
