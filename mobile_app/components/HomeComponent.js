@@ -57,6 +57,7 @@ const homeStyles = StyleSheet.create({
   text: {
     color: '#eee',
     fontFamily: 'work-sans-reg',
+    textAlign:'center'
   }
 });
 
