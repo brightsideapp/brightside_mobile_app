@@ -67,4 +67,4 @@ const {
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
 
-const endpoint = 'http://35.166.255.157/'
+const endpoint = 'http://35.166.255.157/icon/'
