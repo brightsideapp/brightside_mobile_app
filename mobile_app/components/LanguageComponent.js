@@ -1,36 +1,60 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Alert, Button } from 'react-native';
+import { Font } from 'expo';
+import { Text, View, Alert, Button, Picker, StyleSheet, Dimensions } from 'react-native';
 
-export default class LanguageComponent extends Component {
+export default class DummyComponent extends Component {
 
     constructor() {
         super();
         this.state = {
-        
+            fontLoaded:false,
+            language: "en"
         }
-        this.lang_button = this.lang_button.bind(this);
-
     }
 
-    lang_button() {
-        Alert.alert('Language Options', 'Choose your language of preference', [
-                    {text: 'English', onPress: () => console.log('English')},
-                    {text: 'Mandarin', onPress: () => console.log('Mardarin')},
-                    {text: 'Russian', onPress: () => console.log('Russian')},
-                ]);
+    async componentDidMount() {
+        await Font.loadAsync({
+          'work-sans-medium': require('../assets/WorkSans/WorkSans-Medium.ttf'),
+        });
+        this.setState({fontLoaded:true})
     }
+
 
     render() {
         return (
             <View>
-                <Button
-                    onPress={() => this.lang_button()}
-                    title="Language"
-                    color="violet"
-                    accessibilityLabel="This is a button" 
-                />
+                {this.state.fontLoaded && <Text style={styles.text}>Select your preferred language:</Text>}
+                <Picker
+                  selectedValue={this.state.language}
+                  style={{height: 50, width: 150}}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({language: itemValue})
+                  }>
+                  <Picker.Item label="English" value="en" />
+                  <Picker.Item label="Mandarin" value="cn" />
+                  <Picker.Item label="Russian" value="rs" />
+                </Picker>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#4B306A',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#eee',
+    fontFamily: 'work-sans-medium'
+    }
+});
+
+const {
+  width: SCREEN_WIDTH,
+  height: SCREEN_HEIGHT,
+} = Dimensions.get('window');

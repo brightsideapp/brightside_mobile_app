@@ -34,7 +34,7 @@ class CatCard extends React.Component {
 			}]} 
 			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat})}>
 				<View style={styles.buttContainer}>
-					<Image style={{height: iconSize, width: iconSize}} source={{uri:this.state.uri}}/>
+					<Image style={{height: iconSize, width: iconSize, resizeMode:'contain'}} source={{uri:this.state.uri}}/>
 					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
 				</View>
 			</TouchableOpacity>
