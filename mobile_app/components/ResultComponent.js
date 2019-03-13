@@ -40,7 +40,8 @@ class ResultComponent extends Component {
         return (
             <TouchableOpacity style={[resultStyles.container, {width: contWidth}]} onPress={this.expand}>
                 <View>
-                <View style={resultStyles.line}>
+                <View style={resultStyles.titleLine}>
+                  <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
                   <View style={resultStyles.buttonStyle}>
                   {this.props.data.location != "Phone Only" && <TouchableOpacity
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
@@ -51,7 +52,6 @@ class ResultComponent extends Component {
                     source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
                   </TouchableOpacity>}
                   </View>
-                  <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
                 </View>
                 <View style={resultStyles.line}>
                   <Text style={resultStyles.infoText}>Address:</Text>
@@ -61,12 +61,15 @@ class ResultComponent extends Component {
                   <Text style={resultStyles.text}>{this.props.data.location}</Text>
                   <Text style={[resultStyles.text,{paddingLeft:20}]}>{this.props.data.phoneNumber}</Text>
                 </View>
+                <Text style={resultStyles.infoText}>Perks:</Text>
+                <Text style={resultStyles.text}>{this.props.data.perk.join(", ")}</Text>
                 {this.state.loadExtra && 
                 <View>
-                <Text style={resultStyles.text}>{this.props.data.description}</Text>
-                <Text style={[resultStyles.titleText, {fontSize: 20}]}>Hours:</Text>
-                  {schedule}
-                </View>}
+                  <Text style={resultStyles.infoText}>Description:</Text>
+                  <Text style={resultStyles.text}>{this.props.data.description}</Text>
+                  <Text style={[resultStyles.titleText, {fontSize: 20}]}>Hours:</Text>
+                    {schedule}
+                  </View>}
                 </View>
             </TouchableOpacity>
         )
@@ -86,6 +89,10 @@ const resultStyles = StyleSheet.create({
   },
   line: {
     flexDirection: 'row'
+  },
+  titleLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   titleText: {
     color: '#4B306A',
