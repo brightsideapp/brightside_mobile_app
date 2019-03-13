@@ -40,31 +40,33 @@ class ResultComponent extends Component {
         return (
             <TouchableOpacity style={[resultStyles.container, {width: contWidth}]} onPress={this.expand}>
                 <View>
-                <View style={[resultStyles.line]}>
+                <View style={resultStyles.line}>
                   <View style={resultStyles.buttonStyle}>
-                  {this.props.data.location != "Phone Only" && <Button
-                  onPress={()=>this.props.navigation.navigate('MapScreen', {
-                    address: this.props.data.location,
-                    organization: this.props.data.organization
-                  })}
-                  color='#4B306A'
-                  title='MAP'
-                  />}
+                  {this.props.data.location != "Phone Only" && <TouchableOpacity
+                    onPress={()=>this.props.navigation.navigate('MapScreen', {
+                      address: this.props.data.location,
+                      organization: this.props.data.organization
+                  })}>
+                    <Image style={resultStyles.mapButton}
+                    source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
+                  </TouchableOpacity>}
                   </View>
                   <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
                 </View>
                 <View style={resultStyles.line}>
                   <Text style={resultStyles.infoText}>Address:</Text>
-                  <Text style={resultStyles.infoText}>Phone:</Text>
+                  <Text style={[resultStyles.infoText,{paddingLeft:20}]}>Phone:</Text>
                 </View>
                 <View style={resultStyles.line}>
                   <Text style={resultStyles.text}>{this.props.data.location}</Text>
-                  <Text style={resultStyles.text}>{this.props.data.phoneNumber}</Text>
+                  <Text style={[resultStyles.text,{paddingLeft:20}]}>{this.props.data.phoneNumber}</Text>
                 </View>
-                {this.state.loadExtra && <View>
+                {this.state.loadExtra && 
+                <View>
+                <Text style={resultStyles.text}>{this.props.data.description}</Text>
                 <Text style={[resultStyles.titleText, {fontSize: 20}]}>Hours:</Text>
                   {schedule}
-                </View> }
+                </View>}
                 </View>
             </TouchableOpacity>
         )
@@ -107,6 +109,13 @@ const resultStyles = StyleSheet.create({
     fontSize: 20,
     flex: 1,
     fontFamily: 'work-sans-reg',
+  },
+  separator: {
+    width:'10%'
+  },
+  mapButton: {
+    height:50,
+    width:50
   }
 });
 
