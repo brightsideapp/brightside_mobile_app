@@ -4,7 +4,7 @@ import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensio
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
 
-export default class ResultListScreen extends React.Component {
+export default class TempList extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
@@ -20,6 +20,7 @@ export default class ResultListScreen extends React.Component {
 		fetch(url)
 		.then((response) => response.json())
 		.then((response) => {
+			console.log(response)
 			this.setState({data: response})
 		})
 	}
@@ -44,6 +45,7 @@ export default class ResultListScreen extends React.Component {
 		fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {
+			console.log(responseJson);
 			this.setState({
 				data: responseJson
 			})
@@ -55,6 +57,7 @@ export default class ResultListScreen extends React.Component {
 		return(
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 				<Text style={styles.catText}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				{this.state.data.code == 'ER_PARSE_ERROR' ? <Text style={styles.catText}>No Results</Text> : 
 				<FlatList
 				style={styles.listContainer}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
@@ -62,22 +65,11 @@ export default class ResultListScreen extends React.Component {
 				numColumns={1}
 				renderItem={({item}) => {return(<ResultComponent data={item}/>)}}
 				keyExtractor={item => item.organization}
-				ListFooterComponent={footer}
-				/>
+				/>}
 			</LinearGradient>
 		)
 	}
 }
-
-class footer extends React.Component {
-	render() {
-		let seperatorHeight = 0.1*SCREEN_HEIGHT
-		return (
-			<View style={{height: seperatorHeight}}></View>
-		)
-	}
-}
-
 const styles = StyleSheet.create({
 	container: {
 		flexDirection:'column',
@@ -130,5 +122,5 @@ const {
 } = Dimensions.get('window');
 
 const api = {
-	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key="
+	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword="
 }

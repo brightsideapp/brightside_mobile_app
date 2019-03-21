@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
 import { Text, View, Image, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
+import LanguageComponent from './LanguageComponent'
+
 export default class HomeComponent extends Component {
 
     constructor() {
@@ -37,6 +39,7 @@ export default class HomeComponent extends Component {
                 {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Community Homes</Text>}
                 {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: subtitleSize}]}>Mobile App</Text>}
                 {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: textSize, marginTop: textMargin}]}>Tap to Start</Text>}
+                <LanguageComponent />
             </View>
           </TouchableHighlight>
         )

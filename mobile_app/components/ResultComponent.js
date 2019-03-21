@@ -101,7 +101,8 @@ const resultStyles = StyleSheet.create({
     fontFamily: 'work-sans-reg',
   },
   buttonStyle: {
-    marginRight: 20
+    marginRight: 20,
+    width: '7%'
   },
   infoText: {
     color: '#4B306A',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // import screens from views folder
@@ -7,6 +7,7 @@ import CatList from './components/CatList.js';
 import HomeComponent from './components/HomeComponent.js';
 import ResultListScreen from './components/ResultListScreen.js';
 import GeoComponent from './components/GeoComponent.js';
+import TempList from './components/TempList.js';
 
 // create a navigation stack
 const RootStack = createStackNavigator(
@@ -14,10 +15,29 @@ const RootStack = createStackNavigator(
     Home: HomeComponent,
     CatList: CatList,
     ResultList: ResultListScreen,
-    MapScreen: GeoComponent
+    MapScreen: GeoComponent,
+    TempList: TempList
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    defaultNavigationOptions: ({navigation}) => {
+      return {
+        headerStyle:{
+          backgroundColor: '#EEEEEE',
+          elevation: 0
+        },
+        headerRight: (
+        <TouchableOpacity
+          onPress={()=>navigation.navigate('Home')} 
+          style={styles.homeButton}
+        >
+          <Image
+          style={styles.homeImg}
+          source={require('./assets/home_icon.png')}
+          />
+        </TouchableOpacity>
+        )
+    }}
   }
 )
 
@@ -37,4 +57,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  homeButton: {
+    right: '30%'
+  },
+  homeImg: {
+    height:40,
+    width:40,
+    resizeMode: 'contain'
+  }
 });
