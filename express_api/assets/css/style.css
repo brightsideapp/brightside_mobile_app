@@ -86,7 +86,7 @@
 
 
 /* body */
-/* left cpanel */
+/* panel for summary and add buttons */
 #cpanel {
     /* display: inline-block; */
     width: 100vw;
@@ -116,7 +116,7 @@
     margin: 0 0.5vw 0 0.5vw;
 }
 
-#summary b {
+#summary {
     font-size: 1.8vw;
     background: -webkit-linear-gradient(#ee2b52, #fcb22b);
     -webkit-background-clip: text;
@@ -125,22 +125,31 @@
 }
 
 
-/* right info panel */
+/* info panel */
 #infopanel {
-    /* display: inline-block; */
     width: 98.5vw;
-    height: 89vh;
+    height: 84vh;
     padding: 0.7%;
     overflow: scroll;
     /* overflow-x: hidden;
     overflow-y: hidden; */
     /* background-color: green; */
+    transition: linear 0.5s;
 }
 
 /* div inside #infopanel containing the table */
 #tablecontainer {
     text-align: center;
     vertical-align: middle;
+}
+
+#addpanel {
+    display: none;
+    width: 98.5vw;
+    height: 84vh;
+    padding: 0.7%;
+    overflow: scroll;
+    transition: linear 0.5s;
 }
 
 

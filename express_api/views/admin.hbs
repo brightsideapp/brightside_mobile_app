@@ -22,10 +22,13 @@
         <div>
             <div id="cpanel">
                 <div id="cpanelin">
-                    <p id="summary"><b>Summary</b></pid>
-                    <p id="add"><b>Add Entry</b></p>
+                    <p><b id="summary">Summary</b></pid>
+                    <p><b id="add">Add Entry</b></p>
                 </div>
             </div>
+
+            {{!-- information panel. shows either summary or add data. --}}
+            {{!-- summary --}}
             <div id="infopanel">
                 <div id="tablecontainer">
                     <table style="width:100%">
@@ -60,9 +63,16 @@
                     </table>
                 </div>
             </div>
+
+            {{!-- add data --}}
+            <div id="addpanel">
+                <p>adding here</p>
+            </div>
+
         </div>
     </div>
 
+    <script src='/js/index.js'></script>
 </body>
 
 </html>
