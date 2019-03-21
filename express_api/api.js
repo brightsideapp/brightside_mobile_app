@@ -17,7 +17,7 @@ const app = express();
 // set hbs views
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/assets/icon'));
+app.use(express.static(__dirname + '/assets'));
 app.use(cookieParser());
 
 // If someone visits the homepage, tell them they are lost
@@ -117,10 +117,11 @@ app.get(`/${config.token}/category`, (request, response) => {
 
 // POST request for login
 app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
-    console.log(request.body);
+    // console.log(request.body);
+    console.log(request);
     db.getUser(request.body.username, request.body.password).then(resp => {
-        console.log(resp);
-        console.log(resp.length);
+        // console.log(resp);
+        // console.log(resp.length);
         if (resp.length == 1) {
             response.cookie('isLoggedIn', `${request.body.username}`, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
             response.redirect(`/${config.token}/manage`);
@@ -132,7 +133,7 @@ app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
 
 // GET request to console management page
 app.get(`/${config.token}/manage`, (request, response) => {
-    console.log('Cookies', request.cookies.isLoggedIn);
+    // console.log('Cookies', request.cookies.isLoggedIn);
     // console.log('Request', request);
     if (request.cookies.isLoggedIn == undefined) {
         response.render('login.hbs');
