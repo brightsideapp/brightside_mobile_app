@@ -66,19 +66,36 @@ export default class GeoComponent extends Component {
     render() {
         return (
             <View style={styles.container}>
-            {this.state.region && <MapView
-                region={this.state.region}
-                onRegionChangeComplete={this.onRegionChange}
-                style={styles.map}>
-                <MapView.Marker
-                    coordinate={this.state.marker}
-                    title={"Your Location"}
-                />
-                <MapView.Marker
-                    coordinate={this.state.marker}
-                    title={"Your Location"}
-                />
-            </MapView>}
+                {this.state.region && this.state.resMarker && this.state.fontLoaded &&
+                    <View style={styles.legend}>
+                        <View style={styles.marker}>
+                            <Image source={{uri: 'http://www.clker.com/cliparts/T/Z/k/E/K/s/blue-pin-hi.png'}} 
+                            style = {styles.pin}/>
+                            <Text style={styles.legendText}>{this.state.resName}</Text>
+                        </View>
+                        <View style={styles.marker}>
+                            <Image source={{uri: 'http://www.clker.com/cliparts/1/l/n/3/G/9/red-pin-hi.png'}}
+                            style = {styles.pin}/>
+                            <Text style={styles.legendText}>Your Location</Text>
+                        </View>
+                    </View>
+                }
+                {this.state.region && this.state.resMarker && this.state.fontLoaded &&
+                    <MapView
+                    region={this.state.region}
+                    onRegionChangeComplete={this.onRegionChange}
+                    style={styles.map}>
+                        <MapView.Marker
+                            coordinate={this.state.marker}
+                            title={"Your Location"}
+                        />
+                        <MapView.Marker
+                            coordinate={this.state.resMarker}
+                            title={this.state.resName}
+                            pinColor='blue'
+                        />
+                    </MapView>
+                }
             </View>
         )
     }
@@ -94,4 +111,13 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '80%'
   },
+  legendText: {
+    flex:7,
+    alignSelf:'center',
+    left:'15%',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'work-sans-reg',
+    color: '#4B306A'
+  }
 });
