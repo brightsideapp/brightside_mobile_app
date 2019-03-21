@@ -96,4 +96,5 @@ module.exports = {
     getAllCategory,
     getSchedule,
     getUser,
+    searchData,
 }
