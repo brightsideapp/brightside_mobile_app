@@ -30,31 +30,36 @@ export default class CatList extends React.Component {
 	async componentDidMount() {
 	    await Font.loadAsync({
 	      'work-sans-bold': require('../assets/WorkSans/WorkSans-Bold.ttf'),
+	      'work-sans-medium': require('../assets/WorkSans/WorkSans-Medium.ttf'),
 	    })
 	    .then(()=>{this.setState({fontLoaded:true})})
 	    await this.fetchData()
 	}
 	render(){
 		let textSize = 0.04*SCREEN_HEIGHT
+		let searchHeight = 0.07*SCREEN_HEIGHT
+		let searchFontSize = 0.035*SCREEN_HEIGHT
+		let colNum = (SCREEN_WIDTH > 600) ? 2 : 1
 		return(
 			<TouchableWithoutFeedback onPress={ ()=>Keyboard.dismiss() }>
 				<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 					{this.state.fontLoaded ? (<Text style={[styles.catText, {fontSize: textSize}]}>SEARCH</Text>) : null}
-					<SearchBar 
+					{this.state.fontLoaded ? (<SearchBar 
 					lightTheme
+					round={true}
 					placeholder='Search for a resource'
 					placeholderTextColor='#eee'
 					searchIcon={false}
 					cancelIcon={false}
 					clearIcon={false}
 					containerStyle={styles.search}
-					inputContainerStyle={styles.searchInput}
-					inputStyle={styles.textIn}
+					inputContainerStyle={[styles.searchInput, {height: searchHeight}]}
+					inputStyle={[styles.textIn, {fontSize: searchFontSize}]}
 					onChangeText={(value)=>this.setState({value})}
 					value={this.state.value}
 					onSubmitEditing={()=>{
 						this.getSearch()
-					}}/>
+					}}/>) : null}
 					<FlatList
 						style={{paddingLeft: '10%', width: '100%'}}
 						contentContainerStyle={{alignItems: 'flex-start'}}
@@ -64,7 +69,7 @@ export default class CatList extends React.Component {
 								<CatCard cat={item.type} img={item.imageFile} />
 							)}}
 						keyExtractor={item => item.type}
-						numColumns={2}
+						numColumns={colNum}
 						ItemSeparatorComponent={separator}
 						ListFooterComponent={footer}
 					/>
@@ -102,14 +107,15 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 0,
 		marginBottom: '2%',
 		backgroundColor: 'transparent',
+		paddingRight: 0
 	},
 	searchInput: {
 		backgroundColor: '#aaa',
-		paddingLeft: 0,
-		paddingRight: 0,
+		marginLeft: '-2%'
 	},
 	textIn: {
-		color: '#4B306A'
+		color: '#4B306A',
+		fontFamily:'work-sans-medium',
 	},
 	catText: {
 		paddingTop:'5%',
