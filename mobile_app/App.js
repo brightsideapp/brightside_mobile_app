@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Icon } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // import screens from views folder
@@ -26,6 +26,17 @@ const RootStack = createStackNavigator(
           backgroundColor: '#EEEEEE',
           elevation: 0
         },
+        headerLeft: (
+        <TouchableOpacity
+          onPress={()=>navigation.goBack(null)} 
+          style={styles.backButton}
+        >
+          <Image
+          style={styles.homeImg}
+          source={require('./assets/back_arrow.png')}
+          />
+        </TouchableOpacity>
+        ),
         headerRight: (
         <TouchableOpacity
           onPress={()=>navigation.navigate('Home')} 
@@ -59,6 +70,9 @@ const styles = StyleSheet.create({
   },
   homeButton: {
     right: '30%'
+  },
+  backButton: {
+    left: '30%'
   },
   homeImg: {
     height:40,
