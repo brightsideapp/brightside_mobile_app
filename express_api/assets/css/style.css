@@ -134,7 +134,6 @@
     /* overflow-x: hidden;
     overflow-y: hidden; */
     /* background-color: green; */
-    transition: linear 0.5s;
 }
 
 /* div inside #infopanel containing the table */
@@ -149,9 +148,34 @@
     height: 84vh;
     padding: 0.7%;
     overflow: scroll;
-    transition: linear 0.5s;
 }
 
+#addpanel input, select {
+    border-radius: 5px;
+}
+
+.inputstyle {
+    width: 15vw;
+}
+
+#addpanel textarea {
+    width: 35.5vw;
+    height: 10vh;
+}
+
+.dayp {
+    display: inline-block;
+    width: 5vw;
+}
+
+.dayselect {
+    display: inline-block;
+    margin-left: 3vw;
+}
+
+.chekbox input {
+    margin-left: 1vw;
+}
 
 /*------------------- scrollbar options ---------------------*/
 /* hiding and styling */

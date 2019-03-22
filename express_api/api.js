@@ -117,8 +117,8 @@ app.get(`/${config.token}/category`, (request, response) => {
 
 // POST request for login
 app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
-    // console.log(request.body);
-    console.log(request);
+    // console.log(request.body.username);
+    // console.log(request);
     db.getUser(request.body.username, request.body.password).then(resp => {
         // console.log(resp);
         // console.log(resp.length);
@@ -126,9 +126,17 @@ app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
             response.cookie('isLoggedIn', `${request.body.username}`, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
             response.redirect(`/${config.token}/manage`);
         } else {
-            response.redirect(`/${config.token}/manage`);
+            response.render('login.hbs', {
+                failed: true
+            });
         }
     })
+})
+
+// POST request for adding data
+app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response) => {
+    console.log('submit\n', request.body);
+    response.redirect(`/${config.token}/manage`);
 })
 
 // GET request to console management page
@@ -139,6 +147,14 @@ app.get(`/${config.token}/manage`, (request, response) => {
         response.render('login.hbs');
     } else if (request.cookies.isLoggedIn != undefined) {
         db.getData().then(data => {
+            for (i in data) {
+                if (data[i]['hours'] != null) {
+                    data[i]['hours'] = data[i].hours.split(',');
+                }
+                data[i]['keywords'] = data[i].keywords.split(',');
+                data[i]['perks'] = data[i].perks.split(',');
+                data[i]['type'] = data[i].type.split(',');
+            }
             response.render('admin.hbs', {
                 data: data
             });
