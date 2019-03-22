@@ -11,6 +11,7 @@ var pool = mysql.createPool({
 
 
 // Methods of getting data from database
+// Get all the Data available from the database
 const getData = () => {
      return new Promise((resolve, reject) => {
          pool.query('select * from resource a \
