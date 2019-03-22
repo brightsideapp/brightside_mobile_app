@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import Permissions from 'react-native-permissions'
 import MapView from 'react-native-maps'
 import Marker from 'react-native-maps'
+import { NavigationEvents } from 'react-navigation';
+
 
 export default class GeoComponent extends Component {
     constructor(props) {
@@ -17,11 +19,11 @@ export default class GeoComponent extends Component {
             resMarker: undefined,
             region: undefined,
             marker: undefined,
-            fontLoaded: false
+            fontLoaded: false,
+            timer: null
         }
         this.onRegionChange = this.onRegionChange.bind(this)
         this.getCurrentLocation = this.getCurrentLocation.bind(this)
-        this.goLocation = this.goLocation.bind(this)
     }
 
     async componentDidMount() {
@@ -31,6 +33,8 @@ export default class GeoComponent extends Component {
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
         this.setState({fontLoaded:true})
+        let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
+        this.setState({timer})
     }
 
     async fetchCoord(){
@@ -73,15 +77,9 @@ export default class GeoComponent extends Component {
         }, (error) => {console.log(error)})
     }
 
-    goLocation() {
-        this.setState({
-            region: {
-                latitude: 50.6,
-                latitudeDelta: 0.27,
-                longitude: 16.7,
-                longitudeDelta: 0.26
-            },
-        })
+    resetTimer(){
+        clearTimeout(this.state.timer)
+        this.state.timer = setTimeout(()=>this.props.navigation.popToTop(),timeOut)
     }
 
     onRegionChange(region) {
@@ -92,7 +90,14 @@ export default class GeoComponent extends Component {
 
     render() {
         return (
+            <TouchableWithoutFeedback onPress={()=>{
+                this.resetTimer()
+            }}>
             <View style={styles.container}>
+                <NavigationEvents
+                  onDidFocus={()=>this.resetTimer()}
+                  onWillBlur={()=>clearTimeout(this.state.timer)}
+                />
                 {this.state.region && this.state.resMarker && this.state.fontLoaded &&
                     <View style={styles.legend}>
                         <View style={styles.marker}>
@@ -124,6 +129,7 @@ export default class GeoComponent extends Component {
                     </MapView>
                 }
             </View>
+            </TouchableWithoutFeedback>
         )
     }
 }
@@ -170,3 +176,5 @@ const styles = StyleSheet.create({
     color: '#4B306A'
   }
 });
+
+const timeOut = 180000

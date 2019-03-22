@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Font } from 'expo';
 import { Text, View, Alert, Button, Picker, StyleSheet, Dimensions } from 'react-native';
 
-export default class LanguageComponent extends Component {
+export default class DummyComponent extends Component {
 
     constructor() {
         super();
