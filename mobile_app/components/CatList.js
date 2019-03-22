@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Keyboard, TouchableWithoutFeedback, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
+import { Text, View, Keyboard, TouchableWithoutFeedback, StyleSheet, TouchableHighlight, Dimensions, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { LinearGradient, Font } from 'expo';
 import CatCard from './CatCard.js';
+import { NavigationEvents } from 'react-navigation';
 
 export default class CatList extends React.Component {
 	constructor(props){
@@ -11,8 +12,9 @@ export default class CatList extends React.Component {
 		this.state={
 			fontLoaded:false,
 			data: undefined,
-			value: null
-		}
+			value: null,
+			timer: null
+		};
 	}
 
 	fetchData(){
@@ -24,7 +26,7 @@ export default class CatList extends React.Component {
 	}
 
 	getSearch(){
-		this.props.navigation.navigate('TempList', {cat: this.state.value})
+		this.props.navigation.navigate('ResultList', {cat: this.state.value,type:'keyword'})
 	}
 
 	async componentDidMount() {
@@ -33,11 +35,27 @@ export default class CatList extends React.Component {
 	    })
 	    .then(()=>{this.setState({fontLoaded:true})})
 	    await this.fetchData()
+	    let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
+	    this.setState({timer})
 	}
+
+	resetTimer(){
+	    clearTimeout(this.state.timer)
+	    this.state.timer = setTimeout(()=>this.props.navigation.popToTop(),timeOut)
+  	}
+
 	render(){
 		let textSize = 0.04*SCREEN_HEIGHT
 		return(
-			<TouchableWithoutFeedback onPress={ ()=>Keyboard.dismiss() }>
+			<View>
+			    <NavigationEvents
+			      onDidFocus={()=>this.resetTimer()}
+			      onWillBlur={()=>clearTimeout(this.state.timer)}
+			    />
+			<TouchableWithoutFeedback onPress={()=>{
+				this.resetTimer()
+				Keyboard.dismiss()
+			}}>
 				<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 					{this.state.fontLoaded ? (<Text style={[styles.catText, {fontSize: textSize}]}>SEARCH</Text>) : null}
 					<SearchBar 
@@ -50,13 +68,17 @@ export default class CatList extends React.Component {
 					containerStyle={styles.search}
 					inputContainerStyle={styles.searchInput}
 					inputStyle={styles.textIn}
-					onChangeText={(value)=>this.setState({value})}
+					onChangeText={(value)=>{
+						this.setState({value})
+						this.resetTimer()
+					}}
 					value={this.state.value}
 					onSubmitEditing={()=>{
 						this.getSearch()
 					}}/>
 					<FlatList
 						style={{paddingLeft: '10%', width: '100%'}}
+						onScroll={()=>this.resetTimer()}
 						contentContainerStyle={{alignItems: 'flex-start'}}
 						data = {this.state.data}
 						renderItem={({item}) => {
@@ -70,8 +92,9 @@ export default class CatList extends React.Component {
 					/>
 				</LinearGradient>
 			</TouchableWithoutFeedback>
-	)
-}}
+			</View>
+	)}
+}
 
 class separator extends React.Component {
 	render() {
@@ -129,3 +152,5 @@ const {
 const api = {
 	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category"
 }
+
+const timeOut = 180000

@@ -26,15 +26,15 @@ class CatCard extends React.Component {
 		let textSize = 0.04*SCREEN_HEIGHT
 		let iconSize = 0.2*SCREEN_HEIGHT
 		return(
-			<TouchableOpacity 
+			<TouchableOpacity
 			style={[styles.card, {
 				width: cardWidth, 
 				height: cardHeight, 
 				marginRight: cardMargin,
-			}]} 
-			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat})}>
+			}]}
+			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat'})}>
 				<View style={styles.buttContainer}>
-					<Image style={{height: iconSize, width: iconSize, resizeMode:'contain'}} source={{uri:this.state.uri}}/>
+					<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
 					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
 				</View>
 			</TouchableOpacity>

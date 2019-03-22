@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
+import { NavigationEvents } from 'react-navigation';
 
 export default class ResultListScreen extends React.Component {
 	constructor(props){
@@ -10,27 +11,19 @@ export default class ResultListScreen extends React.Component {
 		this.state={
 			fontLoaded:false,
 			data: [],
+			timer: null
 		}
 		this.getResults.bind(this)
-	}
-
-	fetchData(){
-		let category = this.props.navigation.getParam('cat','')
-		let url = `${api.endpoint}${category}`
-		fetch(url)
-		.then((response) => response.json())
-		.then((response) => {
-			this.setState({data: response})
-		})
 	}
 
 	async componentDidMount() {
 	    await Font.loadAsync({
 	      'work-sans-bold': require('../assets/WorkSans/WorkSans-Bold.ttf'),
 	    })
-	    .then(() => this.fetchData())
+	    .then(() => this.getResults())
 	    this.setState({fontLoaded:true})
-	    this.getResults()
+	    let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
+	    this.setState({timer})
 	}
 	
 	_pressBut(){
@@ -40,7 +33,9 @@ export default class ResultListScreen extends React.Component {
 	getResults() {
 		let category = this.props.navigation.getParam('cat','')
 		let encodedCat = encodeURIComponent(category)
-		let url = `${api.endpoint}${encodedCat}`
+		let type = this.props.navigation.getParam('type','')
+		let url = `${api[type]}${encodedCat}`
+		console.log(url);
 		fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {
@@ -51,20 +46,40 @@ export default class ResultListScreen extends React.Component {
 		.catch((error) => console.log(error))
 	}
 
+	resetTimer(){
+	    clearTimeout(this.state.timer)
+	    this.state.timer = setTimeout(()=>this.props.navigation.popToTop(),timeOut)
+  	}
+
 	render(){
 		return(
+			<View>
+			    <NavigationEvents
+			      onDidFocus={()=>this.resetTimer()}
+			      onWillBlur={()=>clearTimeout(this.state.timer)}
+			    />
+			<TouchableWithoutFeedback onPress={()=>{
+				this.resetTimer()
+			}}>
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 				<Text style={styles.catText}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				{this.state.data.code == 'ER_PARSE_ERROR' ? <Text style={styles.catText}>No Results</Text> :
 				<FlatList
 				style={styles.listContainer}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
 				data={this.state.data}
 				numColumns={1}
-				renderItem={({item}) => {return(<ResultComponent data={item}/>)}}
+				onScroll={()=>this.resetTimer()}
+				renderItem={({item}) => {
+					return(
+						<ResultComponent data={item} timerCallback={()=>this.resetTimer()}/>
+				)}}
 				keyExtractor={item => item.organization}
 				ListFooterComponent={footer}
-				/>
+				/>}
 			</LinearGradient>
+			</TouchableWithoutFeedback>
+			</View>
 		)
 	}
 }
@@ -130,5 +145,8 @@ const {
 } = Dimensions.get('window');
 
 const api = {
-	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key="
+	cat:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=",
+	keyword:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword="
 }
+
+const timeOut = 180000

@@ -15,26 +15,28 @@ export default class DummyComponent extends Component {
 
     async componentDidMount() {
         await Font.loadAsync({
-          'work-sans-medium': require('../assets/WorkSans/WorkSans-Medium.ttf'),
+          'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
         this.setState({fontLoaded:true})
     }
 
 
     render() {
+        let textSize = 0.02*SCREEN_HEIGHT
         return (
-            <View>
-                {this.state.fontLoaded && <Text style={styles.text}>Select your preferred language:</Text>}
-                <Picker
+            <View style={{marginTop: 20}}>
+                {this.state.fontLoaded && <Text style={[styles.text, {fontSize: textSize}]}>Select your preferred language:</Text>}
+                {this.state.fontLoaded && <Picker
                   selectedValue={this.state.language}
-                  style={{height: 50, width: 150}}
+                  style={{height: 50, width: 300}}
+                  itemStyle={{fontSize: textSize}}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({language: itemValue})
                   }>
                   <Picker.Item label="English" value="en" />
                   <Picker.Item label="Mandarin" value="cn" />
                   <Picker.Item label="Russian" value="rs" />
-                </Picker>
+                </Picker>}
             </View>
         )
     }
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#eee',
-    fontFamily: 'work-sans-medium'
+    fontFamily: 'work-sans-reg'
     }
 });
 

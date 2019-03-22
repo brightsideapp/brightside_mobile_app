@@ -36,8 +36,7 @@ export default class HomeComponent extends Component {
           <TouchableHighlight onPress={() => this.props.navigation.navigate('CatList')}>
             <View style={homeStyles.container}>
                 <Image source={require('../assets/logo.png')} style={{height: iconSize, width: iconSize, marginBottom: iconMargin}} />
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Community Homes</Text>}
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: subtitleSize}]}>Mobile App</Text>}
+                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Homes</Text>}
                 {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: textSize, marginTop: textMargin}]}>Tap to Start</Text>}
                 <LanguageComponent />
             </View>
