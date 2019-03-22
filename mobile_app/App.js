@@ -39,7 +39,7 @@ const RootStack = createStackNavigator(
         ),
         headerRight: (
         <TouchableOpacity
-          onPress={()=>navigation.navigate('Home')} 
+          onPress={()=>navigation.popToTop()} 
           style={styles.homeButton}
         >
           <Image

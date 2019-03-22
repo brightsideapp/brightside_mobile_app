@@ -38,7 +38,10 @@ class ResultComponent extends Component {
           )
         })
         return (
-            <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={this.expand}>
+            <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
+              this.expand()
+              this.props.timerCallback()
+            }}>
                 <View>
                 <View style={styles.titleLine}>
                   <View style={{flex: 4}}>
