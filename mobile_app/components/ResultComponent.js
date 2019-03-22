@@ -31,45 +31,49 @@ class ResultComponent extends Component {
         let schedule = []
         weekday.forEach((day)=>{
           schedule.push(
-            <View style={resultStyles.line} key={day}>
-              <Text style={resultStyles.text}>{`${day}: `}</Text>
-              <Text style={resultStyles.text}>{`${this.props.data.schedule[day]}`}</Text>
+            <View style={styles.line} key={day}>
+              <Text style={styles.text}>{`${day}: `}</Text>
+              <Text style={styles.text}>{`${this.props.data.schedule[day]}`}</Text>
             </View>
           )
         })
         return (
-            <TouchableOpacity style={[resultStyles.container, {width: contWidth}]} onPress={()=>{
+            <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
               this.expand()
               this.props.timerCallback()
             }}>
                 <View>
-                <View style={resultStyles.titleLine}>
-                  <Text style={resultStyles.titleText}>{this.props.data.organization}</Text>
-                  {this.props.data.location != "Phone Only" && <TouchableOpacity
-                    style={resultStyles.buttonStyle}
+                <View style={styles.titleLine}>
+                  <View style={{flex: 4}}>
+                    <Text style={styles.titleText}>{this.props.data.organization}</Text>
+                  </View>
+                  {this.props.data.location != "Phone Only" && <View style={styles.buttonStyle}>
+                  <TouchableOpacity
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
                       address: this.props.data.location,
                       organization: this.props.data.organization
-                  })}>
-                    <Image style={resultStyles.mapButton}
+                    })}
+                    style={{alignItems: 'flex-end'}}>
+                    <Image style={styles.mapButton}
                     source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
-                  </TouchableOpacity>}
+                  </TouchableOpacity>
+                  </View>}
                 </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.infoText}>Address:</Text>
-                  <Text style={[resultStyles.infoText,{paddingLeft:20}]}>Phone:</Text>
+                <View style={styles.line}>
+                  <Text style={styles.infoText}>Address:</Text>
+                  <Text style={[styles.infoText,{paddingLeft:20}]}>Phone:</Text>
                 </View>
-                <View style={resultStyles.line}>
-                  <Text style={resultStyles.text}>{this.props.data.location}</Text>
-                  <Text style={[resultStyles.text,{paddingLeft:20}]}>{this.props.data.phoneNumber}</Text>
+                <View style={styles.line}>
+                  <Text style={styles.text}>{this.props.data.location}</Text>
+                  <Text style={[styles.text,{paddingLeft:20}]}>{this.props.data.phoneNumber}</Text>
                 </View>
-                <Text style={resultStyles.infoText}>Perks:</Text>
-                <Text style={resultStyles.text}>{this.props.data.perk.join(", ")}</Text>
+                <Text style={styles.infoText}>Perks:</Text>
+                <Text style={styles.text}>{this.props.data.perk.join(", ")}</Text>
                 {this.state.loadExtra && 
                 <View>
-                  <Text style={resultStyles.infoText}>Description:</Text>
-                  <Text style={resultStyles.text}>{this.props.data.description}</Text>
-                  <Text style={[resultStyles.titleText, {fontSize: 20}]}>Hours:</Text>
+                  <Text style={styles.infoText}>Description:</Text>
+                  <Text style={styles.text}>{this.props.data.description}</Text>
+                  <Text style={[styles.titleText, {fontSize: 20}]}>Hours:</Text>
                     {schedule}
                   </View>}
                 </View>
@@ -80,13 +84,14 @@ class ResultComponent extends Component {
 
 export default withNavigation(ResultComponent)
 
-const resultStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: '#c4c4c4',
     borderRadius: 10,
     paddingLeft: 15,
     paddingBottom: 10,
     paddingTop: 10,
+    paddingRight: 15,
     marginBottom:20
   },
   line: {
@@ -94,7 +99,8 @@ const resultStyles = StyleSheet.create({
   },
   titleLine: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flex: 0
   },
   titleText: {
     color: '#4B306A',
@@ -103,8 +109,7 @@ const resultStyles = StyleSheet.create({
     fontFamily: 'work-sans-reg',
   },
   buttonStyle: {
-    marginRight: 20,
-    width: '7%'
+    flex: 1
   },
   infoText: {
     color: '#4B306A',

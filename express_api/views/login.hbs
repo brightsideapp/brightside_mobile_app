@@ -9,18 +9,21 @@
 <body>
     <div class="loginContainer" >
         <div id="loginLogo" ></div>
+            {{#if failed}}
+                <p style='color: red;'>Invalid username/password</p>
+            {{/if}}
         <form method="POST">
             <div>
                 <b>Username</b>
             </div>
             <div class="entries">
-                <input id="username" type='text' name="username" placeholder="Username" />
+                <input id="username" type='text' name="username" placeholder="Username" required />
             </div>
             <div>
                 <b>Password</b>
             </div>
             <div class="entries">
-                <input id="pass" type='password' name="password" placeholder="Password" />
+                <input id="pass" type='password' name="password" placeholder="Password" required />
             </div>
             <button type="submit" id="loginBut">Login</button>
         </form>

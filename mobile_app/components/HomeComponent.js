@@ -34,10 +34,10 @@ export default class HomeComponent extends Component {
         let textMargin = 0.02*SCREEN_HEIGHT
         return (
           <TouchableHighlight onPress={() => this.props.navigation.navigate('CatList')}>
-            <View style={homeStyles.container}>
+            <View style={styles.container}>
                 <Image source={require('../assets/logo.png')} style={{height: iconSize, width: iconSize, marginBottom: iconMargin}} />
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Homes</Text>}
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: textSize, marginTop: textMargin}]}>Tap to Start</Text>}
+                {this.state.fontLoaded && <Text style={[styles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Homes</Text>}
+                {this.state.fontLoaded && <Text style={[styles.text, {fontSize: textSize, marginTop: textMargin}]}>Tap to Start</Text>}
                 <LanguageComponent />
             </View>
           </TouchableHighlight>
@@ -45,7 +45,7 @@ export default class HomeComponent extends Component {
     }
 }
 
-const homeStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: '#4B306A',
     width: '100%',
