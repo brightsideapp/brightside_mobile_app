@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
-import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button } from 'react-native';
+import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 class ResultComponent extends Component {
@@ -65,7 +65,7 @@ class ResultComponent extends Component {
                 </View>
                 <View style={styles.line}>
                   <Text style={styles.text}>{this.props.data.location}</Text>
-                  <Text style={[styles.text,{paddingLeft:20}]}>{this.props.data.phoneNumber}</Text>
+                  <Text style={[styles.text,{paddingLeft:20}]} onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>{this.props.data.phoneNumber}</Text>
                 </View>
                 <Text style={styles.infoText}>Perks:</Text>
                 <Text style={styles.text}>{this.props.data.perk.join(", ")}</Text>
