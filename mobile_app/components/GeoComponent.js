@@ -19,6 +19,7 @@ export default class GeoComponent extends Component {
             resMarker: undefined,
             region: undefined,
             marker: undefined,
+            displayRegion: undefined,
             fontLoaded: false,
             timer: null
         }
@@ -27,8 +28,8 @@ export default class GeoComponent extends Component {
     }
 
     async componentDidMount() {
-        this.getCurrentLocation()
-        await this.fetchCoord()
+        await this.fetchCoord();
+        this.getCurrentLocation();
         await Font.loadAsync({
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
@@ -54,7 +55,6 @@ export default class GeoComponent extends Component {
                                         longitude:cord.lng
                                     }
                                 })
-                                console.log(this.state.resMarker);
                             }})
         .catch((error) => {console.log(error)})
     }
@@ -62,6 +62,10 @@ export default class GeoComponent extends Component {
     getCurrentLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
             console.log('my position: ' + position.coords.latitude + ', ' + position.coords.longitude);
+            let latDelta = this.state.resMarker.latitude - position.coords.latitude
+            let longDelta = this.state.resMarker.longitude - position.coords.longitude
+            let displayLat = (this.state.resMarker.latitude + position.coords.latitude)/2
+            let displayLong = (this.state.resMarker.longitude + position.coords.longitude)/2
             this.setState({
                 region: {
                     latitude: position.coords.latitude,
@@ -72,8 +76,20 @@ export default class GeoComponent extends Component {
                 marker: {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
+                },
+                displayRegion:{
+                    latitude: displayLat,
+                    latitudeDelta: 0.2,
+                    longitude: displayLong,
+                    longitudeDelta: 0.2,
                 }
             })
+            console.log(`marker:${this.state.marker}`);
+            console.log(this.state.marker);
+            console.log(`resmarker:${this.state.resMarker}`);
+            console.log(this.state.resMarker);
+            console.log(`disreg:${this.state.displayRegion}`);
+            console.log(this.state.displayRegion);
         }, (error) => {console.log(error)})
     }
 
@@ -114,7 +130,7 @@ export default class GeoComponent extends Component {
                 }
                 {this.state.region && this.state.resMarker && this.state.fontLoaded &&
                     <MapView
-                    region={this.state.region}
+                    initialRegion={this.state.displayRegion}
                     onRegionChangeComplete={this.onRegionChange}
                     style={styles.map}>
                         <MapView.Marker
