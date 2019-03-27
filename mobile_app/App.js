@@ -8,7 +8,7 @@ import HomeComponent from './components/HomeComponent.js';
 import ResultListScreen from './components/ResultListScreen.js';
 import GeoComponent from './components/GeoComponent.js';
 import TempList from './components/TempList.js';
-
+  
 // create a navigation stack
 const RootStack = createStackNavigator(
   {
