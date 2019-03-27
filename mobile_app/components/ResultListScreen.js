@@ -98,6 +98,8 @@ export default class ResultListScreen extends React.Component {
   	}
 
 	render(){
+		let textSize = 0.04*SCREEN_HEIGHT
+		let errorTextSize = 0.03*SCREEN_HEIGHT
 		return(
 			<View>
 			    <NavigationEvents
@@ -108,8 +110,11 @@ export default class ResultListScreen extends React.Component {
 				this.resetTimer()
 			}}>
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
-				<Text style={styles.catText}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
-				{this.state.rawData.code == 'ER_PARSE_ERROR' ? <Text style={styles.catText}>No Results</Text> :
+				<Text style={[styles.catText, {fontSize: textSize}]}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				{this.state.rawData.code == 'ER_PARSE_ERROR' ? 
+				<View style={styles.errorContainer}>
+					<Text style={[styles.errorText, {fontSize: errorTextSize}]}>No Results</Text>
+				</View> :
 				<FlatList
 				style={styles.listContainer}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
@@ -151,38 +156,22 @@ const styles = StyleSheet.create({
 		left:'10%',
 		alignSelf:'flex-start',
 		color:'#4B306A',
-		fontSize: 20,
 		marginBottom:20,
+		fontFamily:'work-sans-bold',
+	},
+	errorContainer: {
+		height: '85%',
+		width: '80%',
+		marginTop: '5%'
+	},
+	errorText: {
+		alignSelf:'flex-start',
+		color:'#4B306A',
 		fontFamily:'work-sans-bold',
 	},
 	listContainer: {
 		width: '100%',
 	},
-	header: {
-		flexDirection:'row',
-		width:'45%',
-		paddingTop:'5%',
-		left:'6%',
-		alignSelf:'flex-start',
-		justifyContent:'flex-start',
-		marginBottom:20,
-	},
-	headerText:{
-		height:'300%',
-		flex:3,
-		color:'#4B306A',
-		fontSize: 20,
-		fontFamily:'work-sans-bold',
-	},
-	list: {
-		flex:1,
-		width:'100%',
-	},
-	icon: {
-		height:'300%',
-		flex:1,
-		resizeMode:'contain'
-	}
 })
 
 const {
