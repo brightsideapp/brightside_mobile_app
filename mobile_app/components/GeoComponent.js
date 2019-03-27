@@ -13,22 +13,21 @@ export default class GeoComponent extends Component {
         super(props);
         this.state = {
             locationPermission: 'unknown',
-            position: 'unknown',
-            resAddr: this.props.navigation.getParam('address',''),
             resName: this.props.navigation.getParam('organization',''),
-            resMarker: undefined,
+            resMarker: {
+                latitude: this.props.navigation.getParam('coords','').lat,
+                longitude: this.props.navigation.getParam('coords','').lng
+            },
             region: undefined,
-            marker: undefined,
+            marker: null,
             displayRegion: undefined,
             fontLoaded: false,
             timer: null
         }
         this.onRegionChange = this.onRegionChange.bind(this)
-        this.getCurrentLocation = this.getCurrentLocation.bind(this)
     }
 
-    async componentDidMount() {
-        await this.fetchCoord();
+    async componentWillMount() {
         this.getCurrentLocation();
         await Font.loadAsync({
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
@@ -36,27 +35,6 @@ export default class GeoComponent extends Component {
         this.setState({fontLoaded:true})
         let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
         this.setState({timer})
-    }
-
-    async fetchCoord(){
-        let api = "https://maps.googleapis.com/maps/api/geocode/json?address="
-        let key = "&key=AIzaSyDY7ZYa5qUgs5IYLtWG7MSK6rIvSYUVKVc"
-        let encodedAddr = encodeURIComponent(this.state.resAddr)
-        let encodedUrl = api + encodedAddr + key
-        await fetch(encodedUrl)
-        .then((response) => response.json())
-        .then((response) => {if (response.status != 'OK') {
-                              throw new Error('Cannot get location from Google');
-                            } else {
-                                let cord = response.results[0].geometry.location
-                                this.setState({
-                                    resMarker:{
-                                        latitude:cord.lat,
-                                        longitude:cord.lng
-                                    }
-                                })
-                            }})
-        .catch((error) => {console.log(error)})
     }
 
     getCurrentLocation() {
