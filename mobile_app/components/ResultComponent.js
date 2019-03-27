@@ -47,10 +47,10 @@ class ResultComponent extends Component {
                   <View style={{flex: 4}}>
                     <Text style={styles.titleText}>{this.props.data.organization}</Text>
                   </View>
-                  {this.props.data.location != "Phone Only" && <View style={styles.buttonStyle}>
+                  {this.props.data.location != null && <View style={styles.buttonStyle}>
                   <TouchableOpacity
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
-                      address: this.props.data.location,
+                      coords: this.props.data.coords,
                       organization: this.props.data.organization
                     })}
                     style={{alignItems: 'flex-end'}}>
