@@ -82,9 +82,9 @@ export default class CatList extends React.Component {
 						this.getSearch()
 					}}/>) : null}
 					<FlatList
-						style={{paddingLeft: '10%', width: '100%'}}
+						style={{width: '100%'}}
 						onScroll={()=>this.resetTimer()}
-						contentContainerStyle={{alignItems: 'flex-start'}}
+						contentContainerStyle={styles.flatContainer}
 						data = {this.state.data}
 						renderItem={({item}) => {
 							return (
@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
 		width: '80%',
 		borderTopWidth: 0,
 		borderBottomWidth: 0,
-		marginBottom: '2%',
 		backgroundColor: 'transparent',
 		paddingRight: 0
 	},
@@ -139,6 +138,11 @@ const styles = StyleSheet.create({
 	textIn: {
 		color: '#4B306A',
 		fontFamily:'work-sans-medium',
+	},
+	flatContainer: {
+		paddingLeft: '10%', 
+		paddingTop: '3%', 
+		alignItems: 'flex-start',
 	},
 	catText: {
 		paddingTop:'5%',
