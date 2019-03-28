@@ -44,7 +44,7 @@ app.get(`/${config.token}/search`, (request, response) => {
             }
             await db.getResourcesById(orgIdList)
             .then(async (resource) => {
-                result = _groupPerk(resource)   
+                let result = _groupPerk(resource)   
                 for (let i = 0; i < result.length; i++) {
                     await db.getSchedule(result[i].resourceId)
                     .then((respond)=>{
