@@ -12,7 +12,8 @@ class ResultComponent extends Component {
           loadExtra: false,
           fontLoaded:false,
         }
-        this.bounceValue = new Animated.Value(-5)
+        this.shakeValue = new Animated.Value(0)
+        this.bounceValue = new Animated.Value(0)
         this.opacityValue = new Animated.Value(0)
         this.expand = this.expand.bind(this)
     }
@@ -22,21 +23,38 @@ class ResultComponent extends Component {
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
         this.setState({fontLoaded:true})
-
+        this.shake()
         this.bounce()
     }
 
+    shake () {
+      this.shakeValue.setValue(0)
+      Animated.spring(
+        this.shakeValue,
+          {
+            toValue: 1,
+            friction: 0.8,
+          }
+      ).start(() => this.shake())
+    }
+
     bounce() {
-      this.bounceValue.setValue(-5)
+      this.bounceValue.setValue(0)
       Animated.parallel([
         Animated.timing(
           this.bounceValue, {
-            toValue: 10,
+            toValue: 1,
             duration: 1600,
             easing: Easing.linear,
           }
         ),
         Animated.sequence([
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 0,
+              duration: 100
+            }
+          ),
           Animated.timing(
             this.opacityValue, {
               toValue: 1,
@@ -46,7 +64,7 @@ class ResultComponent extends Component {
           Animated.timing(
             this.opacityValue, {
               toValue: 1,
-              duration: 800
+              duration: 700
             }
           ),
           Animated.timing(
@@ -78,6 +96,26 @@ class ResultComponent extends Component {
           )
         })
 
+        const bounceDownAnim = this.bounceValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [-5, 8]
+        })
+
+        const bounceUpAnim = this.bounceValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [8, -5]
+        })
+
+        const shakeAnim = this.shakeValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [3, 0]
+        })
+
+        const shakeRotAnim = this.shakeValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['3deg', '0deg']
+        })
+
         return (
             <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
               this.expand()
@@ -94,8 +132,8 @@ class ResultComponent extends Component {
                       coords: this.props.data.coords,
                       organization: this.props.data.organization
                     })}
-                    style={{alignItems: 'flex-end'}}>
-                    <Image style={styles.mapButton}
+                    style={[styles.mapButton, {left: shakeAnim, transform: [{rotate: shakeRotAnim}]}]}>
+                    <Image style={styles.mapIcon}
                     source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
                   </TouchableOpacity>
                   </View>}
@@ -113,7 +151,7 @@ class ResultComponent extends Component {
                 <Text style={styles.infoText}>Perks:</Text>
                 <Text style={styles.text}>{this.props.data.perk.join(", ")}</Text>
                 {!this.state.loadExtra && 
-                <Animated.Image style={[styles.expand, {top: this.bounceValue, opacity: this.opacityValue}]} source={require('../assets/down.png')} />}
+                <Animated.Image style={[styles.expand, {top: bounceDownAnim, opacity: this.opacityValue}]} source={require('../assets/down.png')} />}
                 {this.state.loadExtra && 
                 <View>
                   <Text style={styles.infoText}>Description:</Text>
@@ -122,7 +160,7 @@ class ResultComponent extends Component {
                   {schedule}
                 </View>}
                 {this.state.loadExtra && 
-                <Animated.Image style={styles.expand} source={require('../assets/up.png')} />}
+                <Animated.Image style={[styles.expand, {top: bounceUpAnim, opacity: this.opacityValue}]} source={require('../assets/up.png')} />}
                 </View>
             </TouchableOpacity>
         )
@@ -184,8 +222,17 @@ const styles = StyleSheet.create({
     width:'10%'
   },
   mapButton: {
-    height:50,
-    width:50
+    alignItems: 'center', 
+    backgroundColor: '#4B306A',
+    paddingTop: 5,
+    paddingBottom: 8,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 30,
+  },
+  mapIcon: {
+    height:35,
+    width:35
   }
 });
 

@@ -18,7 +18,6 @@ class CatCard extends React.Component {
 	      'work-sans-medium': require('../assets/WorkSans/WorkSans-Medium.ttf'),
 	    });
 	    this.setState({fontLoaded:true})
-	    
 	    this.shake()
 	}
 
