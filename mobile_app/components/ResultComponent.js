@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
-import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking } from 'react-native';
+import { Animated, Easing, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 class ResultComponent extends Component {
@@ -12,6 +12,8 @@ class ResultComponent extends Component {
           loadExtra: false,
           fontLoaded:false,
         }
+        this.bounceValue = new Animated.Value(-5)
+        this.opacityValue = new Animated.Value(0)
         this.expand = this.expand.bind(this)
     }
 
@@ -20,6 +22,41 @@ class ResultComponent extends Component {
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
         this.setState({fontLoaded:true})
+
+        this.bounce()
+    }
+
+    bounce() {
+      this.bounceValue.setValue(-5)
+      Animated.parallel([
+        Animated.timing(
+          this.bounceValue, {
+            toValue: 10,
+            duration: 1600,
+            easing: Easing.linear,
+          }
+        ),
+        Animated.sequence([
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 1,
+              duration: 400
+            }
+          ),
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 1,
+              duration: 800
+            }
+          ),
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 0,
+              duration: 400
+            }
+          ),
+        ])
+      ]).start(() => this.bounce())
     }
 
     expand() {
@@ -29,6 +66,9 @@ class ResultComponent extends Component {
     render() {
         let contWidth = 0.8*SCREEN_WIDTH
         let schedule = []
+        let lineFlex = (SCREEN_WIDTH > 600) ? 'row' : 'column'
+        let phonePad = (SCREEN_WIDTH > 600) ? 20 : 0
+
         weekday.forEach((day)=>{
           schedule.push(
             <View style={styles.line} key={day}>
@@ -37,6 +77,7 @@ class ResultComponent extends Component {
             </View>
           )
         })
+
         return (
             <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
               this.expand()
@@ -59,23 +100,29 @@ class ResultComponent extends Component {
                   </TouchableOpacity>
                   </View>}
                 </View>
-                <View style={styles.line}>
-                  <Text style={styles.infoText}>Address:</Text>
-                  <Text style={[styles.infoText,{paddingLeft:20}]}>Phone:</Text>
-                </View>
-                <View style={styles.line}>
-                  <Text style={styles.text}>{this.props.data.location}</Text>
-                  <Text style={[styles.text,{paddingLeft:20}]} onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>{this.props.data.phoneNumber}</Text>
+                <View style={[styles.line, {flexDirection: lineFlex}]}>
+                  <View style={styles.block}>
+                    <Text style={styles.infoText}>Address:</Text>
+                    <Text style={styles.text}>{this.props.data.location}</Text>
+                  </View>
+                  <View style={styles.block}>
+                    <Text style={[styles.infoText,{paddingLeft: phonePad}]}>Phone:</Text>
+                    <Text style={[styles.text,{paddingLeft: phonePad}]} onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>{this.props.data.phoneNumber}</Text>
+                  </View>
                 </View>
                 <Text style={styles.infoText}>Perks:</Text>
                 <Text style={styles.text}>{this.props.data.perk.join(", ")}</Text>
+                {!this.state.loadExtra && 
+                <Animated.Image style={[styles.expand, {top: this.bounceValue, opacity: this.opacityValue}]} source={require('../assets/down.png')} />}
                 {this.state.loadExtra && 
                 <View>
                   <Text style={styles.infoText}>Description:</Text>
                   <Text style={styles.text}>{this.props.data.description}</Text>
                   <Text style={[styles.titleText, {fontSize: 20}]}>Hours:</Text>
-                    {schedule}
-                  </View>}
+                  {schedule}
+                </View>}
+                {this.state.loadExtra && 
+                <Animated.Image style={styles.expand} source={require('../assets/up.png')} />}
                 </View>
             </TouchableOpacity>
         )
@@ -96,6 +143,10 @@ const styles = StyleSheet.create({
   },
   line: {
     flexDirection: 'row'
+  },
+  block: {
+    flexDirection: 'column',
+    flex: 1
   },
   titleLine: {
     flexDirection: 'row',
@@ -123,6 +174,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flex: 1,
     fontFamily: 'work-sans-reg',
+  },
+  expand: {
+    height: 40,
+    width: 40,
+    alignSelf: 'center',
   },
   separator: {
     width:'10%'
