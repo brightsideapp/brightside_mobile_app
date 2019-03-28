@@ -141,7 +141,7 @@ class ResultComponent extends Component {
                 <View style={[styles.line, {flexDirection: lineFlex}]}>
                   <View style={styles.block}>
                     <Text style={styles.infoText}>Address:</Text>
-                    <Text style={styles.text}>{this.props.data.location}</Text>
+                    <Text style={styles.text}>{this.props.data.location == null ? "Phone Only" : this.props.data.location}</Text>
                   </View>
                   <View style={styles.block}>
                     <Text style={[styles.infoText,{paddingLeft: phonePad}]}>Phone:</Text>
