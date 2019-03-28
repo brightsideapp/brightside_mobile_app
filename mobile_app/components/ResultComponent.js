@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
-import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking } from 'react-native';
+import { Animated, Easing, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 class ResultComponent extends Component {
@@ -12,6 +12,9 @@ class ResultComponent extends Component {
           loadExtra: false,
           fontLoaded:false,
         }
+        this.shakeValue = new Animated.Value(0)
+        this.bounceValue = new Animated.Value(0)
+        this.opacityValue = new Animated.Value(0)
         this.expand = this.expand.bind(this)
     }
 
@@ -20,6 +23,58 @@ class ResultComponent extends Component {
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
         this.setState({fontLoaded:true})
+        this.shake()
+        this.bounce()
+    }
+
+    shake () {
+      this.shakeValue.setValue(0)
+      Animated.spring(
+        this.shakeValue,
+          {
+            toValue: 1,
+            friction: 0.8,
+          }
+      ).start(() => this.shake())
+    }
+
+    bounce() {
+      this.bounceValue.setValue(0)
+      Animated.parallel([
+        Animated.timing(
+          this.bounceValue, {
+            toValue: 1,
+            duration: 1600,
+            easing: Easing.linear,
+          }
+        ),
+        Animated.sequence([
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 0,
+              duration: 100
+            }
+          ),
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 1,
+              duration: 400
+            }
+          ),
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 1,
+              duration: 700
+            }
+          ),
+          Animated.timing(
+            this.opacityValue, {
+              toValue: 0,
+              duration: 400
+            }
+          ),
+        ])
+      ]).start(() => this.bounce())
     }
 
     expand() {
@@ -29,6 +84,9 @@ class ResultComponent extends Component {
     render() {
         let contWidth = 0.8*SCREEN_WIDTH
         let schedule = []
+        let lineFlex = (SCREEN_WIDTH > 600) ? 'row' : 'column'
+        let phonePad = (SCREEN_WIDTH > 600) ? 20 : 0
+
         weekday.forEach((day)=>{
           schedule.push(
             <View style={styles.line} key={day}>
@@ -37,6 +95,27 @@ class ResultComponent extends Component {
             </View>
           )
         })
+
+        const bounceDownAnim = this.bounceValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [-5, 8]
+        })
+
+        const bounceUpAnim = this.bounceValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [8, -5]
+        })
+
+        const shakeAnim = this.shakeValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [3, 0]
+        })
+
+        const shakeRotAnim = this.shakeValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['3deg', '0deg']
+        })
+
         return (
             <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
               this.expand()
@@ -53,36 +132,35 @@ class ResultComponent extends Component {
                       coords: this.props.data.coords,
                       organization: this.props.data.organization
                     })}
-                    style={{alignItems: 'flex-end'}}>
-                    <Image style={styles.mapButton}
+                    style={[styles.mapButton, {left: shakeAnim, transform: [{rotate: shakeRotAnim}]}]}>
+                    <Image style={styles.mapIcon}
                     source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
                   </TouchableOpacity>
                   </View>}
                 </View>
-                <View style={styles.line}>
-                  <Text style={styles.infoText}>Address:</Text>
-                  <Text style={[styles.infoText,{paddingLeft:20}]}>Phone:</Text>
-                </View>
-                <View style={styles.line}>
-                  <Text style={styles.text}>
-                  {this.props.data.location != null ? this.props.data.location : "Phone Only"}
-                  </Text>
-                  <Text style={[styles.text,{paddingLeft:20}]} 
-                  onPress={
-                    () => {Linking.openURL('tel:'+this.props.data.phoneNumber);
-                  }}>
-                  {this.props.data.phoneNumber}
-                  </Text>
+                <View style={[styles.line, {flexDirection: lineFlex}]}>
+                  <View style={styles.block}>
+                    <Text style={styles.infoText}>Address:</Text>
+                    <Text style={styles.text}>{this.props.data.location}</Text>
+                  </View>
+                  <View style={styles.block}>
+                    <Text style={[styles.infoText,{paddingLeft: phonePad}]}>Phone:</Text>
+                    <Text style={[styles.text,{paddingLeft: phonePad}]} onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>{this.props.data.phoneNumber}</Text>
+                  </View>
                 </View>
                 <Text style={styles.infoText}>Perks:</Text>
                 <Text style={styles.text}>{this.props.data.perk.join(", ")}</Text>
+                {!this.state.loadExtra && 
+                <Animated.Image style={[styles.expand, {top: bounceDownAnim, opacity: this.opacityValue}]} source={require('../assets/down.png')} />}
                 {this.state.loadExtra && 
                 <View>
                   <Text style={styles.infoText}>Description:</Text>
                   <Text style={styles.text}>{this.props.data.description}</Text>
                   <Text style={[styles.titleText, {fontSize: 20}]}>Hours:</Text>
-                    {schedule}
-                  </View>}
+                  {schedule}
+                </View>}
+                {this.state.loadExtra && 
+                <Animated.Image style={[styles.expand, {top: bounceUpAnim, opacity: this.opacityValue}]} source={require('../assets/up.png')} />}
                 </View>
             </TouchableOpacity>
         )
@@ -103,6 +181,10 @@ const styles = StyleSheet.create({
   },
   line: {
     flexDirection: 'row'
+  },
+  block: {
+    flexDirection: 'column',
+    flex: 1
   },
   titleLine: {
     flexDirection: 'row',
@@ -131,12 +213,26 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'work-sans-reg',
   },
+  expand: {
+    height: 40,
+    width: 40,
+    alignSelf: 'center',
+  },
   separator: {
     width:'10%'
   },
   mapButton: {
-    height:50,
-    width:50
+    alignItems: 'center', 
+    backgroundColor: '#4B306A',
+    paddingTop: 5,
+    paddingBottom: 8,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 30,
+  },
+  mapIcon: {
+    height:35,
+    width:35
   }
 });
 
