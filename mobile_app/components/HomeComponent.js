@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
 import { Text, View, Image, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
-import LanguageComponent from './LanguageComponent'
-
 export default class HomeComponent extends Component {
 
     constructor() {

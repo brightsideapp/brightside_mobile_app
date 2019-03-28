@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient, Font } from 'expo';
-import Permissions from 'react-native-permissions'
-import MapView from 'react-native-maps'
-import Marker from 'react-native-maps'
+import Permissions from 'react-native-permissions';
+import MapView from 'react-native-maps';
+import Marker from 'react-native-maps';
 import { NavigationEvents } from 'react-navigation';
 
 
@@ -92,15 +92,19 @@ export default class GeoComponent extends Component {
                   onDidFocus={()=>this.resetTimer()}
                   onWillBlur={()=>clearTimeout(this.state.timer)}
                 />
-                {this.state.region && this.state.resMarker && this.state.fontLoaded &&
+                {!this.state.marker && 
+                <View style={{width:'100%'}}>
+                <ActivityIndicator size="large" color="#4B306A" />
+                </View>}
+                {this.state.region && this.state.marker && this.state.fontLoaded &&
                     <View style={styles.legend}>
                         <View style={styles.marker}>
-                            <Image source={{uri: 'http://www.clker.com/cliparts/T/Z/k/E/K/s/blue-pin-hi.png'}} 
+                            <Image source={require('../assets/blue-pin.png')} 
                             style = {styles.pin}/>
                             <Text style={styles.legendText}>{this.state.resName}</Text>
                         </View>
                         <View style={styles.marker}>
-                            <Image source={{uri: 'http://www.clker.com/cliparts/1/l/n/3/G/9/red-pin-hi.png'}}
+                            <Image source={require('../assets/red-pin.png')}
                             style = {styles.pin}/>
                             <Text style={styles.legendText}>Your Location</Text>
                         </View>

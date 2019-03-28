@@ -7,7 +7,6 @@ import CatList from './components/CatList.js';
 import HomeComponent from './components/HomeComponent.js';
 import ResultListScreen from './components/ResultListScreen.js';
 import GeoComponent from './components/GeoComponent.js';
-import TempList from './components/TempList.js';
   
 // create a navigation stack
 const RootStack = createStackNavigator(
@@ -15,8 +14,7 @@ const RootStack = createStackNavigator(
     Home: HomeComponent,
     CatList: CatList,
     ResultList: ResultListScreen,
-    MapScreen: GeoComponent,
-    TempList: TempList
+    MapScreen: GeoComponent
   },
   {
     initialRouteName: "Home",

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Keyboard, TouchableWithoutFeedback, StyleSheet, TouchableHighlight, Dimensions, FlatList } from 'react-native';
+import { ActivityIndicator, Text, View, Keyboard, TouchableWithoutFeedback, StyleSheet, Dimensions, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import Permissions from 'react-native-permissions';
 import { LinearGradient, Font } from 'expo';
 import CatCard from './CatCard.js';
 import { NavigationEvents } from 'react-navigation';
@@ -50,6 +51,7 @@ export default class CatList extends React.Component {
 		let searchHeight = 0.07*SCREEN_HEIGHT
 		let searchFontSize = 0.035*SCREEN_HEIGHT
 		let colNum = (SCREEN_WIDTH > 600) ? 2 : 1
+		let renderData = (this.state.data == null) ? false : true; 
 		return(
 			<View>
 			    <NavigationEvents
@@ -81,6 +83,10 @@ export default class CatList extends React.Component {
 					onSubmitEditing={()=>{
 						this.getSearch()
 					}}/>) : null}
+					{!renderData && 
+					<View style={{width:'100%',top:'35%'}}>
+					<ActivityIndicator size="large" color="#4B306A" />
+					</View>}
 					<FlatList
 						style={{width: '100%'}}
 						onScroll={()=>this.resetTimer()}
