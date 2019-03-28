@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
+import { ActivityIndicator, Text, View, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
 import { NavigationEvents } from 'react-navigation';
@@ -10,8 +10,8 @@ export default class ResultListScreen extends React.Component {
 		super(props);
 		this.state={
 			fontLoaded:false,
-			rawData: [],
-			sortedDate: null,
+			rawData: null,
+			sortedData: null,
 			timer: null,
 			curLat: null, 
 			curLong: null
@@ -99,6 +99,7 @@ export default class ResultListScreen extends React.Component {
 
 	render(){
 		return(
+			{this.state.sortedData != null ? <ActivityIndicator size="large" color="#0000ff" /> :
 			<View>
 			    <NavigationEvents
 			      onDidFocus={()=>this.resetTimer()}
@@ -125,7 +126,7 @@ export default class ResultListScreen extends React.Component {
 				/>}
 			</LinearGradient>
 			</TouchableWithoutFeedback>
-			</View>
+			</View>}
 		)
 	}
 }
