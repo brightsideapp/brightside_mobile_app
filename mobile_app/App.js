@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, Icon } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Icon, Dimensions } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // import screens from views folder
@@ -21,6 +21,7 @@ const RootStack = createStackNavigator(
   {
     initialRouteName: "Home",
     defaultNavigationOptions: ({navigation}) => {
+      let iconSize = SCREEN_HEIGHT*0.05
       return {
         headerStyle:{
           backgroundColor: '#EEEEEE',
@@ -32,7 +33,7 @@ const RootStack = createStackNavigator(
           style={styles.backButton}
         >
           <Image
-          style={styles.homeImg}
+          style={[styles.img, {height: iconSize, width: iconSize}]}
           source={require('./assets/back_arrow.png')}
           />
         </TouchableOpacity>
@@ -43,7 +44,7 @@ const RootStack = createStackNavigator(
           style={styles.homeButton}
         >
           <Image
-          style={styles.homeImg}
+          style={[styles.img, {height: iconSize, width: iconSize}]}
           source={require('./assets/home_icon.png')}
           />
         </TouchableOpacity>
@@ -74,9 +75,12 @@ const styles = StyleSheet.create({
   backButton: {
     left: '30%'
   },
-  homeImg: {
-    height:40,
-    width:40,
+  img: {
     resizeMode: 'contain'
   }
 });
+
+const {
+  width: SCREEN_WIDTH,
+  height: SCREEN_HEIGHT,
+} = Dimensions.get('window');
