@@ -31,13 +31,32 @@ const getData = () => {
 }
 
 // search for keyword ie. advocacy, legal, money, etc
-const searchData = keyword => {
+const searchData = clientQuery => {
+    let clientKeywords = clientQuery.trim().split(' ');
+    let keywordList = [];
+    for (let i = 0; i < clientKeywords.length; i++) {
+        if (clientKeywords[i] != '')
+            keywordList.push(clientKeywords[i])
+    }
+    let conditionList = [];
+    for (let i = 0; i < keywordList.length; i++) {
+        let keyword = keywordList[i];
+        let subCondition = `(keyword like '%${keyword}%'\
+                            or organization like '%${keyword}%'\
+                            or perk like '%${keyword}%'\
+                            or type like '%${keyword}%')`
+        conditionList.push(subCondition);
+    }
+    let condition = conditionList.join(' and ');
     return new Promise((resolve, reject) => {
         pool.query(`select distinct a.resourceId from resource a \
                     inner join resourceKeyword b on a.resourceId = b.resourceId\
                     inner join keywordTypeKeyword c on b.keywordTypeId = c.keywordTypeId\
-                    where keyword like '%${keyword}%'\
-                    or organization like '%${keyword}%'`, (error, response, fields) => {
+                    inner join resourcePerk d on a.resourceId = d.resourceId \
+                    inner join perk e on d.perkId = e.perkId \
+                    inner join resourceType f on a.resourceId = f.resourceId \
+                    inner join type g on f.typeId = g.typeId \
+                    where ${condition}`, (error, response, fields) => {
             if (error) reject(error);
             else resolve(response);
         })
