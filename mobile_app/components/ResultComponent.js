@@ -64,8 +64,15 @@ class ResultComponent extends Component {
                   <Text style={[styles.infoText,{paddingLeft:20}]}>Phone:</Text>
                 </View>
                 <View style={styles.line}>
-                  <Text style={styles.text}>{this.props.data.location}</Text>
-                  <Text style={[styles.text,{paddingLeft:20}]} onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>{this.props.data.phoneNumber}</Text>
+                  <Text style={styles.text}>
+                  {this.props.data.location != null ? this.props.data.location : "Phone Only"}
+                  </Text>
+                  <Text style={[styles.text,{paddingLeft:20}]} 
+                  onPress={
+                    () => {Linking.openURL('tel:'+this.props.data.phoneNumber);
+                  }}>
+                  {this.props.data.phoneNumber}
+                  </Text>
                 </View>
                 <Text style={styles.infoText}>Perks:</Text>
                 <Text style={styles.text}>{this.props.data.perk.join(", ")}</Text>

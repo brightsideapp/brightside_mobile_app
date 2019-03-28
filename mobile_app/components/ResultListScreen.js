@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
+import { ActivityIndicator, Text, View, Image, StyleSheet, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
 import { NavigationEvents } from 'react-navigation';
@@ -11,7 +11,7 @@ export default class ResultListScreen extends React.Component {
 		this.state={
 			fontLoaded:false,
 			rawData: [],
-			sortedDate: null,
+			sortedData: null,
 			timer: null,
 			curLat: null, 
 			curLong: null
@@ -98,8 +98,9 @@ export default class ResultListScreen extends React.Component {
   	}
 
 	render(){
-		let textSize = 0.04*SCREEN_HEIGHT
-		let errorTextSize = 0.03*SCREEN_HEIGHT
+		let renderData = (this.state.sortedData == null) ? false : true; 
+		let textSize = 0.04*SCREEN_HEIGHT;
+		let errorTextSize = 0.03*SCREEN_HEIGHT;
 		return(
 			<View>
 			    <NavigationEvents
@@ -111,6 +112,10 @@ export default class ResultListScreen extends React.Component {
 			}}>
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 				<Text style={[styles.catText, {fontSize: textSize}]}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				{!renderData && 
+				<View style={{width:'100%',top:'35%'}}>
+				<ActivityIndicator size="large" color="#4B306A" />
+				</View>}
 				{this.state.rawData.code == 'ER_PARSE_ERROR' ? 
 				<View style={styles.errorContainer}>
 					<Text style={[styles.errorText, {fontSize: errorTextSize}]}>No Results</Text>
