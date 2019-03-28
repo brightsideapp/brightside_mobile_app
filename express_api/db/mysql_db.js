@@ -47,7 +47,7 @@ const searchData = keyword => {
 // get resource by categories
 const getByCategory = key => {
     return new Promise((resolve, reject) => {
-        pool.query(`select a.resourceId,a.organization,a.location,a.description,\
+        pool.query(`select distinct a.resourceId,a.organization,a.location,a.description,\
             a.website,a.phoneNumber,a.tollFree,e.perk from \
             resource a inner join resourceType b on b.resourceId = a.resourceId \
             inner join type c on b.typeId = c.typeId \
@@ -63,7 +63,7 @@ const getByCategory = key => {
 // Get resources info based on list of given ids
 const getResourcesById = orgIdList => {
     return new Promise((resolve, reject) => {
-        pool.query(`select a.resourceId,a.organization,a.location,a.description,\
+        pool.query(`select distinct a.resourceId,a.organization,a.location,a.description,\
             a.website,a.phoneNumber,a.tollFree,e.perk from \
             resource a inner join resourceType b on b.resourceId = a.resourceId \
             inner join type c on b.typeId = c.typeId \
