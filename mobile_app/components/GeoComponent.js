@@ -1,63 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, View, Image } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient, Font } from 'expo';
-import Permissions from 'react-native-permissions'
-import MapView from 'react-native-maps'
-import Marker from 'react-native-maps'
+import Permissions from 'react-native-permissions';
+import MapView from 'react-native-maps';
+import Marker from 'react-native-maps';
+import { NavigationEvents } from 'react-navigation';
+
 
 export default class GeoComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             locationPermission: 'unknown',
-            position: 'unknown',
-            resAddr: this.props.navigation.getParam('address',''),
             resName: this.props.navigation.getParam('organization',''),
-            resMarker: undefined,
+            resMarker: {
+                latitude: this.props.navigation.getParam('coords','').lat,
+                longitude: this.props.navigation.getParam('coords','').lng
+            },
             region: undefined,
-            marker: undefined,
-            fontLoaded: false
+            marker: null,
+            displayRegion: undefined,
+            fontLoaded: false,
+            timer: null
         }
         this.onRegionChange = this.onRegionChange.bind(this)
-        this.getCurrentLocation = this.getCurrentLocation.bind(this)
-        this.goLocation = this.goLocation.bind(this)
     }
 
-    async componentDidMount() {
-        this.getCurrentLocation()
-        await this.fetchCoord()
+    async componentWillMount() {
+        this.getCurrentLocation();
         await Font.loadAsync({
           'work-sans-reg': require('../assets/WorkSans/WorkSans-Regular.ttf'),
         });
         this.setState({fontLoaded:true})
-    }
-
-    async fetchCoord(){
-        let api = "https://maps.googleapis.com/maps/api/geocode/json?address="
-        let key = "&key=AIzaSyDY7ZYa5qUgs5IYLtWG7MSK6rIvSYUVKVc"
-        let encodedAddr = encodeURIComponent(this.state.resAddr)
-        let encodedUrl = api + encodedAddr + key
-        await fetch(encodedUrl)
-        .then((response) => response.json())
-        .then((response) => {if (response.status != 'OK') {
-                              throw new Error('Cannot get location from Google');
-                            } else {
-                                let cord = response.results[0].geometry.location
-                                this.setState({
-                                    resMarker:{
-                                        latitude:cord.lat,
-                                        longitude:cord.lng
-                                    }
-                                })
-                                console.log(this.state.resMarker);
-                            }})
-        .catch((error) => {console.log(error)})
+        let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
+        this.setState({timer})
     }
 
     getCurrentLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
             console.log('my position: ' + position.coords.latitude + ', ' + position.coords.longitude);
+            let latDelta = this.state.resMarker.latitude - position.coords.latitude
+            let longDelta = this.state.resMarker.longitude - position.coords.longitude
+            let displayLat = (this.state.resMarker.latitude + position.coords.latitude)/2
+            let displayLong = (this.state.resMarker.longitude + position.coords.longitude)/2
             this.setState({
                 region: {
                     latitude: position.coords.latitude,
@@ -68,20 +54,26 @@ export default class GeoComponent extends Component {
                 marker: {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
+                },
+                displayRegion:{
+                    latitude: displayLat,
+                    latitudeDelta: 0.2,
+                    longitude: displayLong,
+                    longitudeDelta: 0.2,
                 }
             })
+            console.log(`marker:${this.state.marker}`);
+            console.log(this.state.marker);
+            console.log(`resmarker:${this.state.resMarker}`);
+            console.log(this.state.resMarker);
+            console.log(`disreg:${this.state.displayRegion}`);
+            console.log(this.state.displayRegion);
         }, (error) => {console.log(error)})
     }
 
-    goLocation() {
-        this.setState({
-            region: {
-                latitude: 50.6,
-                latitudeDelta: 0.27,
-                longitude: 16.7,
-                longitudeDelta: 0.26
-            },
-        })
+    resetTimer(){
+        clearTimeout(this.state.timer)
+        this.state.timer = setTimeout(()=>this.props.navigation.popToTop(),timeOut)
     }
 
     onRegionChange(region) {
@@ -92,16 +84,27 @@ export default class GeoComponent extends Component {
 
     render() {
         return (
+            <TouchableWithoutFeedback onPress={()=>{
+                this.resetTimer()
+            }}>
             <View style={styles.container}>
-                {this.state.region && this.state.resMarker && this.state.fontLoaded &&
+                <NavigationEvents
+                  onDidFocus={()=>this.resetTimer()}
+                  onWillBlur={()=>clearTimeout(this.state.timer)}
+                />
+                {!this.state.marker && 
+                <View style={{width:'100%'}}>
+                <ActivityIndicator size="large" color="#4B306A" />
+                </View>}
+                {this.state.region && this.state.marker && this.state.fontLoaded &&
                     <View style={styles.legend}>
                         <View style={styles.marker}>
-                            <Image source={{uri: 'http://www.clker.com/cliparts/T/Z/k/E/K/s/blue-pin-hi.png'}} 
+                            <Image source={require('../assets/blue-pin.png')} 
                             style = {styles.pin}/>
                             <Text style={styles.legendText}>{this.state.resName}</Text>
                         </View>
                         <View style={styles.marker}>
-                            <Image source={{uri: 'http://www.clker.com/cliparts/1/l/n/3/G/9/red-pin-hi.png'}}
+                            <Image source={require('../assets/red-pin.png')}
                             style = {styles.pin}/>
                             <Text style={styles.legendText}>Your Location</Text>
                         </View>
@@ -109,7 +112,7 @@ export default class GeoComponent extends Component {
                 }
                 {this.state.region && this.state.resMarker && this.state.fontLoaded &&
                     <MapView
-                    region={this.state.region}
+                    initialRegion={this.state.displayRegion}
                     onRegionChangeComplete={this.onRegionChange}
                     style={styles.map}>
                         <MapView.Marker
@@ -124,6 +127,7 @@ export default class GeoComponent extends Component {
                     </MapView>
                 }
             </View>
+            </TouchableWithoutFeedback>
         )
     }
 }
@@ -170,3 +174,5 @@ const styles = StyleSheet.create({
     color: '#4B306A'
   }
 });
+
+const timeOut = 180000

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
 import { Text, View, Image, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
-import LanguageComponent from './LanguageComponent'
-
 export default class HomeComponent extends Component {
 
     constructor() {
@@ -30,23 +28,20 @@ export default class HomeComponent extends Component {
         let iconMargin = 0.025*SCREEN_HEIGHT
         let titleSize = 0.05*SCREEN_HEIGHT
         let subtitleSize = 0.04*SCREEN_HEIGHT
-        let textSize = 0.035*SCREEN_HEIGHT
         let textMargin = 0.02*SCREEN_HEIGHT
         return (
           <TouchableHighlight onPress={() => this.props.navigation.navigate('CatList')}>
-            <View style={homeStyles.container}>
+            <View style={styles.container}>
                 <Image source={require('../assets/logo.png')} style={{height: iconSize, width: iconSize, marginBottom: iconMargin}} />
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Community Homes</Text>}
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: subtitleSize}]}>Mobile App</Text>}
-                {this.state.fontLoaded && <Text style={[homeStyles.text, {fontSize: textSize, marginTop: textMargin}]}>Tap to Start</Text>}
-                <LanguageComponent />
+                {this.state.fontLoaded && <Text style={[styles.text, {fontSize: titleSize, fontWeight: '400'}]}>Brightside Homes</Text>}
+                {this.state.fontLoaded && <Text style={[styles.text, {fontSize: subtitleSize, marginTop: textMargin}]}>Tap to Start</Text>}
             </View>
           </TouchableHighlight>
         )
     }
 }
 
-const homeStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: '#4B306A',
     width: '100%',

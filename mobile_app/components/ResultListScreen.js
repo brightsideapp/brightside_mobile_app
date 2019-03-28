@@ -1,70 +1,141 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image, StyleSheet, TouchableHighlight, ScrollView, Dimensions, FlatList } from 'react-native';
+import { ActivityIndicator, Text, View, Image, StyleSheet, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
+import { NavigationEvents } from 'react-navigation';
 
 export default class ResultListScreen extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
 			fontLoaded:false,
-			data: [],
+			rawData: [],
+			sortedData: null,
+			timer: null,
+			curLat: null, 
+			curLong: null
 		}
 		this.getResults.bind(this)
 	}
 
-	fetchData(){
-		let category = this.props.navigation.getParam('cat','')
-		let url = `${api.endpoint}${category}`
-		fetch(url)
-		.then((response) => response.json())
-		.then((response) => {
-			this.setState({data: response})
-		})
-	}
-
-	async componentDidMount() {
+	async componentWillMount() {
 	    await Font.loadAsync({
 	      'work-sans-bold': require('../assets/WorkSans/WorkSans-Bold.ttf'),
 	    })
-	    .then(() => this.fetchData())
-	    this.setState({fontLoaded:true})
-	    this.getResults()
-	}
-	
-	_pressBut(){
-		this.props.navigation.navigate('Home');
+	    .then(async () => {
+	    	this.setState({fontLoaded:true});
+	    	await this.getResults();
+	    	this.getCurrentLocation();
+	    });
+	    let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
+	    this.setState({timer})
 	}
 
-	getResults() {
+	async fetchCoord(address){
+        let api = "https://maps.googleapis.com/maps/api/geocode/json?address="
+        let key = "&key=AIzaSyDY7ZYa5qUgs5IYLtWG7MSK6rIvSYUVKVc"
+        let encodedAddr = encodeURIComponent(address)
+        let encodedUrl = api + encodedAddr + key
+        return await fetch(encodedUrl)
+        .then((response) => response.json())
+        .then((response) => {if (response.status != 'OK') {
+                              throw new Error('Cannot get location from Google');
+                            } else {
+                                return response.results[0].geometry.location
+                            }})
+        .catch((error) => {console.log(error)})
+    }
+
+    getCurrentLocation() {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            this.setState({
+            	curLat: position.coords.latitude,
+            	curLong: position.coords.longitude
+            });
+    		let dataCopy = this.state.rawData.slice();
+    		for (let i = 0; i < dataCopy.length; i++){
+    			if (dataCopy[i].location == "Phone Only"){continue};
+    			let coords = await this.fetchCoord(dataCopy[i].location);
+    			dataCopy[i].coords = coords;
+    		}
+			dataCopy.sort((a, b) => {
+			  if (a.coords == null && b.coords == null) {
+			  	return 0
+			  } else if (a.coords == null) {
+			  	return -1
+			  } else if (b.coords == null) {
+			  	return 1
+			  } else {
+			  	let a_dist = Math.hypot(a.coords.lat - this.state.curLat,a.coords.lng - this.state.curLong)
+	    		let b_dist = Math.hypot(b.coords.lat - this.state.curLat,b.coords.lng - this.state.curLong)
+				return a_dist - b_dist
+			  }
+			});  		
+			this.setState({sortedData:dataCopy})
+        }, (error) => {console.log(error)})
+    }
+
+	async getResults() {
 		let category = this.props.navigation.getParam('cat','')
 		let encodedCat = encodeURIComponent(category)
-		let url = `${api.endpoint}${encodedCat}`
-		fetch(url)
+		let type = this.props.navigation.getParam('type','')
+		let url = `${api[type]}${encodedCat}`
+		console.log(url);
+		await fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {
 			this.setState({
-				data: responseJson
+				rawData: responseJson
 			})
 		})
 		.catch((error) => console.log(error))
 	}
 
+	resetTimer(){
+	    clearTimeout(this.state.timer)
+	    this.state.timer = setTimeout(()=>this.props.navigation.popToTop(),timeOut)
+  	}
+
 	render(){
+		let renderData = (this.state.sortedData == null) ? false : true; 
+		let textSize = 0.04*SCREEN_HEIGHT;
+		let errorTextSize = 0.03*SCREEN_HEIGHT;
 		return(
+			<View>
+			    <NavigationEvents
+			      onDidFocus={()=>this.resetTimer()}
+			      onWillBlur={()=>clearTimeout(this.state.timer)}
+			    />
+			<TouchableWithoutFeedback onPress={()=>{
+				this.resetTimer()
+			}}>
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
-				<Text style={styles.catText}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				<Text style={[styles.catText, {fontSize: textSize}]}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				{!renderData && 
+				<View style={{width:'100%',top:'35%'}}>
+				<ActivityIndicator size="large" color="#4B306A" />
+				</View>}
+				{this.state.rawData.code == 'ER_PARSE_ERROR' ? 
+				<View style={styles.errorContainer}>
+					<Text style={[styles.errorText, {fontSize: errorTextSize}]}>No Results</Text>
+				</View> :
 				<FlatList
 				style={styles.listContainer}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-				data={this.state.data}
+				data={this.state.sortedData}
 				numColumns={1}
-				renderItem={({item}) => {return(<ResultComponent data={item}/>)}}
+				onScroll={()=>this.resetTimer()}
+				renderItem={({item}) => {
+					return(
+						<ResultComponent data={item} timerCallback={()=>this.resetTimer()}/>
+				)}}
 				keyExtractor={item => item.organization}
 				ListFooterComponent={footer}
-				/>
+				/>}
 			</LinearGradient>
+			</TouchableWithoutFeedback>
+			</View>
 		)
 	}
 }
@@ -90,38 +161,22 @@ const styles = StyleSheet.create({
 		left:'10%',
 		alignSelf:'flex-start',
 		color:'#4B306A',
-		fontSize: 20,
 		marginBottom:20,
+		fontFamily:'work-sans-bold',
+	},
+	errorContainer: {
+		height: '85%',
+		width: '80%',
+		marginTop: '5%'
+	},
+	errorText: {
+		alignSelf:'flex-start',
+		color:'#4B306A',
 		fontFamily:'work-sans-bold',
 	},
 	listContainer: {
 		width: '100%',
 	},
-	header: {
-		flexDirection:'row',
-		width:'45%',
-		paddingTop:'5%',
-		left:'6%',
-		alignSelf:'flex-start',
-		justifyContent:'flex-start',
-		marginBottom:20,
-	},
-	headerText:{
-		height:'300%',
-		flex:3,
-		color:'#4B306A',
-		fontSize: 20,
-		fontFamily:'work-sans-bold',
-	},
-	list: {
-		flex:1,
-		width:'100%',
-	},
-	icon: {
-		height:'300%',
-		flex:1,
-		resizeMode:'contain'
-	}
 })
 
 const {
@@ -130,5 +185,8 @@ const {
 } = Dimensions.get('window');
 
 const api = {
-	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key="
+	cat:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=",
+	keyword:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword="
 }
+
+const timeOut = 180000

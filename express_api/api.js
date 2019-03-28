@@ -44,7 +44,7 @@ app.get(`/${config.token}/search`, (request, response) => {
             }
             await db.getResourcesById(orgIdList)
             .then(async (resource) => {
-                result = _groupPerk(resource)   
+                let result = _groupPerk(resource)   
                 for (let i = 0; i < result.length; i++) {
                     await db.getSchedule(result[i].resourceId)
                     .then((respond)=>{
@@ -56,7 +56,7 @@ app.get(`/${config.token}/search`, (request, response) => {
             })
     })
     .catch((error) => {
-        response.send(error);
+        response.send('500');
     })
 })
 
@@ -76,7 +76,7 @@ app.get(`/${config.token}/category`, (request, response) => {
         db.getAllCategory().then((category) => {
             response.json(category);
         }).catch((error) => {
-            response.send(error);
+            response.send('500');
         })
     } else {
         let result = []
@@ -84,9 +84,6 @@ app.get(`/${config.token}/category`, (request, response) => {
         .then(async (resource) => {
             result = _groupPerk(resource)   
             for (let i = 0; i < result.length; i++) {
-                if (!result[i].location) {
-                    result[i].location = 'Phone Only'
-                }
                 await db.getSchedule(result[i].resourceId)
                 .then((respond)=>{
             	    result[i].schedule = _groupSchedule(respond)
@@ -94,6 +91,8 @@ app.get(`/${config.token}/category`, (request, response) => {
 		        })
             }
 	        response.json(result)
+        }).catch((error) => {
+            response.send('500');
         })
     }
 })
