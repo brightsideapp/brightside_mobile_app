@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://xa-dju.anonymous.mobile-app.exp.direct",
   "packagerNgrokUrl": "https://packager.xa-dju.anonymous.mobile-app.exp.direct",
-  "ngrokPid": 10612,
+  "ngrokPid": 9004,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 5544
+  "packagerPid": 14160
 }
