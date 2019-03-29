@@ -101,6 +101,8 @@ export default class ResultListScreen extends React.Component {
 		let renderData = (this.state.sortedData == null) ? false : true; 
 		let textSize = 0.04*SCREEN_HEIGHT;
 		let errorTextSize = 0.03*SCREEN_HEIGHT;
+		let searchText = (this.props.navigation.getParam('type','') === 'keyword') ? "RESULTS FOR " : "";
+
 		return(
 			<View>
 			    <NavigationEvents
@@ -111,7 +113,7 @@ export default class ResultListScreen extends React.Component {
 				this.resetTimer()
 			}}>
 			<LinearGradient colors={['#EEEEEE','#D7D7D7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
-				<Text style={[styles.catText, {fontSize: textSize}]}>{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
+				<Text style={[styles.catText, {fontSize: textSize}]}>{searchText}{this.props.navigation.getParam('cat','').toUpperCase()}</Text>
 				{!renderData && 
 				<View style={{width:'100%',top:'35%'}}>
 				<ActivityIndicator size="large" color="#4B306A" />
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
 		color:'#4B306A',
 		marginBottom:20,
 		fontFamily:'work-sans-bold',
+		paddingRight: '15%'
 	},
 	errorContainer: {
 		height: '85%',
