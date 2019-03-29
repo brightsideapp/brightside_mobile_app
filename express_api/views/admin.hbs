@@ -54,6 +54,7 @@
                                 <th>Hours</th>
                                 <th>Perks</th>
                                 <th>Type</th>
+                                <th>Delete?</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,6 +103,13 @@
                                             <p>{{this}}</p>
                                         {{/each}}
                                     </td>
+
+                                    <td>
+                                        <form action='manage/delete' method="POST" onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                                            <input style="display: none" type="text" name="resId" value={{resourceId}} />
+                                            <input id="delButton" type="image" src="/img/delete.png" />
+                                        </form>
+                                    </td>
                                 </tr>
                             {{/each}}
                         </tbody>
@@ -118,7 +126,7 @@
                         <ul>• No websites</ul>
                     </h4>
                 </h3>
-                <form action='manage/submit' method="POST">
+                <form action='manage/submit' method="POST" onsubmit="return confirm('Do you want to add this data to database?');">
                     <div>
                         <div style='display: inline-block;'>
                             <p><b>Location:</b> *optional</p>
