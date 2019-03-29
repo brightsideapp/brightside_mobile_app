@@ -122,7 +122,7 @@ class ResultComponent extends Component {
                     <Text style={styles.titleText}>{this.props.data.organization}</Text>
                   </View>
                   {this.props.data.location != null && <View style={styles.buttonStyle}>
-                  <AnimatedTouchable
+                  {this.props.animations ? <AnimatedTouchable
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
                       coords: this.props.data.coords,
                       organization: this.props.data.organization
@@ -130,7 +130,16 @@ class ResultComponent extends Component {
                     style={[styles.mapButton, {left: shakeAnim}]}>
                     <Image style={styles.mapIcon}
                     source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
-                  </AnimatedTouchable>
+                  </AnimatedTouchable> :
+                  <TouchableOpacity
+                    onPress={()=>this.props.navigation.navigate('MapScreen', {
+                      coords: this.props.data.coords,
+                      organization: this.props.data.organization
+                    })}
+                    style={[styles.mapButton]}>
+                    <Image style={styles.mapIcon}
+                    source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
+                  </TouchableOpacity>}
                   </View>}
                 </View>
                 <View style={[styles.line, {flexDirection: lineFlex}]}>

@@ -20,6 +20,7 @@ const RootStack = createStackNavigator(
     initialRouteName: "Home",
     defaultNavigationOptions: ({navigation}) => {
       let iconSize = SCREEN_HEIGHT*0.05
+      let buttonSize = SCREEN_HEIGHT*0.1
       return {
         headerStyle:{
           backgroundColor: '#EEEEEE',
@@ -28,7 +29,7 @@ const RootStack = createStackNavigator(
         headerLeft: (
         <TouchableOpacity
           onPress={()=>navigation.goBack(null)} 
-          style={styles.backButton}
+          style={[styles.backButton, {width:buttonSize}]}
         >
           <Image
           style={[styles.img, {height: iconSize, width: iconSize}]}
@@ -68,7 +69,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   homeButton: {
-    right: '30%'
+    right: '30%',
+    justifyContent:'center',
+    alignItems:'center'
   },
   backButton: {
     left: '30%'

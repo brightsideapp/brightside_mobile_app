@@ -96,7 +96,7 @@ export default class CatList extends React.Component {
 						data = {this.state.data}
 						renderItem={({item}) => {
 							return (
-								<CatCard cat={item.type} img={item.imageFile} />
+								<CatCard cat={item.type} img={item.imageFile} animations={this.props.navigation.getParam('animations',true)} />
 							)}}
 						keyExtractor={item => item.type}
 						numColumns={colNum}
