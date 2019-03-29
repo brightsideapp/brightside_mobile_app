@@ -278,6 +278,62 @@ const addResourceType = (id, data) => {
     })
 }
 
+/*------------------------- end of add data methods --------------------------------*/
+
+
+/*-------------------------- methods to remove data from the database --------------*/
+// remove resourceType, resourcePerk, resourceKeyword, resourceHours, resource
+const delResourceType = id => {
+    return new Promise((resolve, reject) => {
+        pool.query(`delete from resourceType where resourceId=${id};`, (error, response) => {
+            if (error) reject(error);
+            else resolve(response);
+        })
+    })
+}
+
+// remove resourcePerk
+const delResourcePerk = id => {
+    return new Promise((resolve, reject) => {
+        pool.query(`delete from resourcePerk where resourceId=${id};`, (error, response) => {
+                if (error) reject(error);
+                else resolve(response);
+            })
+    })
+}
+
+// remove resourceKeyword
+const delResourceKeyw = id => {
+    return new Promise((resolve, reject) => {
+        pool.query(`delete from resourceKeyword where resourceId=${id};`, (error, response) => {
+                if (error) reject(error);
+                else resolve(response);
+            })
+    })
+}
+
+// remove resourceHours
+const delResourceHours = id => {
+    return new Promise((resolve, reject) => {
+        pool.query(`delete from hours where resourceId=${id};`, (error, response) => {
+                if (error) reject(error);
+                else resolve(response);
+            })
+    })
+}
+
+// remove resource
+const delResource = id => {
+    return new Promise((resolve, reject) => {
+        pool.query(`delete from resource where resourceId=${id};`, (error, response) => {
+                if (error) reject(error);
+                else resolve(response);
+            })
+    })
+}
+
+/*------------------------- end of remove data methods -----------------------------*/
+
 
 module.exports = {
     getResourcesById,
@@ -293,4 +349,9 @@ module.exports = {
     addResourceKeyw,
     addResourcePerk,
     addResourceType,
+    delResourceType,
+    delResourcePerk,
+    delResourceKeyw,
+    delResourceHours,
+    delResource,
 }

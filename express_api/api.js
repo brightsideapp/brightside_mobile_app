@@ -117,6 +117,7 @@ app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
 
 // POST request for adding data
 app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response) => {
+    console.log('before', request.body);
     var formdata = request.body;
     
     if (formdata.location == '') {
@@ -171,6 +172,7 @@ app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response)
     // manage phone numbers and make sure its only numbers
     formdata['contact'] = formdata.contact.replace(/\(| |\)|\.|\*|\-/gi, "");
     
+    console.log('after', request.body);
 
     // add data to database
     db.addResource(formdata).then(() => {
@@ -188,6 +190,23 @@ app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response)
         })
     })
 
+})
+
+// method for deleting data
+app.post(`/${config.token}/manage/delete`, urlencodedParser, (request, response) => {
+    console.log(request.body);
+    console.log(request.body.resId);
+    db.delResourceType(request.body.resId).then(() => {
+        db.delResourcePerk(request.body.resId).then(() => {
+            db.delResourceKeyw(request.body.resId).then(() => {
+                db.delResourceHours(request.body.resId).then(() => {
+                    db.delResource(request.body.resId).then(() => {
+                        response.redirect(`/${config.token}/manage`);
+                    })
+                })
+            })
+        })
+    })
 })
 
 // GET request to console management page

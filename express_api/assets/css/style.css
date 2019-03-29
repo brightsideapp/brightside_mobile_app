@@ -136,6 +136,11 @@
     /* background-color: green; */
 }
 
+#delButton {
+    width: 20px;
+    height: 20px;
+}
+
 /* div inside #infopanel containing the table */
 #tablecontainer {
     text-align: center;
