@@ -36,7 +36,7 @@ class CatCard extends React.Component {
 		let cardWidth = (SCREEN_WIDTH > 600) ? 0.375*SCREEN_WIDTH : 0.8*SCREEN_WIDTH
 		let cardHeight = (SCREEN_WIDTH > 600) ? 0.375*SCREEN_HEIGHT : 0.5*SCREEN_HEIGHT
 		let cardMargin = 0.05*SCREEN_WIDTH
-		let textSize = (SCREEN_WIDTH > 600) ? 0.04*SCREEN_HEIGHT : 0.05*SCREEN_HEIGHT
+		let textSize = (SCREEN_WIDTH > 600) ? 0.0425*SCREEN_HEIGHT : 0.05*SCREEN_HEIGHT
 		let iconSize = (SCREEN_WIDTH > 600) ? 0.2*SCREEN_HEIGHT : 0.3*SCREEN_HEIGHT
 
         const shakeAnim = this.shakeValue.interpolate({
@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
 	cardText: {
 		textAlign:'center',
 		color:'#DDDDDD',
-		fontFamily:'work-sans-medium'
+		fontFamily:'work-sans-medium',
+		paddingLeft: '3.5%',
+		paddingRight: '3.5%',
 	}
 })
 

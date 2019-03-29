@@ -64,7 +64,8 @@ export default class CatList extends React.Component {
 			}}>
 				<LinearGradient colors={['#EEEEEE','#d7d7d7']} start={[0, 0.16]} end={[0, 0.85]} style={styles.container}>
 					{this.state.fontLoaded ? (<Text style={[styles.catText, {fontSize: textSize}]}>SEARCH</Text>) : null}
-					{this.state.fontLoaded ? (<SearchBar 
+					{this.state.fontLoaded ? (<SearchBar
+					ref={search => this.search = search} 
 					lightTheme
 					round={true}
 					placeholder='Search for a resource'
@@ -82,6 +83,7 @@ export default class CatList extends React.Component {
 					value={this.state.value}
 					onSubmitEditing={()=>{
 						this.getSearch()
+						this.search.clear()
 					}}/>) : null}
 					{!renderData && 
 					<View style={{width:'100%',top:'35%'}}>
