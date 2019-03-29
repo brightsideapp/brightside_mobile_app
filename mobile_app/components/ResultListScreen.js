@@ -130,7 +130,7 @@ export default class ResultListScreen extends React.Component {
 				onScroll={()=>this.resetTimer()}
 				renderItem={({item}) => {
 					return(
-						<ResultComponent data={item} timerCallback={()=>this.resetTimer()}/>
+						<ResultComponent data={item} animations={this.props.navigation.getParam('animations',true)} timerCallback={()=>this.resetTimer()}/>
 				)}}
 				keyExtractor={item => item.organization}
 				ListFooterComponent={footer}
