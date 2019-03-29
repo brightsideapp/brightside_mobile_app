@@ -56,7 +56,7 @@ app.get(`/${config.token}/search`, (request, response) => {
             })
     })
     .catch((error) => {
-        response.send('500');
+        response.json([]);
     })
 })
 
@@ -76,7 +76,7 @@ app.get(`/${config.token}/category`, (request, response) => {
         db.getAllCategory().then((category) => {
             response.json(category);
         }).catch((error) => {
-            response.send('500');
+            response.json([]);
         })
     } else {
         let result = []
@@ -92,7 +92,7 @@ app.get(`/${config.token}/category`, (request, response) => {
             }
 	        response.json(result)
         }).catch((error) => {
-            response.send('500');
+            response.json([]);
         })
     }
 })
