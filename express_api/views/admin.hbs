@@ -87,11 +87,15 @@
 
                                     <td>{{website}}</td>
 
-                                    <td>
-                                        {{#each hours}}
-                                            <p>{{this}}</p>
-                                        {{/each}}
-                                    </td>
+                                    {{#if hours}}
+                                        <td>
+                                            {{#each hours}}
+                                                <p>{{this}}</p>
+                                            {{/each}}
+                                        </td>
+                                    {{else}}
+                                        <td>No Data Available</td>
+                                    {{/if}}
 
                                     <td>
                                         {{#each perks}}
