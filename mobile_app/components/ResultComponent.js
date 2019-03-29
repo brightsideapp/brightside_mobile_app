@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LinearGradient, Font } from 'expo';
-import { Animated, Easing, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking } from 'react-native';
+import { Animated, Easing, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking, TouchableHighlight } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 class ResultComponent extends Component {
@@ -111,11 +111,6 @@ class ResultComponent extends Component {
             outputRange: [3, 0]
         })
 
-        const shakeRotAnim = this.shakeValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['3deg', '0deg']
-        })
-
         return (
             <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
               this.expand()
@@ -127,15 +122,15 @@ class ResultComponent extends Component {
                     <Text style={styles.titleText}>{this.props.data.organization}</Text>
                   </View>
                   {this.props.data.location != null && <View style={styles.buttonStyle}>
-                  <TouchableOpacity
+                  <AnimatedTouchable
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
                       coords: this.props.data.coords,
                       organization: this.props.data.organization
                     })}
-                    style={[styles.mapButton, {left: shakeAnim, transform: [{rotate: shakeRotAnim}]}]}>
+                    style={[styles.mapButton, {left: shakeAnim}]}>
                     <Image style={styles.mapIcon}
                     source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
-                  </TouchableOpacity>
+                  </AnimatedTouchable>
                   </View>}
                 </View>
                 <View style={[styles.line, {flexDirection: lineFlex}]}>
@@ -144,8 +139,12 @@ class ResultComponent extends Component {
                     <Text style={styles.text}>{this.props.data.location == null ? "Phone Only" : this.props.data.location}</Text>
                   </View>
                   <View style={styles.block}>
-                    <Text style={[styles.infoText,{paddingLeft: phonePad}]}>Phone:</Text>
-                    <Text style={[styles.text,{paddingLeft: phonePad}]} onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>{this.props.data.phoneNumber}</Text>
+                    <Text style={[styles.infoText, {paddingLeft: phonePad}]}>Phone:</Text>
+                    <Text 
+                    style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} 
+                    onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>
+                      {this.props.data.phoneNumber}
+                    </Text>
                   </View>
                 </View>
                 <Text style={styles.infoText}>Perks:</Text>
@@ -184,7 +183,7 @@ const styles = StyleSheet.create({
   },
   block: {
     flexDirection: 'column',
-    flex: 1
+    flex: 1,
   },
   titleLine: {
     flexDirection: 'row',
@@ -213,6 +212,10 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'work-sans-reg',
   },
+  hyperlink: {
+    textDecorationLine: 'underline', 
+    color: '#0645AD'
+  },
   expand: {
     height: 40,
     width: 40,
@@ -240,5 +243,7 @@ const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
+
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 
 const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
