@@ -44,21 +44,38 @@ class CatCard extends React.Component {
             outputRange: ['0deg', '360deg']
         })
 
-		return(
-			<AnimatedTouchable
-			style={[styles.card, {
-				width: cardWidth, 
-				height: cardHeight, 
-				marginRight: cardMargin,
-				transform: [{rotate: shakeAnim}]
-			}]}
-			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat'})}>
-				<View style={styles.buttContainer}>
-					<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
-					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
-				</View>
-			</AnimatedTouchable>
-		)
+        if (this.props.animations) {
+        	return(
+				<AnimatedTouchable
+				style={[styles.card, {
+					width: cardWidth, 
+					height: cardHeight, 
+					marginRight: cardMargin,
+					transform: [{rotate: shakeAnim}]
+				}]}
+				onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat'})}>
+					<View style={styles.buttContainer}>
+						<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
+						{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
+					</View>
+				</AnimatedTouchable>
+			)
+        } else {
+        	return (
+        		<TouchableHighlight
+				style={[styles.card, {
+					width: cardWidth, 
+					height: cardHeight, 
+					marginRight: cardMargin
+				}]}
+				onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat',animations:this.props.animations})}>
+					<View style={styles.buttContainer}>
+						<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
+						{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
+					</View>
+				</TouchableHighlight>
+        	)
+        }
 	}
 }
 
