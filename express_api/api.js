@@ -99,11 +99,7 @@ app.get(`/${config.token}/category`, (request, response) => {
 
 // POST request for login
 app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
-    // console.log(request.body.username);
-    // console.log(request);
     db.getUser(request.body.username, request.body.password).then(resp => {
-        // console.log(resp);
-        // console.log(resp.length);
         if (resp.length == 1) {
             response.cookie('isLoggedIn', `${request.body.username}`, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
             response.redirect(`/${config.token}/manage`);
@@ -117,7 +113,6 @@ app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
 
 // POST request for adding data
 app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response) => {
-    console.log('before', request.body);
     var formdata = request.body;
     
     if (formdata.location == '') {
@@ -172,14 +167,12 @@ app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response)
     // manage phone numbers and make sure its only numbers
     formdata['contact'] = formdata.contact.replace(/\(| |\)|\.|\*|\-/gi, "");
     
-    console.log('after', request.body);
 
     // add data to database
     db.addResource(formdata).then(() => {
         db.getLatestResourceId().then(id => {
             db.addResourceHours(id[0].resourceId, formdata).then(() => {
                 db.addResourceKeyw(id[0].resourceId, formdata.keyword).then(() => {
-                    console.log(id[0].resourceId);
                     db.addResourcePerk(id[0].resourceId, formdata.perks).then(() => {
                         db.addResourceType(id[0].resourceId, formdata.type).then(() => {
                             response.redirect(`/${config.token}/manage`);
@@ -194,8 +187,6 @@ app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response)
 
 // method for deleting data
 app.post(`/${config.token}/manage/delete`, urlencodedParser, (request, response) => {
-    console.log(request.body);
-    console.log(request.body.resId);
     db.delResourceType(request.body.resId).then(() => {
         db.delResourcePerk(request.body.resId).then(() => {
             db.delResourceKeyw(request.body.resId).then(() => {
