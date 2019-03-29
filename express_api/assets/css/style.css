@@ -182,6 +182,21 @@
     margin-left: 1vw;
 }
 
+#addDataButton {
+    width: 10vh;
+    height: 5vh;
+    margin: 0 5vh 5vh 5vh;
+    border-radius: 5px;
+}
+
+#redText {
+    color: red;
+}
+
+#blackBold {
+    color: black;
+}
+
 /*------------------- scrollbar options ---------------------*/
 /* hiding and styling */
 ::-webkit-scrollbar {

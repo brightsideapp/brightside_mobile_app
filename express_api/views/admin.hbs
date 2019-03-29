@@ -133,35 +133,37 @@
                 <form action='manage/submit' method="POST" onsubmit="return confirm('Do you want to add this data to database?');">
                     <div>
                         <div style='display: inline-block;'>
-                            <p><b>Location:</b> *optional</p>
+                            <p id="redText"><b id="blackBold">Location:</b> *optional</p>
                             <input class='inputstyle' type='text' name='location'>
                         </div>
 
                         <div style='display: inline-block; margin-left: 5vw;'>
-                            <p><b>Organization: </b>*required</p>
+                            <p id="redText"><b id="blackBold">Organization: </b>*required</p>
                             <input class='inputstyle' type='text' name='organization' required>
                         </div>
                     </div>
 
-                    <p><b>Description: </b>*required</p>
+                    <p id="redText"><b id="blackBold">Description: </b>*required</p>
                     <textarea name='description' style='border-radius: 5px;' required></textarea>
 
                     <div>
                         <div style='display: inline-block;'>
-                            <p><b>Contact: </b>*required</p>
+                            <p id="redText"><b id="blackBold">Contact: </b>*required</p>
                             <input type='tel' name='contact' required>
                         </div>
                         <div style='display: inline-block; margin-left: 5vw;'>
-                            <p><b>Toll-Free: </b>*optional</p>
+                            <p id="redText"><b id="blackBold">Toll-Free: </b>*optional</p>
                             <input type='tel' name='tollfree'>
                         </div>
                     </div>
 
 
-                    <p><b>Website: </b>*optional</p>
+                    <br />
+                    <p id="redText"><b id="blackBold">Website: </b>*optional</p>
                     <input class='inputstyle' type='url' name='website' placeholder="http://www.site.com">
 
-                    <p><b>Keywords: </b>*at least 1 required</p>
+                    <br /><br />
+                    <p id="redText"><b id="blackBold">Keywords: </b>*at least 1 required</p>
                     <div class='chekbox'>
                         <input type='checkbox' name='keyword' value='21'>Abuse</input>
                         <input type='checkbox' name='keyword' value='26'>Activity</input>
@@ -183,7 +185,8 @@
                         <input type='checkbox' name='keyword' value='30'>Volunteer</input>
                     </div>
 
-                    <p><b>Perks: </b>*at least 1 required</p>
+                    <br/>
+                    <p id="redText"><b id="blackBold">Perks: </b>*at least 1 required</p>
                     <div class='chekbox'>
                         <input type='checkbox' name='perks' value='33'>55+ only</input>
                         <input type='checkbox' name='perks' value='28'>Accessible</input>
@@ -200,7 +203,8 @@
                         <input type='checkbox' name='perks' value='36'>West end residents only</input>
                     </div>
 
-                    <p><b>Type: </b>*at least 1 required</p>
+                    <br/>
+                    <p id="redText"><b id="blackBold">Type: </b>*at least 1 required</p>
                     <div class='chekbox'>
                         <input type='checkbox' name='type' value='2'>Community Hub</input>
                         <input type='checkbox' name='type' value='10'>Counselling</input>
@@ -214,7 +218,12 @@
                         <input type='checkbox' name='type' value='3'>Transportation</input>
                     </div>
 
-                    <p><b>Hours:</b> *optional</p>
+                    <br/>
+                    <p id="redText"><b id="blackBold">Hours:</b> *optional</p>
+                    <p id="redText">Hours Limitations: 
+                        <ul id="redText">• Leave hours null if the organization hours is unkown or no data.</ul>
+                        <ul id="redText">• 24 hours: 00:00 - 23:59</ul>
+                        <ul id="redText">• Closed: 00:00 - 00:00</ul></p>
                     <div>
                         <p class='dayp'>Monday</p>
                         <select name='monday' class='dayselect'>
@@ -319,6 +328,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
@@ -426,6 +436,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
@@ -533,6 +544,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
@@ -640,6 +652,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
@@ -747,6 +760,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
@@ -854,6 +868,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
@@ -961,6 +976,7 @@
                             <option>22:30</option>
                             <option>23:00</option>
                             <option>23:30</option>
+                            <option>23:59</option>
                         </select>
                     </div>
 
