@@ -245,7 +245,7 @@ CREATE TABLE `type` (
   PRIMARY KEY (`typeId`),
   UNIQUE KEY `type_unique` (`type`),
   UNIQUE KEY `imageFile` (`imageFile`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,8 +254,34 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
-INSERT INTO `type` VALUES (1,'Legal and Advocacy','legal.png'),(2,'Community Hub','community.png'),(3,'Transportation','transportation.png'),(4,'Food and Basic Goods','food.png'),(6,'Emergency and Crisis','emergency.png'),(7,'Information & Referral','info.png'),(8,'Financial Services','financial.png'),(9,'Housing Services','housing.png'),(10,'Counselling','counselling.png'),(11,'Health','health.png');
+INSERT INTO `type` VALUES (1,'Legal and Advocacy','legal.png'),(2,'Community Hub','community.png'),(3,'Transportation','transportation.png'),(4,'Food and Basic Goods','food.png'),(6,'Emergency and Crisis','emergency.png'),(7,'Information & Referral','info.png'),(8,'Financial Services','financial.png'),(9,'Housing Services','housing.png'),(10,'Counselling','counselling.png'),(11,'Health','health.png'),(12,'Events','events.png');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `users` (
+  `userId` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(20) DEFAULT NULL,
+  `password` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`userId`),
+  UNIQUE KEY `user` (`user`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin','Brightside1');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -267,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-07 21:38:14
+-- Dump completed on 2019-03-28  0:43:11

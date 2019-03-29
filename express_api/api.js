@@ -56,7 +56,7 @@ app.get(`/${config.token}/search`, (request, response) => {
             })
     })
     .catch((error) => {
-        response.send(error);
+        response.json([]);
     })
 })
 
@@ -76,7 +76,7 @@ app.get(`/${config.token}/category`, (request, response) => {
         db.getAllCategory().then((category) => {
             response.json(category);
         }).catch((error) => {
-            response.send(error);
+            response.json([]);
         })
     } else {
         let result = []
@@ -91,26 +91,11 @@ app.get(`/${config.token}/category`, (request, response) => {
 		        })
             }
 	        response.json(result)
+        }).catch((error) => {
+            response.json([]);
         })
     }
 })
-
-// admin login for adding more database entries
-// app.get(`/${config.token}/manage/:admin`, (request, response) => {
-//     if (request.params.admin == 'brightside_admin') {
-//         db.getData().then(data => {
-//             response.render('admin.hbs', {
-//                 data: data
-//             });
-//         })
-//     } else {
-//         response.status(404).send('Not Found');
-//     }
-// })
-
-// app.get(`/${config.token}/login`, (request, response) => {
-//     response.render('login.hbs');
-// })
 
 // POST request for login
 app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
@@ -132,14 +117,100 @@ app.post(`/${config.token}/manage`, urlencodedParser, (request, response) => {
 
 // POST request for adding data
 app.post(`/${config.token}/manage/submit`, urlencodedParser, (request, response) => {
-    console.log('submit\n', request.body);
-    response.redirect(`/${config.token}/manage`);
+    console.log('before', request.body);
+    var formdata = request.body;
+    
+    if (formdata.location == '') {
+        formdata['location'] = null;
+    }
+
+    if (formdata.website == '') {
+        formdata['website'] = null;
+    }
+
+    if (formdata.tollfree == '') {
+        formdata['tollfree'] = null;
+    } else {
+        formdata['tollfree'] = formdata.tollfree.replace(/\(| |\)|\.|\*|\-/gi, "");
+    }
+
+    if (formdata.monday[0] == 'null' && formdata.monday[1] == 'null') {
+        formdata['monday'][0] = null;
+        formdata['monday'][1] = null;
+    }
+
+    if (formdata.tuesday[0] == 'null' && formdata.tuesday[1] == 'null') {
+        formdata['tuesday'][0] = null;
+        formdata['tuesday'][1] = null;
+    }
+
+    if (formdata.wednesday[0] == 'null' && formdata.wednesday[1] == 'null') {
+        formdata['wednesday'][0] = null;
+        formdata['wednesday'][1] = null;
+    }
+
+    if (formdata.thursday[0] == 'null' && formdata.thursday[1] == 'null') {
+        formdata['thursday'][0] = null;
+        formdata['thursday'][1] = null;
+    }
+
+    if (formdata.friday[0] == 'null' && formdata.friday[1] == 'null') {
+        formdata['friday'][0] = null;
+        formdata['friday'][1] = null;
+    }
+
+    if (formdata.saturday[0] == 'null' && formdata.saturday[1] == 'null') {
+        formdata['saturday'][0] = null;
+        formdata['saturday'][1] = null;
+    }
+
+    if (formdata.sunday[0] == 'null' && formdata.sunday[1] == 'null') {
+        formdata['sunday'][0] = null;
+        formdata['sunday'][1] = null;
+    }
+    
+    // manage phone numbers and make sure its only numbers
+    formdata['contact'] = formdata.contact.replace(/\(| |\)|\.|\*|\-/gi, "");
+    
+    console.log('after', request.body);
+
+    // add data to database
+    db.addResource(formdata).then(() => {
+        db.getLatestResourceId().then(id => {
+            db.addResourceHours(id[0].resourceId, formdata).then(() => {
+                db.addResourceKeyw(id[0].resourceId, formdata.keyword).then(() => {
+                    console.log(id[0].resourceId);
+                    db.addResourcePerk(id[0].resourceId, formdata.perks).then(() => {
+                        db.addResourceType(id[0].resourceId, formdata.type).then(() => {
+                            response.redirect(`/${config.token}/manage`);
+                        })
+                    })
+                })
+            })
+        })
+    })
+
+})
+
+// method for deleting data
+app.post(`/${config.token}/manage/delete`, urlencodedParser, (request, response) => {
+    console.log(request.body);
+    console.log(request.body.resId);
+    db.delResourceType(request.body.resId).then(() => {
+        db.delResourcePerk(request.body.resId).then(() => {
+            db.delResourceKeyw(request.body.resId).then(() => {
+                db.delResourceHours(request.body.resId).then(() => {
+                    db.delResource(request.body.resId).then(() => {
+                        response.redirect(`/${config.token}/manage`);
+                    })
+                })
+            })
+        })
+    })
 })
 
 // GET request to console management page
 app.get(`/${config.token}/manage`, (request, response) => {
-    // console.log('Cookies', request.cookies.isLoggedIn);
-    // console.log('Request', request);
     if (request.cookies.isLoggedIn == undefined) {
         response.render('login.hbs');
     } else if (request.cookies.isLoggedIn != undefined) {

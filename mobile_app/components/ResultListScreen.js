@@ -26,7 +26,7 @@ export default class ResultListScreen extends React.Component {
 	    .then(async () => {
 	    	this.setState({fontLoaded:true});
 	    	await this.getResults();
-	    	this.getCurrentLocation();
+    		this.getCurrentLocation();
 	    });
 	    let timer = setTimeout(()=>this.props.navigation.popToTop(), timeOut);
 	    this.setState({timer})
@@ -55,7 +55,7 @@ export default class ResultListScreen extends React.Component {
             });
     		let dataCopy = this.state.rawData.slice();
     		for (let i = 0; i < dataCopy.length; i++){
-    			if (dataCopy[i].location == "Phone Only"){continue};
+    			if (dataCopy[i].location == null){continue};
     			let coords = await this.fetchCoord(dataCopy[i].location);
     			dataCopy[i].coords = coords;
     		}
@@ -118,7 +118,7 @@ export default class ResultListScreen extends React.Component {
 				<View style={{width:'100%',top:'35%'}}>
 				<ActivityIndicator size="large" color="#4B306A" />
 				</View>}
-				{this.state.rawData.code == 'ER_PARSE_ERROR' ? 
+				{this.state.sortedData == [] ? 
 				<View style={styles.errorContainer}>
 					<Text style={[styles.errorText, {fontSize: errorTextSize}]}>No Results</Text>
 				</View> :
