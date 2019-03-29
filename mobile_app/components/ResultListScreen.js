@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ActivityIndicator, Text, View, Image, StyleSheet, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import { LinearGradient, Font } from 'expo';
 import ResultComponent from './ResultComponent.js';
+import Permissions from 'react-native-permissions';
 import { NavigationEvents } from 'react-navigation';
 
 export default class ResultListScreen extends React.Component {
@@ -71,7 +72,7 @@ export default class ResultListScreen extends React.Component {
 	    		let b_dist = Math.hypot(b.coords.lat - this.state.curLat,b.coords.lng - this.state.curLong)
 				return a_dist - b_dist
 			  }
-			});  		
+			}); 		
 			this.setState({sortedData:dataCopy})
         }, (error) => {console.log(error)})
     }
@@ -101,6 +102,7 @@ export default class ResultListScreen extends React.Component {
 		let renderData = (this.state.sortedData == null) ? false : true; 
 		let textSize = 0.04*SCREEN_HEIGHT;
 		let errorTextSize = 0.03*SCREEN_HEIGHT;
+		console.log(this.state.sortedData);
 		return(
 			<View>
 			    <NavigationEvents
@@ -116,7 +118,7 @@ export default class ResultListScreen extends React.Component {
 				<View style={{width:'100%',top:'35%'}}>
 				<ActivityIndicator size="large" color="#4B306A" />
 				</View>}
-				{this.state.sortedData == [] ? 
+				{this.state.sortedData == '' ? 
 				<View style={styles.errorContainer}>
 					<Text style={[styles.errorText, {fontSize: errorTextSize}]}>No Results</Text>
 				</View> :
