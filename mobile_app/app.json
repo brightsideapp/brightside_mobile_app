@@ -19,9 +19,6 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "ios":{
-      "bundleIdentifier": "com.brightside.brightsideMobileApp"
-    },
     "android": {
       "package": "com.brightside.brightsideMobileApp"
     },
@@ -29,6 +26,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.brightside.brightsideMobileApp",
       "supportsTablet": true
     }
   }

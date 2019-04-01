@@ -258,6 +258,9 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 
 const phoneParser = (phoneNum) => {
+  if (phoneNum == null){
+    return
+  }
   let phoneSplit = phoneNum.split("")
   let list = []
   console.log(phoneSplit);
