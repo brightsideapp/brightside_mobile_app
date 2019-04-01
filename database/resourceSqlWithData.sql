@@ -16,6 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `apiKey`
+--
+
+DROP TABLE IF EXISTS `apiKey`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `apiKey` (
+  `keyId` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `accessKey` varchar(255) NOT NULL,
+  PRIMARY KEY (`keyId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `apiKey`
+--
+
+LOCK TABLES `apiKey` WRITE;
+/*!40000 ALTER TABLE `apiKey` DISABLE KEYS */;
+INSERT INTO `apiKey` VALUES (1,'google','AIzaSyDY7ZYa5qUgs5IYLtWG7MSK6rIvSYUVKVc');
+/*!40000 ALTER TABLE `apiKey` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `hours`
 --
 
@@ -88,7 +113,7 @@ CREATE TABLE `keywordTypeKeyword` (
 
 LOCK TABLES `keywordTypeKeyword` WRITE;
 /*!40000 ALTER TABLE `keywordTypeKeyword` DISABLE KEYS */;
-INSERT INTO `keywordTypeKeyword` VALUES (13,'advocacy'),(13,'advocate'),(13,'lawyer'),(14,'estate'),(14,'judge'),(14,'justice'),(14,'law'),(14,'lawyer'),(14,'legal'),(14,'victim'),(14,'will'),(15,'accountant'),(15,'debt'),(15,'finance'),(15,'income'),(15,'income tax'),(15,'money'),(16,'bus'),(16,'cab'),(16,'taxi'),(16,'train'),(16,'transit'),(16,'transportation'),(17,'esl'),(17,'immigrant'),(17,'immigration'),(17,'interpreter'),(17,'newcomer'),(17,'refugee'),(17,'translation'),(18,'anxiety'),(18,'bereavement'),(18,'counselling'),(18,'depressed'),(18,'despair'),(18,'distress'),(18,'divorce'),(18,'emotion'),(18,'emotional'),(18,'grief'),(18,'helpless'),(18,'hopeless'),(18,'lonely'),(18,'loss'),(18,'sad'),(18,'suicide'),(18,'support'),(18,'talk'),(19,'anxiety'),(19,'counselling'),(19,'depression'),(19,'doctor'),(19,'health'),(19,'healthcare'),(19,'mental'),(19,'mental health'),(19,'nurse'),(19,'psychiatrist'),(19,'talk'),(20,'clean'),(20,'cleaner'),(20,'cleaning'),(20,'maid'),(20,'tidy'),(21,'abandon'),(21,'abuse'),(21,'hurt'),(21,'neglect'),(22,'community'),(22,'local'),(22,'neighbor'),(22,'neighborhood'),(22,'neighbour'),(22,'next door'),(23,'food'),(23,'food bank'),(23,'food security'),(23,'food services'),(23,'low-cost'),(23,'nutrition'),(23,'pantry'),(24,'senior'),(25,'complaint'),(25,'cops'),(25,'crime'),(25,'noise'),(25,'police'),(25,'report'),(25,'vandalism'),(26,'activities'),(26,'activity'),(26,'event'),(26,'exercise'),(26,'program'),(26,'social'),(27,'addiction'),(27,'drug'),(27,'gambling'),(28,'education'),(28,'school'),(29,'disability'),(30,'volunteer');
+INSERT INTO `keywordTypeKeyword` VALUES (13,'administrative'),(13,'administrative advocacy'),(13,'advocacy'),(13,'advocate'),(13,'form'),(13,'housing advocacy'),(13,'housing advocate'),(13,'lawyer'),(13,'legal advocate'),(13,'paper work'),(14,'estate'),(14,'judge'),(14,'justice'),(14,'law'),(14,'lawyer'),(14,'legal'),(14,'victim'),(14,'will'),(15,'accountant'),(15,'banking'),(15,'debt'),(15,'finance'),(15,'finances'),(15,'income'),(15,'income tax'),(15,'money'),(16,'bus'),(16,'cab'),(16,'taxi'),(16,'train'),(16,'transit'),(16,'transportation'),(17,'asylum seeker'),(17,'canadian'),(17,'community'),(17,'esl'),(17,'immigrant'),(17,'immigration'),(17,'interpreter'),(17,'new canadian'),(17,'newcomer'),(17,'permanent resident'),(17,'refugee'),(17,'translation'),(18,'aid'),(18,'anxiety'),(18,'bereavement'),(18,'counselling'),(18,'depressed'),(18,'despair'),(18,'distress'),(18,'divorce'),(18,'emotion'),(18,'emotional'),(18,'grief'),(18,'help'),(18,'helpless'),(18,'hopeless'),(18,'housing support'),(18,'lonely'),(18,'loss'),(18,'sad'),(18,'suicide'),(18,'support'),(18,'talk'),(19,'anxiety'),(19,'counselling'),(19,'depression'),(19,'doctor'),(19,'health'),(19,'healthcare'),(19,'hospital'),(19,'mental'),(19,'mental health'),(19,'nurse'),(19,'psychiatrist'),(19,'resources'),(19,'talk'),(20,'clean'),(20,'cleaner'),(20,'cleaning'),(20,'housekeeper'),(20,'housekeeping'),(20,'light housekeeping'),(20,'maid'),(20,'maid service'),(20,'tidy'),(21,'abandon'),(21,'abuse'),(21,'hurt'),(21,'neglect'),(22,'close'),(22,'community'),(22,'local'),(22,'near'),(22,'near by'),(22,'nearest'),(22,'nearest support centres'),(22,'neighbor'),(22,'neighborhood'),(22,'neighbour'),(22,'next door'),(23,'bargain food'),(23,'community gardens'),(23,'food'),(23,'food bank'),(23,'food security'),(23,'food services'),(23,'low-cost'),(23,'nutrition'),(23,'pantry'),(24,'senior'),(25,'complaint'),(25,'cops'),(25,'crime'),(25,'noise'),(25,'police'),(25,'report'),(25,'vandalism'),(26,'activities'),(26,'activity'),(26,'event'),(26,'exercise'),(26,'program'),(26,'social'),(27,'addiction'),(27,'drug'),(27,'gambling'),(28,'education'),(28,'school'),(29,'disability'),(30,'volunteer');
 /*!40000 ALTER TABLE `keywordTypeKeyword` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,4 +318,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-28  0:43:11
+-- Dump completed on 2019-03-31 20:06:21

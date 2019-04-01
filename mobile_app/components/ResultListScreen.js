@@ -15,7 +15,8 @@ export default class ResultListScreen extends React.Component {
 			sortedData: null,
 			timer: null,
 			curLat: null, 
-			curLong: null
+			curLong: null,
+			key: null
 		}
 		this.getResults.bind(this)
 	}
@@ -26,6 +27,7 @@ export default class ResultListScreen extends React.Component {
 	    })
 	    .then(async () => {
 	    	this.setState({fontLoaded:true});
+	    	await this.fetchKey();
 	    	await this.getResults();
     		this.getCurrentLocation();
 	    });
@@ -33,11 +35,23 @@ export default class ResultListScreen extends React.Component {
 	    this.setState({timer})
 	}
 
+	async fetchKey(){
+		return await fetch(api.key)
+        .then((response) => response.json())
+        .then((response) => {if (response == '') {
+                              throw new Error('Cannot get location from Google');
+                            } else {
+                                this.setState({key:response[0].key})
+                            }})
+        .catch((error) => {console.log(error)})
+	}
+
 	async fetchCoord(address){
-        let api = "https://maps.googleapis.com/maps/api/geocode/json?address="
-        let key = "&key=AIzaSyDY7ZYa5qUgs5IYLtWG7MSK6rIvSYUVKVc"
+        let googleApi = "https://maps.googleapis.com/maps/api/geocode/json?address="
+        console.log(`key:${this.state.key}`);
+        let accessKey = `&key=${this.state.key}`
         let encodedAddr = encodeURIComponent(address)
-        let encodedUrl = api + encodedAddr + key
+        let encodedUrl = googleApi + encodedAddr + accessKey
         return await fetch(encodedUrl)
         .then((response) => response.json())
         .then((response) => {if (response.status != 'OK') {
@@ -189,7 +203,8 @@ const {
 
 const api = {
 	cat:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=",
-	keyword:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword="
+	keyword:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword=",
+	key:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/key"
 }
 
 const timeOut = 180000
