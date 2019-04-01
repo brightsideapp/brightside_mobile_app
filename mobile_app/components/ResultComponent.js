@@ -162,6 +162,14 @@ class ResultComponent extends Component {
                 <Animated.Image style={[styles.expand, {top: bounceDownAnim, opacity: this.opacityValue}]} source={require('../assets/down.png')} />}
                 {this.state.loadExtra && 
                 <View>
+                  <View style={{flexDirection: 'column'}}>
+                    <Text style={styles.infoText}>Website:</Text>
+                    <Text 
+                    style={[styles.text, styles.hyperlink]}
+                    onPress={() => {Linking.openURL(this.props.data.website)}}>
+                      {this.props.data.location == null ? "No Website" : this.props.data.website}
+                    </Text>
+                  </View>
                   <Text style={styles.infoText}>Description:</Text>
                   <Text style={styles.text}>{this.props.data.description}</Text>
                   <Text style={[styles.titleText, {fontSize: 20}]}>Hours:</Text>
