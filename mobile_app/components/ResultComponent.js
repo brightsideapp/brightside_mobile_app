@@ -138,7 +138,7 @@ class ResultComponent extends Component {
                     })}
                     style={[styles.mapButton]}>
                     <Image style={styles.mapIcon}
-                    source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
+                    source={require('../assets/map_button.png')} />
                   </TouchableOpacity>}
                   </View>}
                 </View>
