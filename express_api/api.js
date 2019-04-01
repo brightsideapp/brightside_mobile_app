@@ -60,12 +60,13 @@ app.get(`/${config.token}/search`, (request, response) => {
     })
 })
 
-// test the getSchedule function
-app.get(`/${config.token}/test`, (request, response) => {
-    db.getSchedule(63).then((resource) => {
-        response.json(resource);
+// get the API key
+app.get(`/${config.token}/key`, (request, response) => {
+    db.getKey('google').then((respond) => {
+        let key = respond[0].accessKey
+        response.json([{key:key}]);
     }).catch((error) => {
-        response.send(error);
+        response.json([]);
     })
 })
 

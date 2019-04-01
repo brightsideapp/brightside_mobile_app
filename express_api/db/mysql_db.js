@@ -30,6 +30,15 @@ const getData = () => {
     })
 }
 
+const getKey = api => {
+    return new Promise((resolve, reject) => {
+         pool.query(`select * from apiKey where name = '${api}'`, (error, response, fields) => {
+            if (error) reject(error);
+            else resolve(response);
+        })
+    })
+}
+
 // search for keyword ie. advocacy, legal, money, etc
 const searchData = clientQuery => {
     let clientKeywords = clientQuery.trim().split(' ');
@@ -342,6 +351,7 @@ module.exports = {
     getAllCategory,
     getSchedule,
     getUser,
+    getKey,
     searchData,
     addResource,
     getLatestResourceId,
