@@ -86,6 +86,7 @@ class ResultComponent extends Component {
         let schedule = []
         let lineFlex = (SCREEN_WIDTH > 600) ? 'row' : 'column'
         let phonePad = (SCREEN_WIDTH > 600) ? 20 : 0
+        let phoneNum = phoneParser(this.props.data.phoneNumber)
 
         weekday.forEach((day)=>{
           schedule.push(
@@ -110,7 +111,6 @@ class ResultComponent extends Component {
             inputRange: [0, 1],
             outputRange: [3, 0]
         })
-
         return (
             <TouchableOpacity style={[styles.container, {width: contWidth}]} onPress={()=>{
               this.expand()
@@ -129,7 +129,7 @@ class ResultComponent extends Component {
                     })}
                     style={[styles.mapButton, {left: shakeAnim}]}>
                     <Image style={styles.mapIcon}
-                    source={{uri:"http://35.166.255.157/icon/map_button.png"}} />
+                    source={require('../assets/map_button.png')} />
                   </AnimatedTouchable> :
                   <TouchableOpacity
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
@@ -151,8 +151,8 @@ class ResultComponent extends Component {
                     <Text style={[styles.infoText, {paddingLeft: phonePad}]}>Phone:</Text>
                     <Text 
                     style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} 
-                    onPress={() => {Linking.openURL('tel:'+this.props.data.phoneNumber);}}>
-                      {this.props.data.phoneNumber}
+                    onPress={() => {Linking.openURL('tel:'+phoneNum);}}>
+                      {phoneNum}
                     </Text>
                   </View>
                 </View>
@@ -256,3 +256,16 @@ const {
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 
 const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+
+const phoneParser = (phoneNum) => {
+  let phoneSplit = phoneNum.split("")
+  let list = []
+  console.log(phoneSplit);
+  if (phoneSplit.length == 10) {
+    for (var i = 0; i < 6; i = i + 3){
+      var comp  = phoneSplit[i] + phoneSplit[i+1] + phoneSplit[i+2] + '-'
+      list.push(comp)
+    }
+    return list.join('') + phoneSplit[6] + phoneSplit[7] + phoneSplit[8] + phoneSplit[9]
+  } else return phoneNum
+}

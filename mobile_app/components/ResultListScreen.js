@@ -15,7 +15,8 @@ export default class ResultListScreen extends React.Component {
 			sortedData: null,
 			timer: null,
 			curLat: null, 
-			curLong: null
+			curLong: null,
+			key: null
 		}
 		this.getResults.bind(this)
 	}
@@ -26,6 +27,7 @@ export default class ResultListScreen extends React.Component {
 	    })
 	    .then(async () => {
 	    	this.setState({fontLoaded:true});
+	    	await this.fetchKey();
 	    	await this.getResults();
     		this.getCurrentLocation();
 	    });
@@ -39,15 +41,15 @@ export default class ResultListScreen extends React.Component {
         .then((response) => {if (response == '') {
                               throw new Error('Cannot get location from Google');
                             } else {
-                                return response.key
+                                this.setState({key:response[0].key})
                             }})
         .catch((error) => {console.log(error)})
 	}
 
 	async fetchCoord(address){
         let googleApi = "https://maps.googleapis.com/maps/api/geocode/json?address="
-        let apiKey = await fetchKey()
-        let accessKey = `&key=${apiKey}`
+        console.log(`key:${this.state.key}`);
+        let accessKey = `&key=${this.state.key}`
         let encodedAddr = encodeURIComponent(address)
         let encodedUrl = googleApi + encodedAddr + accessKey
         return await fetch(encodedUrl)
