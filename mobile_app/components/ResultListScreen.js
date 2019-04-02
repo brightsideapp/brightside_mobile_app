@@ -48,7 +48,6 @@ export default class ResultListScreen extends React.Component {
 
 	async fetchCoord(address){
         let googleApi = "https://maps.googleapis.com/maps/api/geocode/json?address="
-        console.log(`key:${this.state.key}`);
         let accessKey = `&key=${this.state.key}`
         let encodedAddr = encodeURIComponent(address)
         let encodedUrl = googleApi + encodedAddr + accessKey
@@ -96,7 +95,6 @@ export default class ResultListScreen extends React.Component {
 		let encodedCat = encodeURIComponent(category)
 		let type = this.props.navigation.getParam('type','')
 		let url = `${api[type]}${encodedCat}`
-		console.log(url);
 		await fetch(url)
 		.then((response) => response.json())
 		.then((responseJson) => {

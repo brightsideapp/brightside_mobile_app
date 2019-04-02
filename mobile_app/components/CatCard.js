@@ -32,6 +32,14 @@ class CatCard extends React.Component {
 		).start(() => this.shake())
 	}
 
+	animate(shakeAnim) {
+		if (this.props.animations) {
+			return [{rotate: shakeAnim}]
+		} else {
+			return []
+		}
+	}
+
 	render(){
 		let cardWidth = (SCREEN_WIDTH > 600) ? 0.375*SCREEN_WIDTH : 0.8*SCREEN_WIDTH
 		let cardHeight = (SCREEN_WIDTH > 600) ? 0.375*SCREEN_HEIGHT : 0.5*SCREEN_HEIGHT
@@ -43,39 +51,21 @@ class CatCard extends React.Component {
             inputRange: [0, 360],
             outputRange: ['0deg', '360deg']
         })
-
-        if (this.props.animations) {
-        	return(
-				<AnimatedTouchable
-				style={[styles.card, {
-					width: cardWidth, 
-					height: cardHeight, 
-					marginRight: cardMargin,
-					transform: [{rotate: shakeAnim}]
-				}]}
-				onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat'})}>
-					<View style={styles.buttContainer}>
-						<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
-						{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
-					</View>
-				</AnimatedTouchable>
-			)
-        } else {
-        	return (
-        		<TouchableHighlight
-				style={[styles.card, {
-					width: cardWidth, 
-					height: cardHeight, 
-					marginRight: cardMargin
-				}]}
-				onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat',animations:this.props.animations})}>
-					<View style={styles.buttContainer}>
-						<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
-						{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
-					</View>
-				</TouchableHighlight>
-        	)
-        }
+    	return (
+			<AnimatedTouchable
+			style={[styles.card, {
+				width: cardWidth, 
+				height: cardHeight, 
+				marginRight: cardMargin,
+				transform: this.animate(shakeAnim)
+			}]}
+			onPress={()=>this.props.navigation.navigate('ResultList',{cat:this.props.cat,type:'cat',animations:this.props.animations})}>
+				<View style={styles.buttContainer}>
+					<Image style={{height: iconSize, width: iconSize, resizeMode: 'contain'}} source={{uri:this.state.uri}}/>
+					{this.state.fontLoaded ? (<Text style={[styles.cardText, {fontSize: textSize}]}>{this.props.cat}</Text>) : null}
+				</View>
+			</AnimatedTouchable>
+		)
 	}
 }
 
