@@ -100,4 +100,4 @@ const MIN_TABLET_WIDTH = 599;
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 
-const endpoint = 'http://35.166.255.157/icon/'
+const endpoint = 'http://52.26.245.89/icon/'

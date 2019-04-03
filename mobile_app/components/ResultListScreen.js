@@ -200,9 +200,9 @@ const {
 } = Dimensions.get('window');
 
 const api = {
-	cat:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=",
-	keyword:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword=",
-	key:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/key"
+	cat:"http://52.26.245.89/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category?key=",
+	keyword:"http://52.26.245.89/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/search?keyword=",
+	key:"http://52.26.245.89/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/key"
 }
 
 const timeOut = 180000

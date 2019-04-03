@@ -170,7 +170,7 @@ const {
 const MIN_TABLET_WIDTH = 599;
 
 const api = {
-	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category"
+	endpoint:"http://52.26.245.89/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category"
 }
 
 const timeOut = 180000
