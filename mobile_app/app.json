@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Brightside MobileApp",
-    "slug": "Brightside-MobileApp",
+    "name": "Brightside Homes",
+    "slug": "Brightside-Homes",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -10,7 +10,7 @@
     ],
     "version": "1.0.0",
     "orientation":"portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app_icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -20,13 +20,13 @@
       "fallbackToCacheTimeout": 0
     },
     "android": {
-      "package": "com.brightside.brightsideMobileApp"
+      "package": "com.brightside.brightsideHomes"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.brightside.brightsideMobileApp",
+      "bundleIdentifier": "com.brightside.brightsideHomes",
       "supportsTablet": true
     }
   }
