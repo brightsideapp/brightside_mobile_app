@@ -41,11 +41,11 @@ class CatCard extends React.Component {
 	}
 
 	render(){
-		let cardWidth = (SCREEN_WIDTH > 600) ? 0.375*SCREEN_WIDTH : 0.8*SCREEN_WIDTH
-		let cardHeight = (SCREEN_WIDTH > 600) ? 0.375*SCREEN_HEIGHT : 0.5*SCREEN_HEIGHT
+		let cardWidth = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 0.375*SCREEN_WIDTH : 0.8*SCREEN_WIDTH
+		let cardHeight = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 0.375*SCREEN_HEIGHT : 0.5*SCREEN_HEIGHT
 		let cardMargin = 0.05*SCREEN_WIDTH
-		let textSize = (SCREEN_WIDTH > 600) ? 0.0425*SCREEN_HEIGHT : 0.05*SCREEN_HEIGHT
-		let iconSize = (SCREEN_WIDTH > 600) ? 0.2*SCREEN_HEIGHT : 0.3*SCREEN_HEIGHT
+		let textSize = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 0.0425*SCREEN_HEIGHT : 0.05*SCREEN_HEIGHT
+		let iconSize = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 0.2*SCREEN_HEIGHT : 0.3*SCREEN_HEIGHT
 
         const shakeAnim = this.shakeValue.interpolate({
             inputRange: [0, 360],
@@ -95,6 +95,8 @@ const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
+
+const MIN_TABLET_WIDTH = 599;
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 
