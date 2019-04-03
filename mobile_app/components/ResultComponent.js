@@ -274,10 +274,11 @@ const websiteParser = (website) => {
     websiteDisp = 'http://'+website
   }
   return (
-    <Text 
-    style={[styles.text, styles.hyperlink]}
+    <Text style={[styles.text, styles.hyperlink]}>
+    <Text
     onPress={() => {Linking.openURL(websiteDisp)}}>
       {websiteDisp}
+    </Text>
     </Text>
   )
 }
@@ -302,10 +303,11 @@ const phoneParser = (phoneNum, phonePad) => {
     phoneNum = list.join('') + phoneSplit[6] + phoneSplit[7] + phoneSplit[8] + phoneSplit[9]
   }
   return (
-    <Text 
-    style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} 
-    onPress={() => {Linking.openURL('tel:'+phoneNum);}}>
+    <Text style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} >
+    <Text
+    onPress={() => {Linking.openURL('tel:'+phoneNum)}}>
       {phoneNum}
+    </Text>
     </Text>
   )
 }
