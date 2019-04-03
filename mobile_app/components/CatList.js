@@ -50,7 +50,7 @@ export default class CatList extends React.Component {
 		let textSize = 0.04*SCREEN_HEIGHT
 		let searchHeight = 0.07*SCREEN_HEIGHT
 		let searchFontSize = 0.035*SCREEN_HEIGHT
-		let colNum = (SCREEN_WIDTH > 600) ? 2 : 1
+		let colNum = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 2 : 1
 		let renderData = (this.state.data == null) ? false : true; 
 		return(
 			<View>
@@ -167,8 +167,10 @@ const {
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
 
+const MIN_TABLET_WIDTH = 599;
+
 const api = {
-	endpoint:"http://35.166.255.157/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category"
+	endpoint:"http://52.26.245.89/xGdZeUwWF9vGiREdDqttqngajYihFUIoJXpC8DVz/category"
 }
 
 const timeOut = 180000
