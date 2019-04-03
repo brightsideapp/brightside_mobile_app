@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { LinearGradient, Font } from 'expo';
+import { LinearGradient, Font, WebBrowser } from 'expo';
 import { Animated, Easing, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Linking, TouchableHighlight } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -97,8 +97,8 @@ class ResultComponent extends Component {
     render() {
         let contWidth = 0.8*SCREEN_WIDTH
         let schedule = []
-        let lineFlex = (SCREEN_WIDTH > 600) ? 'row' : 'column'
-        let phonePad = (SCREEN_WIDTH > 600) ? 20 : 0
+        let lineFlex = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 'row' : 'column'
+        let phonePad = (SCREEN_WIDTH > MIN_TABLET_WIDTH) ? 20 : 0
 
         weekday.forEach((day)=>{
           schedule.push(
@@ -256,6 +256,8 @@ const {
   height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
 
+const MIN_TABLET_WIDTH = 599;
+
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 
 const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
@@ -273,15 +275,28 @@ const websiteParser = (website) => {
   if (website.slice(0,4) != 'http') {
     websiteDisp = 'http://'+website
   }
+  if (SCREEN_WIDTH > MIN_TABLET_WIDTH) {
+   return (
+    <Text style={[styles.text]}>
+    <Text>
+      {websiteDisp}
+    </Text>
+    </Text>   
+    )
+  }
   return (
     <Text style={[styles.text, styles.hyperlink]}>
     <Text
-    onPress={() => {Linking.openURL(websiteDisp)}}>
+    onPress={() => {_openLink(websiteDisp)}}>
       {websiteDisp}
     </Text>
     </Text>
   )
 }
+
+_openLink = async (link) => {
+        await WebBrowser.openBrowserAsync(link);
+    }
 
 const phoneParser = (phoneNum, phonePad) => {
   if (phoneNum == null){
@@ -301,6 +316,15 @@ const phoneParser = (phoneNum, phonePad) => {
       list.push(comp)
     }
     phoneNum = list.join('') + phoneSplit[6] + phoneSplit[7] + phoneSplit[8] + phoneSplit[9]
+  }
+  if (SCREEN_WIDTH > MIN_TABLET_WIDTH) {
+    return (
+      <Text style={[styles.text, {paddingLeft: phonePad}]} >
+      <Text>
+        {phoneNum}
+      </Text>
+      </Text>
+    )
   }
   return (
     <Text style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} >

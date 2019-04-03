@@ -39,7 +39,6 @@ export default class GeoComponent extends Component {
 
     getCurrentLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
-            console.log('my position: ' + position.coords.latitude + ', ' + position.coords.longitude);
             let latDelta = Math.abs(this.state.resMarker.latitude - position.coords.latitude)*1.15
             let longDelta = Math.abs(this.state.resMarker.longitude - position.coords.longitude)*1.15
             let displayLat = (this.state.resMarker.latitude + position.coords.latitude)/2
@@ -62,12 +61,6 @@ export default class GeoComponent extends Component {
                     longitudeDelta: longDelta,
                 }
             })
-            console.log(`marker:${this.state.marker}`);
-            console.log(this.state.marker);
-            console.log(`resmarker:${this.state.resMarker}`);
-            console.log(this.state.resMarker);
-            console.log(`disreg:${this.state.displayRegion}`);
-            console.log(this.state.displayRegion);
         }, (error) => {console.log(error)})
     }
 
