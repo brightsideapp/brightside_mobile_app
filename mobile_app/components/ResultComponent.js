@@ -81,12 +81,24 @@ class ResultComponent extends Component {
       this.state.loadExtra ? this.setState({loadExtra: false}) : this.setState({loadExtra: true})
     }
 
+    animate(shakeAnim){
+      if (this.props.animations) {
+        return [styles.mapButton, {left: shakeAnim}]
+      }
+      else return styles.mapButton
+    }
+
+    hyperParser(condition){
+      if (condition) {
+        return styles.hyperlink
+      }
+    }
+
     render() {
         let contWidth = 0.8*SCREEN_WIDTH
         let schedule = []
         let lineFlex = (SCREEN_WIDTH > 600) ? 'row' : 'column'
         let phonePad = (SCREEN_WIDTH > 600) ? 20 : 0
-        let phoneNum = phoneParser(this.props.data.phoneNumber)
 
         weekday.forEach((day)=>{
           schedule.push(
@@ -122,24 +134,15 @@ class ResultComponent extends Component {
                     <Text style={styles.titleText}>{this.props.data.organization}</Text>
                   </View>
                   {this.props.data.location != null && <View style={styles.buttonStyle}>
-                  {this.props.animations ? <AnimatedTouchable
+                  <AnimatedTouchable
                     onPress={()=>this.props.navigation.navigate('MapScreen', {
                       coords: this.props.data.coords,
                       organization: this.props.data.organization
                     })}
-                    style={[styles.mapButton, {left: shakeAnim}]}>
+                    style={this.animate(shakeAnim)}>
                     <Image style={styles.mapIcon}
                     source={require('../assets/map_button.png')} />
-                  </AnimatedTouchable> :
-                  <TouchableOpacity
-                    onPress={()=>this.props.navigation.navigate('MapScreen', {
-                      coords: this.props.data.coords,
-                      organization: this.props.data.organization
-                    })}
-                    style={[styles.mapButton]}>
-                    <Image style={styles.mapIcon}
-                    source={require('../assets/map_button.png')} />
-                  </TouchableOpacity>}
+                  </AnimatedTouchable>
                   </View>}
                 </View>
                 <View style={[styles.line, {flexDirection: lineFlex}]}>
@@ -149,11 +152,7 @@ class ResultComponent extends Component {
                   </View>
                   <View style={styles.block}>
                     <Text style={[styles.infoText, {paddingLeft: phonePad}]}>Phone:</Text>
-                    <Text 
-                    style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} 
-                    onPress={() => {Linking.openURL('tel:'+phoneNum);}}>
-                      {phoneNum}
-                    </Text>
+                    {phoneParser(this.props.data.phoneNumber,phonePad)}
                   </View>
                 </View>
                 <Text style={styles.infoText}>Perks:</Text>
@@ -164,11 +163,7 @@ class ResultComponent extends Component {
                 <View>
                   <View style={{flexDirection: 'column'}}>
                     <Text style={styles.infoText}>Website:</Text>
-                    <Text 
-                    style={[styles.text, styles.hyperlink]}
-                    onPress={() => {Linking.openURL(this.props.data.website)}}>
-                      {this.props.data.location == null ? "No Website" : this.props.data.website}
-                    </Text>
+                    {websiteParser(this.props.data.website)}
                   </View>
                   <Text style={styles.infoText}>Description:</Text>
                   <Text style={styles.text}>{this.props.data.description}</Text>
@@ -265,15 +260,52 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableHighlight);
 
 const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 
-const phoneParser = (phoneNum) => {
+const websiteParser = (website) => {
+  var websiteDisp = website
+  if (website == null) {
+    return (
+      <Text 
+      style={styles.text}>
+        No Website
+      </Text>
+    )
+  }
+  if (website.slice(0,4) != 'http') {
+    websiteDisp = 'http://'+website
+  }
+  return (
+    <Text 
+    style={[styles.text, styles.hyperlink]}
+    onPress={() => {Linking.openURL(websiteDisp)}}>
+      {websiteDisp}
+    </Text>
+  )
+}
+
+const phoneParser = (phoneNum, phonePad) => {
+  if (phoneNum == null){
+    phoneDisp = 'No Phone Number'
+    return (
+      <Text 
+      style={[styles.text, {paddingLeft: phonePad}]}>
+        No Phone Number
+      </Text>
+    )
+  }
   let phoneSplit = phoneNum.split("")
   let list = []
-  console.log(phoneSplit);
   if (phoneSplit.length == 10) {
     for (var i = 0; i < 6; i = i + 3){
       var comp  = phoneSplit[i] + phoneSplit[i+1] + phoneSplit[i+2] + '-'
       list.push(comp)
     }
-    return list.join('') + phoneSplit[6] + phoneSplit[7] + phoneSplit[8] + phoneSplit[9]
-  } else return phoneNum
+    phoneNum = list.join('') + phoneSplit[6] + phoneSplit[7] + phoneSplit[8] + phoneSplit[9]
+  }
+  return (
+    <Text 
+    style={[styles.text, styles.hyperlink, {paddingLeft: phonePad}]} 
+    onPress={() => {Linking.openURL('tel:'+phoneNum);}}>
+      {phoneNum}
+    </Text>
+  )
 }
