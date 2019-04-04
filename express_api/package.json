@@ -1,0 +1,25 @@
+{
+  "name": "4900-test-server",
+  "version": "1.0.0",
+  "description": "just testing ahead of time for ACIT4900",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaverickZephyrus/4900-test-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaverickZephyrus/4900-test-server/issues"
+  },
+  "homepage": "https://github.com/MaverickZephyrus/4900-test-server#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "hbs": "^4.0.3",
+    "mysql": "^2.16.0"
+  }
+}

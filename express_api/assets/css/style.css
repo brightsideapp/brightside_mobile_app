@@ -1,0 +1,233 @@
+/* ---------------------Login Page---------------------------------- */
+.loginContainer {
+    width: 20vw;
+    height: 30vh;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+}
+
+.loginContainer b {
+    color: #401e6c;
+}
+
+#loginLogo {
+    /* background-color: pink; */
+    width: '100%';
+    height: 15vh;
+    background-image: url("/img/brightside_logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.entries {
+    margin-bottom: 1vh;
+    width: '100%';
+}
+
+/* ----------------------Admin Page-------------------------------- */
+/* div screen container */
+.fullcontainer {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* header */
+#solidline {
+    width:'100%';
+    /* border-bottom: 2px solid; */
+    background-color: white;
+}
+
+#solidlinecontainer {
+    width: '100%';
+    padding-bottom: 2px;
+    background-image: linear-gradient(to right, #ee2b52, #fcb22b);
+}
+
+#bslogo {
+    top: 0;
+    left: 0;
+    background-image: url("/img/brightside_logo.png");
+    height: 10vh;
+    width: 20vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    display: inline-block;
+    /* background-color: yellow; */
+    vertical-align: middle;
+}
+
+#title {
+    display: inline-block;
+    height: 10vh;
+    width: 70vw;
+    text-align: center;
+    /* background-color: green; */
+    font-size: 160%;
+    vertical-align: middle;
+}
+
+#title p {
+    margin: 0.5vh;
+    font-size: 3.8vh;
+    color: #401e6c;
+}
+
+
+/* body */
+/* panel for summary and add buttons */
+#cpanel {
+    /* display: inline-block; */
+    width: 100vw;
+    height: 5vh;
+    /* background-color: #401e6c; */
+    background-image: linear-gradient(to right, #ee2b52, #fcb22b);
+    /* text-align: center; */
+    vertical-align: top;
+    font-size: 1.5vw;
+    color: white;
+    font-style: italic;
+    padding-bottom: 2px;
+}
+
+#cpanelin {
+    height: 4vh;
+    padding-top: 1vh;
+    background-color: #401e6c;
+}
+
+/* #cpanel b {
+    border-bottom: 1px dashed;
+} */
+
+#cpanel p {
+    display: inline-block;
+    margin: 0 0.5vw 0 0.5vw;
+}
+
+#summary {
+    font-size: 1.8vw;
+    background: -webkit-linear-gradient(#ee2b52, #fcb22b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* border-bottom: 1px solid; */
+}
+
+
+/* info panel */
+#infopanel {
+    width: 98.5vw;
+    height: 84vh;
+    padding: 0.7%;
+    overflow: scroll;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
+    /* background-color: green; */
+}
+
+#delButton {
+    width: 20px;
+    height: 20px;
+}
+
+/* div inside #infopanel containing the table */
+#tablecontainer {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#addpanel {
+    display: none;
+    width: 98.5vw;
+    height: 84vh;
+    padding: 0.7%;
+    overflow: scroll;
+}
+
+#addpanel input, select {
+    border-radius: 5px;
+}
+
+.inputstyle {
+    width: 15vw;
+}
+
+#addpanel textarea {
+    width: 35.5vw;
+    height: 10vh;
+}
+
+.dayp {
+    display: inline-block;
+    width: 5vw;
+}
+
+.dayselect {
+    display: inline-block;
+    margin-left: 3vw;
+}
+
+.chekbox input {
+    margin-left: 1vw;
+}
+
+#addDataButton {
+    width: 10vh;
+    height: 5vh;
+    margin: 0 5vh 5vh 5vh;
+    border-radius: 5px;
+}
+
+#redText {
+    color: red;
+}
+
+#blackBold {
+    color: black;
+}
+
+/*------------------- scrollbar options ---------------------*/
+/* hiding and styling */
+::-webkit-scrollbar {
+    width: 0.18vw;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in grey */
+::-webkit-scrollbar-thumb {
+    background: #8C8786;
+}
+/* end of scrollbar options */
+
+
+/*--------------------- table options ------------------------*/
+/* for single line borders */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+/* dynamic font sizing for table entries */
+td {
+    font-size: 0.8vw;
+}
+
+/* padding for table headers */
+th {
+    font-size: 1vw;
+    padding: 2px;
+}
+/* end of table options */

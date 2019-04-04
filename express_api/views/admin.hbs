@@ -1,0 +1,994 @@
+<!Doctype html>
+<html>
+
+<head>
+    <title>Management Console</title>
+    <link href='/css/style.css' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+    <div class="fullcontainer">
+        <div id="solidlinecontainer">
+            <div id="solidline">
+                <div id="bslogo"></div>
+                <div id="title">
+                    <b>
+                    <p>Brightside Community Homes Foundation</p>
+                    <p>Database Management Console</p>
+                    </b>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="cpanel">
+                <div id="cpanelin">
+                    <p><b id="summary">Summary</b></pid>
+                    <p><b id="add">Add Data</b></p>
+                </div>
+            </div>
+
+            {{!-- information panel. shows either summary or add data. --}}
+            {{!-- summary --}}
+            <div id="infopanel">
+                <div id="tablecontainer">
+                    <table style="width:100%">
+                        <thead style="background-color: #401e6c; color: white;">
+                            <col >
+                            <col >
+                            <col width='30%'>
+                            <col >
+                            <col >
+                            <col >
+                            <col >
+                            <col width='11%'>
+                            <col width='5%'>
+                            <col >
+                            <tr>
+                                <th>Location</th>
+                                <th>Organization</th>
+                                <th>Description</th>
+                                <th>Keywords</th>
+                                <th>Contact</th>
+                                <th>Toll-Free</th>
+                                <th>Website</th>
+                                <th>Hours</th>
+                                <th>Perks</th>
+                                <th>Type</th>
+                                <th>Delete?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each data}}
+                                <tr id={{resourceId}}>
+
+                                    {{#if location}}
+                                        <td>{{location}}</td>
+                                    {{else}}
+                                        <td>Phone Only</td>
+                                    {{/if}}
+
+                                    <td>{{organization}}</td>
+
+                                    <td>{{description}}</td>
+
+                                    <td>
+                                        {{#each keywords}}
+                                            <p>{{this}}</p>
+                                        {{/each}}
+                                    </td>
+
+                                    <td>{{phoneNumber}}</td>
+
+                                    {{#if tollFree}}
+                                        <td>{{tollFree}}</td>
+                                    {{else}}
+                                        <td>N/A</td>
+                                    {{/if}}
+
+                                    <td>{{website}}</td>
+
+                                    {{#if hours}}
+                                        <td>
+                                            {{#each hours}}
+                                                <p>{{this}}</p>
+                                            {{/each}}
+                                        </td>
+                                    {{else}}
+                                        <td>No Data Available</td>
+                                    {{/if}}
+
+                                    <td>
+                                        {{#each perks}}
+                                            <p>{{this}}</p>
+                                        {{/each}}
+                                    </td>
+
+                                    <td>{{#each type}}
+                                            <p>{{this}}</p>
+                                        {{/each}}
+                                    </td>
+
+                                    <td>
+                                        <form action='manage/delete' method="POST" onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                                            <input style="display: none" type="text" name="resId" value={{resourceId}} />
+                                            <input id="delButton" type="image" src="/img/delete.png" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{!-- add data --}}
+            <div id="addpanel">
+                <h3>NOTE: leave inputs blank for the following cases
+                    <h4>
+                        <ul>• Locations that have no physical address ie. Phone or web only</ul>
+                        <ul>• No toll free numbers</ul>
+                        <ul>• No websites</ul>
+                    </h4>
+                </h3>
+                <form action='manage/submit' method="POST" onsubmit="return confirm('Do you want to add this data to database?');">
+                    <div>
+                        <div style='display: inline-block;'>
+                            <p id="redText"><b id="blackBold">Location:</b> *optional</p>
+                            <input class='inputstyle' type='text' name='location'>
+                        </div>
+
+                        <div style='display: inline-block; margin-left: 5vw;'>
+                            <p id="redText"><b id="blackBold">Organization: </b>*required</p>
+                            <input class='inputstyle' type='text' name='organization' required>
+                        </div>
+                    </div>
+
+                    <p id="redText"><b id="blackBold">Description: </b>*required</p>
+                    <textarea name='description' style='border-radius: 5px;' required></textarea>
+
+                    <div>
+                        <div style='display: inline-block;'>
+                            <p id="redText"><b id="blackBold">Contact: </b>*required</p>
+                            <input type='tel' name='contact' required>
+                        </div>
+                        <div style='display: inline-block; margin-left: 5vw;'>
+                            <p id="redText"><b id="blackBold">Toll-Free: </b>*optional</p>
+                            <input type='tel' name='tollfree'>
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <p id="redText"><b id="blackBold">Website: </b>*optional</p>
+                    <input class='inputstyle' type='url' name='website' placeholder="http://www.site.com">
+
+                    <br /><br />
+                    <p id="redText"><b id="blackBold">Keywords: </b>*at least 1 required</p>
+                    <div class='chekbox'>
+                        <input type='checkbox' name='keyword' value='21'>Abuse</input>
+                        <input type='checkbox' name='keyword' value='26'>Activity</input>
+                        <input type='checkbox' name='keyword' value='27'>Addiction</input>
+                        <input type='checkbox' name='keyword' value='13'>Advocacy</input>
+                        <input type='checkbox' name='keyword' value='20'>Clean</input>
+                        <input type='checkbox' name='keyword' value='29'>Disability</input>
+                        <input type='checkbox' name='keyword' value='28'>Education</input>
+                        <input type='checkbox' name='keyword' value='23'>Food</input>
+                        <input type='checkbox' name='keyword' value='19'>Health</input>
+                        <input type='checkbox' name='keyword' value='17'>Immigrant</input>
+                        <input type='checkbox' name='keyword' value='14'>Legal</input>
+                        <input type='checkbox' name='keyword' value='22'>Local</input>
+                        <input type='checkbox' name='keyword' value='15'>Money</input>
+                        <input type='checkbox' name='keyword' value='25'>Police</input>
+                        <input type='checkbox' name='keyword' value='24'>Senior</input>
+                        <input type='checkbox' name='keyword' value='18'>Support</input>
+                        <input type='checkbox' name='keyword' value='16'>Transportation</input>
+                        <input type='checkbox' name='keyword' value='30'>Volunteer</input>
+                    </div>
+
+                    <br/>
+                    <p id="redText"><b id="blackBold">Perks: </b>*at least 1 required</p>
+                    <div class='chekbox'>
+                        <input type='checkbox' name='perks' value='33'>55+ only</input>
+                        <input type='checkbox' name='perks' value='28'>Accessible</input>
+                        <input type='checkbox' name='perks' value='37'>Confidential</input>
+                        <input type='checkbox' name='perks' value='39'>Emergency</input>
+                        <input type='checkbox' name='perks' value='27'>Fee for service</input>
+                        <input type='checkbox' name='perks' value='34'>Free</input>
+                        <input type='checkbox' name='perks' value='29'>Immigrant services</input>
+                        <input type='checkbox' name='perks' value='35'>Low-cost</input>
+                        <input type='checkbox' name='perks' value='31'>Multi-lingual</input>
+                        <input type='checkbox' name='perks' value='32'>Non-emergency police</input>
+                        <input type='checkbox' name='perks' value='30'>Phone</input>
+                        <input type='checkbox' name='perks' value='38'>Reduced-cost</input>
+                        <input type='checkbox' name='perks' value='36'>West end residents only</input>
+                    </div>
+
+                    <br/>
+                    <p id="redText"><b id="blackBold">Type: </b>*at least 1 required</p>
+                    <div class='chekbox'>
+                        <input type='checkbox' name='type' value='2'>Community Hub</input>
+                        <input type='checkbox' name='type' value='10'>Counselling</input>
+                        <input type='checkbox' name='type' value='6'>Emergency and Crisis</input>
+                        <input type='checkbox' name='type' value='8'>Financial Services</input>
+                        <input type='checkbox' name='type' value='4'>Food and Basic Goods</input>
+                        <input type='checkbox' name='type' value='11'>Health</input>
+                        <input type='checkbox' name='type' value='9'>Housing Services</input>
+                        <input type='checkbox' name='type' value='7'>Information & Referral</input>
+                        <input type='checkbox' name='type' value='1'>Legal and Advocacy</input>
+                        <input type='checkbox' name='type' value='3'>Transportation</input>
+                    </div>
+
+                    <br/>
+                    <p id="redText"><b id="blackBold">Hours:</b> *optional</p>
+                    <p id="redText">Hours Limitations: 
+                        <ul id="redText">• Leave hours null if the organization hours is unkown or no data.</ul>
+                        <ul id="redText">• 24 hours: 00:00 - 23:59</ul>
+                        <ul id="redText">• Closed: 00:00 - 00:00</ul></p>
+                    <div>
+                        <p class='dayp'>Monday</p>
+                        <select name='monday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                         - 
+                        <select name='monday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <p class='dayp'>Tuesday</p>
+                        <select name='tuesday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                        - 
+                        <select name='tuesday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <p class='dayp'>Wednesday</p>
+                        <select name='wednesday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                        - 
+                        <select name='wednesday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <p class='dayp'>Thursday</p>
+                        <select name='thursday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                        - 
+                        <select name='thursday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <p class='dayp'>Friday</p>
+                        <select name='friday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                        - 
+                        <select name='friday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <p class='dayp'>Saturday</p>
+                        <select name='saturday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                        - 
+                        <select name='saturday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <p class='dayp'>Sunday</p>
+                        <select name='sunday' class='dayselect'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                        </select>
+                        - 
+                        <select name='sunday'>
+                            <option>null</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                            <option>03:30</option>
+                            <option>04:00</option>
+                            <option>04:30</option>
+                            <option>05:00</option>
+                            <option>05:30</option>
+                            <option>06:00</option>
+                            <option>06:30</option>
+                            <option>07:00</option>
+                            <option>07:30</option>
+                            <option>08:00</option>
+                            <option>08:30</option>
+                            <option>09:00</option>
+                            <option>09:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
+                            <option>17:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>23:59</option>
+                        </select>
+                    </div>
+
+                    <br/><br/>
+                    <button type="submit" id="addDataButton">Add Data</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src='/js/index.js'></script>
+</body>
+
+</html>
