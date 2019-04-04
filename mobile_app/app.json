@@ -20,7 +20,11 @@
       "fallbackToCacheTimeout": 0
     },
     "android": {
-      "package": "com.brightside.brightsideHomes"
+      "package": "com.brightside.brightsideHomes",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "assetBundlePatterns": [
       "**/*"
