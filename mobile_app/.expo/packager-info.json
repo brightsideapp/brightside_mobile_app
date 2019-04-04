@@ -1,9 +1,9 @@
 {
-  "expoServerNgrokUrl": "https://8u-r6r.noobhero16.mobile-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.8u-r6r.noobhero16.mobile-app.exp.direct",
-  "ngrokPid": 16312,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 8572
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null
 }
