@@ -27,7 +27,7 @@ export default class CatList extends React.Component {
 	}
 
 	getSearch(){
-		this.props.navigation.navigate('ResultList', {cat: this.state.value,type:'keyword',animations:this.props.animations})
+		this.props.navigation.navigate('ResultList', {cat: this.state.value,type:'keyword',animations:this.props.navigation.getParam('animations',true)})
 	}
 
 	async componentDidMount() {
