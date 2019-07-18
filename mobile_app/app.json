@@ -31,7 +31,10 @@
     ],
     "ios": {
       "bundleIdentifier": "com.brightside.brightsideHomes",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to sort search results of services based on proximity. Additionally, it will use your location to display it on a map and provide directions to services."
+      },
     }
   }
 }
